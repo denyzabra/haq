@@ -1,0 +1,14 @@
+{
+  "data_source": "demo sample, not official",
+  "_note": "PLACEHOLDER VALUES. These averages are invented round numbers for the demo. They are not from the DLD Rental Index. The founder will replace them with real averages copied from the DLD Rental Index before any figure is presented as official.",
+  "entries": [
+    { "area": "jvc", "area_label": "Jumeirah Village Circle", "unit_type": "studio", "unit_label": "Studio", "index_average_aed": 50000 },
+    { "area": "jvc", "area_label": "Jumeirah Village Circle", "unit_type": "1br", "unit_label": "1 bedroom", "index_average_aed": 75000 },
+    { "area": "dubai_marina", "area_label": "Dubai Marina", "unit_type": "studio", "unit_label": "Studio", "index_average_aed": 70000 },
+    { "area": "dubai_marina", "area_label": "Dubai Marina", "unit_type": "1br", "unit_label": "1 bedroom", "index_average_aed": 100000 },
+    { "area": "deira", "area_label": "Deira", "unit_type": "studio", "unit_label": "Studio", "index_average_aed": 40000 },
+    { "area": "deira", "area_label": "Deira", "unit_type": "1br", "unit_label": "1 bedroom", "index_average_aed": 60000 },
+    { "area": "al_barsha", "area_label": "Al Barsha", "unit_type": "studio", "unit_label": "Studio", "index_average_aed": 45000 },
+    { "area": "al_barsha", "area_label": "Al Barsha", "unit_type": "1br", "unit_label": "1 bedroom", "index_average_aed": 70000 }
+  ]
+}
