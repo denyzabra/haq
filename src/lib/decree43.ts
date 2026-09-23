@@ -3,10 +3,9 @@
 
 export const DECREE_43_CLAUSE = "Decree 43 of 2013, Article 1";
 
-// The article number for the 90 day notice rule has not yet been confirmed
-// against the source text. The KB step must verify it before sign off.
-export const NOTICE_CLAUSE =
-  "Law 26 of 2007 as amended by Law 33 of 2008, 90 day notice rule (article number UNVERIFIED)";
+// Article (14) as superseded by Law No. (33) of 2008, Article (1).
+// Verified against the Dubai Legislation Portal text on 2026-09-23 (kb/law-26-2007-and-law-33-2008.md).
+export const NOTICE_CLAUSE = "Law 26 of 2007 as amended by Law 33 of 2008, Article 14";
 
 export const MIN_NOTICE_DAYS = 90;
 

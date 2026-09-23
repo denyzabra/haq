@@ -114,6 +114,34 @@ describe("POST /api/tools/index-lookup", () => {
     expect(body.notice).toMatchObject({ days_before_expiry: 89, notice_late: true });
   });
 
+  it("accepts arguments wrapped in an ElevenLabs style `parameters` object", async () => {
+    const res = await indexLookup(
+      toolRequest({
+        tool_call_id: "call_1",
+        tool_name: "index_lookup",
+        conversation_id: "conv_1",
+        parameters: { area: "Deira", unit_type: "studio", current_rent_aed: 30000 },
+      }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ outcome: "checked", max_increase_percent: 10 });
+  });
+
+  it("cites the verified notice article", async () => {
+    const res = await indexLookup(
+      toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 30000, renewal_date: "2026-12-31", notice_received_date: "2026-09-01" }),
+    );
+    expect((await res.json()).notice.clause).toBe("Law 26 of 2007 as amended by Law 33 of 2008, Article 14");
+  });
+
+  it("treats empty optional dates as not given", async () => {
+    const res = await indexLookup(
+      toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 30000, renewal_date: "", notice_received_date: " " }),
+    );
+    expect(res.status).toBe(200);
+    expect((await res.json()).notice).toBeUndefined();
+  });
+
   it("returns cannot_verify for an unknown area", async () => {
     const res = await indexLookup(toolRequest({ area: "Palm Jumeirah", unit_type: "studio", current_rent_aed: 90000 }));
     expect(await res.json()).toEqual({

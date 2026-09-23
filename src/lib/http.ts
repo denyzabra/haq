@@ -16,7 +16,12 @@ export async function parseJsonBody<S extends z.ZodType>(
   } catch {
     return { response: badRequest("body must be valid JSON") };
   }
-  const parsed = schema.safeParse(body);
+  // ElevenLabs may send tool arguments at the top level or wrapped in `parameters`.
+  const params =
+    body && typeof body === "object" && "parameters" in body && typeof body.parameters === "object"
+      ? body.parameters
+      : body;
+  const parsed = schema.safeParse(params);
   if (!parsed.success) {
     return {
       response: badRequest(

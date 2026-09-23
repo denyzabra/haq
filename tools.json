@@ -1,0 +1,19 @@
+{
+    "tools": [
+        {
+            "type": "webhook",
+            "config": "tool_configs/index_lookup.json",
+            "id": "tool_4201m36p6hh2e8gthmejwtd54vk7"
+        },
+        {
+            "type": "webhook",
+            "config": "tool_configs/prepare_draft.json",
+            "id": "tool_9401m36p6jy4f6ttwk6ye60bdt3g"
+        },
+        {
+            "type": "webhook",
+            "config": "tool_configs/request_human_handover.json",
+            "id": "tool_1901m36p6kz2f6wry91dj2qzvkw8"
+        }
+    ]
+}

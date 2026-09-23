@@ -2,14 +2,18 @@ import { z } from "zod";
 import { checkNotice, computeIncreaseCap, type NoticeCheckResult } from "./decree43";
 import { lookupIndex } from "./mock-index";
 
-const calendarDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD");
+// The LLM may send an empty string for a date the caller did not give; treat it as absent.
+const calendarDate = z.preprocess(
+  (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+  z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD").optional(),
+);
 
 export const intakeSchema = z.object({
   area: z.string().trim().min(1),
   unit_type: z.string().trim().min(1),
   current_rent_aed: z.coerce.number().positive().finite(),
-  renewal_date: calendarDate.optional(),
-  notice_received_date: calendarDate.optional(),
+  renewal_date: calendarDate,
+  notice_received_date: calendarDate,
 });
 
 export type Intake = z.infer<typeof intakeSchema>;

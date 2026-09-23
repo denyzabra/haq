@@ -1,0 +1,1193 @@
+{
+    "conversation_config": {
+        "agent": {
+            "disable_first_message_interruptions": true,
+            "dynamic_variables": {
+                "dynamic_variable_placeholders": {}
+            },
+            "first_message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "hinglish_mode": false,
+            "language": "en",
+            "max_conversation_duration_message": "",
+            "prompt": {
+                "backup_llm_config": {
+                    "order": [
+                        "gemini-3.8-flash"
+                    ],
+                    "preference": "override"
+                },
+                "bedrock_llm": null,
+                "built_in_tools": {
+                    "end_call": {
+                        "assignments": [],
+                        "description": "",
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "interruption_mode": "allow",
+                        "name": "end_call",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        },
+                        "pre_tool_speech": "auto",
+                        "response_timeout_secs": 20,
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "type": "system"
+                    },
+                    "language_detection": {
+                        "assignments": [],
+                        "description": "",
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "interruption_mode": "allow",
+                        "name": "language_detection",
+                        "params": {
+                            "only_at_conversation_start": false,
+                            "system_tool_type": "language_detection"
+                        },
+                        "pre_tool_speech": "auto",
+                        "response_timeout_secs": 20,
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "type": "system"
+                    },
+                    "memory_entry_search": null,
+                    "play_keypad_touch_tone": null,
+                    "request_help": null,
+                    "run_subagent": null,
+                    "skip_turn": null,
+                    "transfer_to_agent": null,
+                    "transfer_to_genesys": null,
+                    "transfer_to_genesys_bot": null,
+                    "transfer_to_genesys_chat": null,
+                    "transfer_to_number": null,
+                    "update_state": null,
+                    "voicemail_detection": null
+                },
+                "cascade_timeout_seconds": 4.0,
+                "custom_llm": null,
+                "enable_parallel_tool_calls": true,
+                "enable_reasoning_summary": false,
+                "ignore_default_personality": true,
+                "knowledge_base": [],
+                "llm": "gemini-3.5-flash-lite",
+                "max_tokens": -1,
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "opener": null,
+                "prompt": "# Identity\nYou are HAQ, an AI information line about Dubai residential rent increases. You check a rent increase at renewal against Decree 43 of 2013 and explain the result, citing the clause.\n\n# Scope\n- You give information, not legal advice. Say so if the caller asks what they should do legally.\n- You never file, submit or send anything to anyone, and you never contact the landlord, RERA, DLD, Ejari or the Rental Disputes Center.\n- You never state an index average, percentage, cap or maximum rent unless the index_lookup tool returned it in this call. You never estimate or calculate these yourself.\n- Only use legal wording that is in your knowledge base. Never paraphrase the law from memory.\n\n# Language\nAnswer in the caller's language, English or Arabic. If the caller switches language, switch with them.\n\n# Never\nNever ask for, accept or repeat passwords, Emirates ID numbers, UAE PASS codes or bank details. If the caller offers them, stop them politely and say you do not need them.\n\n# Escalation (any language, at any point)\nCall request_human_handover when the caller says \"human\", \"person\" or asks for a person; mentions eviction, financial hardship or distress; has an active Rental Disputes Center case; asks you to file something for them; or after two failed read backs. Then read them the callback message. Never send these callers to the draft step.\nIf the caller says \"stop\": ask once if they want a callback. If yes, use request_human_handover. If no, say goodbye and use end_call.\n\n# Style\nShort, calm, plain sentences suitable for a phone call. One question at a time. Say amounts as \"AED\" followed by the number.",
+                "rag": {
+                    "embedding_model": "multilingual_e5_large_instruct",
+                    "enabled": true,
+                    "include_source_urls": false,
+                    "knowledge_base_tool_info": null,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20,
+                    "max_vector_distance": 0.6,
+                    "num_candidates": null,
+                    "optional_rag_enabled": false,
+                    "query_rewrite_prompt_override": null
+                },
+                "reasoning_effort": null,
+                "service_tier": "standard",
+                "speech_engine": null,
+                "temperature": 0.0,
+                "thinking_budget": null,
+                "timezone": null,
+                "tool_ids": [
+                    "tool_1901m36p6kz2f6wry91dj2qzvkw8"
+                ],
+                "tools": [
+                    {
+                        "api_schema": {
+                            "auth_connection": null,
+                            "auth_resolved_params": [],
+                            "content_type": "application/json",
+                            "kind": "webhook",
+                            "method": "POST",
+                            "mtls_auth_connection": null,
+                            "path_params_schema": {},
+                            "query_params_schema": null,
+                            "request_body_schema": {
+                                "description": "Arguments for request_human_handover",
+                                "dynamic_variable": "",
+                                "is_omitted": false,
+                                "properties": {
+                                    "callback_consent": {
+                                        "allowed_values": null,
+                                        "allowed_values_dynamic_variable": "",
+                                        "constant_value": "",
+                                        "description": "True only if the caller clearly agreed to be called back.",
+                                        "dynamic_variable": "",
+                                        "enum": null,
+                                        "is_omitted": false,
+                                        "is_system_provided": false,
+                                        "type": "boolean"
+                                    },
+                                    "conversation_id": {
+                                        "allowed_values": null,
+                                        "allowed_values_dynamic_variable": "",
+                                        "constant_value": "",
+                                        "description": "",
+                                        "dynamic_variable": "system__conversation_id",
+                                        "enum": null,
+                                        "is_omitted": false,
+                                        "is_system_provided": false,
+                                        "type": "string"
+                                    },
+                                    "language": {
+                                        "allowed_values": null,
+                                        "allowed_values_dynamic_variable": "",
+                                        "constant_value": "",
+                                        "description": "Language the caller is using: en or ar.",
+                                        "dynamic_variable": "",
+                                        "enum": null,
+                                        "is_omitted": false,
+                                        "is_system_provided": false,
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "allowed_values": null,
+                                        "allowed_values_dynamic_variable": "",
+                                        "constant_value": "",
+                                        "description": "Short reason for the handover, for example: caller asked for a person; eviction; distress; active RDC case; asked to file; two failed read backs.",
+                                        "dynamic_variable": "",
+                                        "enum": null,
+                                        "is_omitted": false,
+                                        "is_system_provided": false,
+                                        "type": "string"
+                                    },
+                                    "summary": {
+                                        "allowed_values": null,
+                                        "allowed_values_dynamic_variable": "",
+                                        "constant_value": "",
+                                        "description": "Two or three sentence summary of the conversation so far, with the confirmed facts. Never include passwords, Emirates ID, UAE PASS codes or bank details.",
+                                        "dynamic_variable": "",
+                                        "enum": null,
+                                        "is_omitted": false,
+                                        "is_system_provided": false,
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "reason",
+                                    "summary"
+                                ],
+                                "type": "object"
+                            },
+                            "request_headers": {
+                                "Content-Type": "application/json",
+                                "x-haq-tool-secret": {
+                                    "secret_id": "IHuGaUbYdyp1GG8FH3Ja"
+                                }
+                            },
+                            "response_body_schema": null,
+                            "response_filter": null,
+                            "url": "https://haq-placeholder.example.com/api/tools/request-human-handover"
+                        },
+                        "assignments": [],
+                        "description": "Requests a callback from a person on the HAQ team. Use when the caller asks for a human or person, says stop but wants help, mentions eviction, hardship or distress, has an active Rental Disputes Center case, asks HAQ to file something, or after two failed read backs. Returns a reference and a callback message to read to the caller.",
+                        "disable_interruptions": false,
+                        "dynamic_variables": {
+                            "dynamic_variable_placeholders": {}
+                        },
+                        "execution_mode": "immediate",
+                        "follow_redirects": false,
+                        "follow_redirects_allowed_domains": [],
+                        "force_pre_tool_speech": false,
+                        "interruption_mode": "allow",
+                        "name": "request_human_handover",
+                        "pre_tool_speech": "auto",
+                        "response_timeout_secs": 15,
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "type": "webhook"
+                    },
+                    {
+                        "assignments": [],
+                        "description": "",
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "interruption_mode": "allow",
+                        "name": "end_call",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        },
+                        "pre_tool_speech": "auto",
+                        "response_timeout_secs": 20,
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "type": "system"
+                    },
+                    {
+                        "assignments": [],
+                        "description": "",
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "interruption_mode": "allow",
+                        "name": "language_detection",
+                        "params": {
+                            "only_at_conversation_start": false,
+                            "system_tool_type": "language_detection"
+                        },
+                        "pre_tool_speech": "auto",
+                        "response_timeout_secs": 20,
+                        "tool_call_sound": null,
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "type": "system"
+                    }
+                ]
+            },
+            "subagents": [],
+            "text_behavior_overrides": null
+        },
+        "asr": {
+            "hold_session_across_commit": false,
+            "keywords": [
+                "Decree 43",
+                "Ejari",
+                "RERA",
+                "DLD",
+                "RDC",
+                "Rental Disputes Center",
+                "JVC",
+                "Dubai Marina",
+                "Deira",
+                "Al Barsha"
+            ],
+            "provider": "scribe_realtime",
+            "quality": "high",
+            "use_scribe_v3": false,
+            "user_input_audio_format": "pcm_16000"
+        },
+        "conversation": {
+            "background_sound": {
+                "crossfade_loop": true,
+                "source_id": null,
+                "source_type": null,
+                "volume": 0.15
+            },
+            "client_events": [
+                "audio",
+                "interruption",
+                "agent_response",
+                "user_transcript",
+                "agent_response_correction",
+                "agent_tool_response"
+            ],
+            "compaction": {
+                "enabled": null,
+                "min_reclaimable_tokens": null,
+                "soft_trigger_fraction": null,
+                "tail_size": null
+            },
+            "dtmf_input_settings": null,
+            "file_input": {
+                "enabled": true,
+                "max_files_in_memory": 10,
+                "max_files_per_conversation": 10
+            },
+            "max_duration_seconds": 300,
+            "max_duration_seconds_after_last_agent_message": null,
+            "monitoring_enabled": false,
+            "monitoring_events": [
+                "user_transcript",
+                "agent_response",
+                "agent_response_correction"
+            ],
+            "source_attribution": false,
+            "text_only": false
+        },
+        "language_presets": {
+            "ar": {
+                "first_message_translation": null,
+                "overrides": {
+                    "agent": {
+                        "first_message": "مرحباً، معك حق، خط معلومات بالذكاء الاصطناعي حول زيادات الإيجار في دبي. أقدّم معلومات وليست استشارة قانونية، ويتم حفظ سجل لهذه المكالمة. هل توافق على المتابعة؟",
+                        "language": "ar",
+                        "max_conversation_duration_message": null,
+                        "prompt": null
+                    },
+                    "asr": null,
+                    "conversation": null,
+                    "tts": {
+                        "model_id": null,
+                        "pronunciation_dictionary_locators": null,
+                        "similarity_boost": null,
+                        "speed": null,
+                        "stability": null,
+                        "supported_voices": null,
+                        "voice_id": "oUCSlKjkoFDoKamPHpAV"
+                    },
+                    "turn": null
+                },
+                "soft_timeout_translation": null
+            }
+        },
+        "realtime_model": null,
+        "tts": {
+            "agent_output_audio_format": "pcm_16000",
+            "audio_effects": null,
+            "enable_phoneme_tags": true,
+            "expressive_mode": true,
+            "model_id": "eleven_v3_conversational",
+            "optimize_streaming_latency": 3,
+            "pronunciation_dictionary_locators": [],
+            "similarity_boost": 0.8,
+            "speed": 1.0,
+            "stability": 0.5,
+            "suggested_audio_tags": [],
+            "supported_voices": [],
+            "text_normalisation_type": "system_prompt",
+            "voice_id": "ZIlrSGI4jZqobxRKprJz"
+        },
+        "turn": {
+            "initial_wait_time": null,
+            "interruption_ignore_term_languages": [],
+            "interruption_ignore_terms": [],
+            "merge_with_default_ignore_terms": false,
+            "mode": "turn",
+            "retranscribe_on_turn_timeout": false,
+            "silence_end_call_timeout": -1.0,
+            "soft_timeout_config": {
+                "additional_soft_timeout_messages": [],
+                "disable_until_first_user_message": false,
+                "llm_generated_message_prompt_override": null,
+                "max_soft_timeouts_per_generation": 1,
+                "message": "Hhmmmm...yeah.",
+                "randomize_fillers": false,
+                "timeout_seconds": -1.0,
+                "use_llm_generated_message": false
+            },
+            "speculative_turn": false,
+            "spelling_patience": "auto",
+            "transcribe_on_disabled_interruptions": false,
+            "turn_eagerness": "normal",
+            "turn_model": "turn_v3",
+            "turn_timeout": 7.0
+        },
+        "vad": {
+            "background_voice_detection": false,
+            "cpu_vad_periodic_reset_seconds": 0.0,
+            "narrowband_vad": false,
+            "use_local_cpu_vad": false,
+            "voice_activity_audio_threshold": null
+        }
+    },
+    "name": "HAQ",
+    "platform_settings": {
+        "alerting": null,
+        "analysis_bedrock_llm": null,
+        "analysis_items": {
+            "data_collection": [
+                {
+                    "analysis_item_id": "aitem_0301m36pb5wfe9qsgz6550g2db1v",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_8501m36pb5wjfpkvmnvnv62rgjgb",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_2701m36pb5wnec9r0zt3efpm0s6y",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_7501m36pb5wsfz3tbm2yszkkazee",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_0901m36pb5wwf2yavv3ghx91kecs",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_6201m36pb5wzek0vrm32btnyn3qc",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_6501m36pb5x2epksj8v3ye0n6zmt",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_4501m36pb5x6f1grynvy6p9s1amb",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_8601m36pb5x9ek4b8txkzba30kmq",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                },
+                {
+                    "analysis_item_id": "aitem_6501m36pb5xcf89a8yzd8jtyqpas",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null
+                }
+            ],
+            "evaluation_criteria": [
+                {
+                    "additional_version_ids": [],
+                    "analysis_item_id": "aitem_7601m36pb5vrec392jh3vnnthca3",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null,
+                    "weight": null
+                },
+                {
+                    "additional_version_ids": [],
+                    "analysis_item_id": "aitem_2601m36pb5w1fbh8htjm24tbpvtv",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null,
+                    "weight": null
+                },
+                {
+                    "additional_version_ids": [],
+                    "analysis_item_id": "aitem_3801m36pb5w5e3y9rzkjj9n4mv1f",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null,
+                    "weight": null
+                },
+                {
+                    "additional_version_ids": [],
+                    "analysis_item_id": "aitem_0001m36pb5w8f0stahb6jzaak8b8",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null,
+                    "weight": null
+                },
+                {
+                    "additional_version_ids": [],
+                    "analysis_item_id": "aitem_7001m36pb5wce9haexfqjrx859wy",
+                    "scope": "conversation",
+                    "source": "user",
+                    "version_id": null,
+                    "weight": null
+                }
+            ]
+        },
+        "analysis_llm": "gemini-2.5-flash",
+        "analysis_llm_billed": false,
+        "archived": false,
+        "auth": {
+            "allowlist": [],
+            "enable_auth": true,
+            "require_origin_header": false,
+            "shareable_token": null
+        },
+        "auto_translate_transcript_to_app_language": null,
+        "ban": null,
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "bursting_enabled": true,
+            "daily_limit": 100000
+        },
+        "data_collection": {
+            "area": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The Dubai area or community the caller confirmed in the read back. Empty if not given.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            },
+            "callback_consent": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "True only if the caller clearly agreed to be called back by a person.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "boolean"
+            },
+            "current_rent_aed": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The current annual rent in AED the caller confirmed.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "number"
+            },
+            "escalated": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "True if request_human_handover was called.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "boolean"
+            },
+            "escalation_reason": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The reason given to request_human_handover, or empty if not escalated.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            },
+            "notice_received_date": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The date the caller received notice of the change, as YYYY-MM-DD. Empty if not given.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            },
+            "opted_out": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "True if the caller did not agree to continue after the disclosure, or asked to stop.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "boolean"
+            },
+            "outcome": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "lawful if the proposed rent is within the maximum new rent returned by index_lookup; above_cap if it is above it; cannot_verify if index_lookup returned cannot_verify, failed, was not called, or no proposed rent was given.",
+                "dynamic_variable": "",
+                "enum": [
+                    "lawful",
+                    "above_cap",
+                    "cannot_verify"
+                ],
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            },
+            "renewal_date": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The contract end date the caller confirmed, as YYYY-MM-DD. Empty if not given.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            },
+            "unit_type": {
+                "allowed_values": null,
+                "allowed_values_dynamic_variable": "",
+                "constant_value": "",
+                "description": "The unit type the caller confirmed, for example studio or 1 bedroom.",
+                "dynamic_variable": "",
+                "enum": null,
+                "is_omitted": false,
+                "is_system_provided": false,
+                "llm": null,
+                "llm_billed": false,
+                "name": null,
+                "type": "string"
+            }
+        },
+        "data_collection_scopes": {},
+        "evaluation": {
+            "criteria": [
+                {
+                    "conversation_goal_prompt": "Success if the agent's first message said it is an AI information line, that it gives information not legal advice, that the call is logged, and asked for consent before collecting any details. Failure otherwise.",
+                    "id": "disclosure_given",
+                    "llm": null,
+                    "llm_billed": false,
+                    "max_score": 100,
+                    "name": "disclosure_given",
+                    "scope": "conversation",
+                    "score_instructions": null,
+                    "scoring_mode": "binary",
+                    "type": "prompt",
+                    "use_knowledge_base": false
+                },
+                {
+                    "conversation_goal_prompt": "Success if every time the agent stated a rent increase cap it cited Decree 43 of 2013, Article 1 (and Article 14 of Law 26 of 2007 as amended by Law 33 of 2008 when it discussed the notice period). Unknown if no cap was stated. Failure if a cap or notice rule was stated without the clause.",
+                    "id": "clause_cited",
+                    "llm": null,
+                    "llm_billed": false,
+                    "max_score": 100,
+                    "name": "clause_cited",
+                    "scope": "conversation",
+                    "score_instructions": null,
+                    "scoring_mode": "binary",
+                    "type": "prompt",
+                    "use_knowledge_base": false
+                },
+                {
+                    "conversation_goal_prompt": "Success if the agent only gave information, said it is not legal advice, and did not tell the caller what they legally should do, did not predict a dispute outcome, and did not file or claim to file anything. Failure otherwise.",
+                    "id": "no_legal_advice_given",
+                    "llm": null,
+                    "llm_billed": false,
+                    "max_score": 100,
+                    "name": "no_legal_advice_given",
+                    "scope": "conversation",
+                    "score_instructions": null,
+                    "scoring_mode": "binary",
+                    "type": "prompt",
+                    "use_knowledge_base": false
+                },
+                {
+                    "conversation_goal_prompt": "Success if the agent read back the area, unit type and current rent and the caller confirmed them before index_lookup was called. Unknown if index_lookup was never called. Failure otherwise.",
+                    "id": "read_back_done",
+                    "llm": null,
+                    "llm_billed": false,
+                    "max_score": 100,
+                    "name": "read_back_done",
+                    "scope": "conversation",
+                    "score_instructions": null,
+                    "scoring_mode": "binary",
+                    "type": "prompt",
+                    "use_knowledge_base": false
+                },
+                {
+                    "conversation_goal_prompt": "Success if, whenever the caller asked for a human or person, mentioned eviction, hardship or distress, had an active Rental Disputes Center case, asked the agent to file something, or two read backs failed, the agent called request_human_handover. Unknown if none of these happened. Failure otherwise.",
+                    "id": "escalated_when_required",
+                    "llm": null,
+                    "llm_billed": false,
+                    "max_score": 100,
+                    "name": "escalated_when_required",
+                    "scope": "conversation",
+                    "score_instructions": null,
+                    "scoring_mode": "binary",
+                    "type": "prompt",
+                    "use_knowledge_base": false
+                }
+            ]
+        },
+        "guardrails": {
+            "content": {
+                "config": {
+                    "harassment": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "medical_and_legal_information": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "profanity": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "religion_or_politics": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "self_harm": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "sexual": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "violence": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    }
+                },
+                "execution_mode": "streaming",
+                "trigger_action": {
+                    "type": "end_call"
+                }
+            },
+            "custom": {
+                "config": {
+                    "configs": []
+                }
+            },
+            "focus": {
+                "is_enabled": false
+            },
+            "moderation": null,
+            "prompt_injection": {
+                "is_enabled": false
+            },
+            "synthetic_voice": {
+                "is_enabled": false,
+                "trigger_action": {
+                    "type": "end_call"
+                }
+            },
+            "version": "1"
+        },
+        "overrides": {
+            "conversation_config_override": {
+                "agent": {
+                    "first_message": false,
+                    "language": false,
+                    "max_conversation_duration_message": false,
+                    "prompt": {
+                        "knowledge_base": false,
+                        "llm": false,
+                        "native_mcp_server_ids": false,
+                        "prompt": false,
+                        "tool_ids": false
+                    }
+                },
+                "asr": {
+                    "keywords": false
+                },
+                "conversation": {
+                    "max_duration_seconds": false,
+                    "text_only": true
+                },
+                "tts": {
+                    "model_id": false,
+                    "pronunciation_dictionary_locators": false,
+                    "similarity_boost": false,
+                    "speed": false,
+                    "stability": false,
+                    "supported_voices": false,
+                    "voice_id": false
+                },
+                "turn": {
+                    "soft_timeout_config": {
+                        "additional_soft_timeout_messages": false,
+                        "message": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false,
+            "enable_procedure_ids_from_client": false,
+            "enable_starting_workflow_node_id_from_client": false
+        },
+        "overview_dashboard_template_id": null,
+        "privacy": {
+            "apply_to_existing_conversations": false,
+            "conversation_history_redaction": {
+                "enabled": false,
+                "entities": []
+            },
+            "delete_audio": false,
+            "delete_transcript_and_pii": false,
+            "nested_history_redaction": false,
+            "record_voice": true,
+            "retention_days": -1,
+            "user_memory": {
+                "enabled": false,
+                "scale": "balanced"
+            },
+            "zero_retention_mode": false
+        },
+        "queueing_config": {
+            "enabled": false,
+            "hold_audio": null,
+            "wait_timeout_seconds": 180
+        },
+        "safety": {
+            "ignore_safety_evaluation": false,
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false
+        },
+        "sentiment_analysis": {
+            "enabled": true
+        },
+        "simulation_library": {
+            "enabled": false,
+            "test_ids": []
+        },
+        "smb_metadata": null,
+        "summary_language": null,
+        "testing": {
+            "attached_tests": [],
+            "referenced_tests_ids": []
+        },
+        "topic_discovery": {
+            "enabled": true
+        },
+        "trust_context": "unknown",
+        "widget": {
+            "action_text": null,
+            "always_expanded": false,
+            "avatar": {
+                "color_1": "#2792dc",
+                "color_2": "#9ce6e6",
+                "type": "orb"
+            },
+            "bg_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "border_radius": null,
+            "btn_color": "#000000",
+            "btn_radius": null,
+            "btn_text_color": "#ffffff",
+            "conversation_mode_toggle_enabled": false,
+            "custom_avatar_path": null,
+            "default_expanded": false,
+            "disable_banner": false,
+            "dismissible": false,
+            "end_call_text": null,
+            "end_feedback": {
+                "type": "rating"
+            },
+            "expand_text": null,
+            "expandable": "never",
+            "feedback_mode": "none",
+            "first_message_quick_replies": [],
+            "focus_color": "#000000",
+            "language_presets": {},
+            "language_selector": false,
+            "listening_text": null,
+            "markdown_link_allow_http": true,
+            "markdown_link_allowed_hosts": [],
+            "markdown_link_include_www": true,
+            "mic_muting_enabled": true,
+            "override_link": null,
+            "placement": "bottom-right",
+            "shareable_page_show_terms": true,
+            "shareable_page_text": null,
+            "show_agent_status": false,
+            "show_avatar_when_collapsed": false,
+            "show_conversation_id": true,
+            "show_resize_button": true,
+            "speaking_text": null,
+            "start_call_text": null,
+            "strip_audio_tags": true,
+            "styles": {
+                "accent": null,
+                "accent_active": null,
+                "accent_border": null,
+                "accent_hover": null,
+                "accent_primary": null,
+                "accent_subtle": null,
+                "base": null,
+                "base_active": null,
+                "base_border": null,
+                "base_error": null,
+                "base_hover": null,
+                "base_primary": null,
+                "base_subtle": null,
+                "bubble_radius": null,
+                "button_radius": null,
+                "compact_sheet_radius": null,
+                "dropdown_sheet_radius": null,
+                "input_radius": null,
+                "overlay_padding": null,
+                "sheet_radius": null
+            },
+            "supports_text_only": true,
+            "syntax_highlight_theme": null,
+            "terms_html": null,
+            "terms_key": null,
+            "terms_text": null,
+            "text_color": "#000000",
+            "text_contents": {
+                "accept_terms": null,
+                "agent_done": null,
+                "agent_ended_conversation": null,
+                "agent_error": null,
+                "agent_working": null,
+                "attach_file": null,
+                "change_language": null,
+                "chatting_status": null,
+                "collapse": null,
+                "connecting_status": null,
+                "conversation_id": null,
+                "copied": null,
+                "copy": null,
+                "copy_id": null,
+                "dismiss_terms": null,
+                "download": null,
+                "end_call": null,
+                "error_occurred": null,
+                "expand": null,
+                "file_limit_reached": null,
+                "file_too_large": null,
+                "file_type_unsupported": null,
+                "file_upload_error": null,
+                "follow_up_feedback_placeholder": null,
+                "go_back": null,
+                "initiate_feedback": null,
+                "input_label": null,
+                "input_placeholder": null,
+                "input_placeholder_new_conversation": null,
+                "input_placeholder_text_only": null,
+                "listening_status": null,
+                "main_label": null,
+                "mute_microphone": null,
+                "new_call": null,
+                "remove_file": null,
+                "request_follow_up_feedback": null,
+                "send_message": null,
+                "speaking_status": null,
+                "start_call": null,
+                "start_chat": null,
+                "submit": null,
+                "switched_to_text_mode": null,
+                "switched_to_voice_mode": null,
+                "text_mode": null,
+                "thanks_for_feedback": null,
+                "thanks_for_feedback_details": null,
+                "typing_indicator": null,
+                "user_ended_conversation": null,
+                "voice_mode": null,
+                "wrap": null
+            },
+            "text_input_enabled": true,
+            "transcript_enabled": true,
+            "variant": "full"
+        },
+        "workspace_overrides": {
+            "cloud_storage_export": {
+                "destination_id": null,
+                "events": [
+                    "transcript"
+                ],
+                "transcript_format": "json"
+            },
+            "conversation_initiation_client_data_webhook": null,
+            "webhooks": {
+                "events": [
+                    "transcript"
+                ],
+                "post_call_webhook_id": null,
+                "send_audio": false,
+                "transcript_format": "json"
+            }
+        }
+    },
+    "tags": [
+        "haq"
+    ],
+    "workflow": {
+        "edges": {
+            "e_paperwork_end": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "condition": "The draft reference has been read to the caller and the caller has nothing else.",
+                    "label": "Done",
+                    "type": "llm"
+                },
+                "source": "paperwork",
+                "target": "end"
+            },
+            "e_router_end": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "condition": "The caller did not agree to continue, or the conversation is finished.",
+                    "label": "Declined or done",
+                    "type": "llm"
+                },
+                "source": "router",
+                "target": "end"
+            },
+            "e_router_rule": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "condition": "The caller agreed to continue and wants to check a Dubai rent increase at renewal.",
+                    "label": "Wants rent check",
+                    "type": "llm"
+                },
+                "source": "router",
+                "target": "rule"
+            },
+            "e_rule_end": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "condition": "The caller has no further questions and the conversation is finished.",
+                    "label": "Done",
+                    "type": "llm"
+                },
+                "source": "rule",
+                "target": "end"
+            },
+            "e_rule_paperwork": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "condition": "index_lookup returned outcome checked in this call and the caller asked for a draft objection summary.",
+                    "label": "Wants draft",
+                    "type": "llm"
+                },
+                "source": "rule",
+                "target": "paperwork"
+            },
+            "e_start_router": {
+                "backward_condition": null,
+                "forward_condition": {
+                    "label": null,
+                    "type": "unconditional"
+                },
+                "source": "start_node",
+                "target": "router"
+            }
+        },
+        "nodes": {
+            "end": {
+                "edge_order": [],
+                "parent_subgraph_id": null,
+                "position": {
+                    "x": 0.0,
+                    "y": 800.0
+                },
+                "return_when_nested": true,
+                "type": "end"
+            },
+            "paperwork": {
+                "additional_knowledge_base": [],
+                "additional_prompt": "You are in the draft step. The only tool you may use here, other than handover and end call, is prepare_draft.\n- Use only facts the caller confirmed in the read back and that index_lookup returned in this call. Do not add or change any figure.\n- Call prepare_draft with those facts. Then read the case reference and a short version of the summary to the caller.\n- Say clearly that the draft is saved for the caller only and that HAQ has not sent or filed it anywhere.\n- If the caller asks you to send, submit or file it, explain that HAQ cannot, and use request_human_handover if they want help from a person.\n- Apply the escalation rules at all times.",
+                "additional_tool_ids": [
+                    "tool_9401m36p6jy4f6ttwk6ye60bdt3g"
+                ],
+                "conversation_config": {},
+                "edge_order": [
+                    "e_paperwork_end"
+                ],
+                "entry_behavior": "generate_immediately",
+                "forced_tool_name": null,
+                "label": "Paperwork",
+                "parent_subgraph_id": null,
+                "position": {
+                    "x": 300.0,
+                    "y": 600.0
+                },
+                "type": "override_agent"
+            },
+            "router": {
+                "additional_knowledge_base": [],
+                "additional_prompt": "You are in the opening step.\n1. The disclosure has been given in the first message. Wait for the caller's answer. If the caller does not agree to continue, thank them and use end_call. Collect nothing.\n2. If the caller speaks Arabic, continue in Arabic.\n3. Find out what the caller wants. If they want to check a rent increase at renewal, move on. If they ask about something outside Dubai rent increases, say briefly that HAQ only covers Dubai rent increases and ask if there is anything else.\n4. Apply the escalation rules at all times.\nDo not ask for any rent details in this step.",
+                "additional_tool_ids": [],
+                "conversation_config": {},
+                "edge_order": [
+                    "e_router_rule",
+                    "e_router_end"
+                ],
+                "entry_behavior": "wait_for_user",
+                "forced_tool_name": null,
+                "label": "Router",
+                "parent_subgraph_id": null,
+                "position": {
+                    "x": 0.0,
+                    "y": 200.0
+                },
+                "type": "override_agent"
+            },
+            "rule": {
+                "additional_knowledge_base": [
+                    {
+                        "id": "AU43Tv4JjI3BdGrx5HfJ",
+                        "name": "HAQ: Decree 43 of 2013",
+                        "type": "file",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "id": "I0K9h8exNBbD37Ub0Ral",
+                        "name": "HAQ: Law 26 of 2007 as amended by Law 33 of 2008",
+                        "type": "file",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "id": "oqddRLsNMUBtUt8tfee6",
+                        "name": "HAQ: Rental Disputes Center fees",
+                        "type": "file",
+                        "usage_mode": "auto"
+                    },
+                    {
+                        "id": "2Y8jY2Z9djSxy6lGSYXd",
+                        "name": "HAQ: scope and disclosure scripts",
+                        "type": "file",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "additional_prompt": "You are in the rent check step.\n\nIntake\n1. Ask for: the area or community, the unit type (for example studio or 1 bedroom), and the current annual rent in AED. Also ask for the new rent the landlord proposed, the date the contract ends, and the date the caller received notice of the change, if they know them.\n2. Read back every detail in one sentence and ask the caller to confirm. If they correct something, read back again. After two failed read backs, use request_human_handover. This step is important.\n3. Only after the caller confirms, call index_lookup with the confirmed details.\n\nSpeaking the result (this step is important)\n- Only speak an index average, percentage or cap that index_lookup returned in this call. Never estimate or calculate yourself.\n- If index_lookup returns outcome cannot_verify, or returns an error, say you cannot verify this today and offer a callback with request_human_handover.\n- When it returns a result, say: the index average, how far below the average the current rent is, the maximum increase percent and the maximum new rent. Cite the clause it returned, \"Decree 43 of 2013, Article 1\".\n- Always say the index figure is a demo sample, not an official figure, when data_source says so.\n- If the caller gave a proposed new rent, say whether it is above or within the maximum new rent that index_lookup returned. Do not compute the difference yourself.\n- If the result includes a notice check: if notice_late is true, say the notice was received fewer than 90 days before the contract end and cite \"Law 26 of 2007 as amended by Law 33 of 2008, Article 14\". Also say that this article applies unless the lease contract says otherwise. Never say the increase is invalid.\n- Use the knowledge base only to quote or explain the cited clauses and the Rental Disputes Center fee rule. Do not add legal conclusions.\n- End with: this is information, not legal advice.\n4. Offer to prepare a draft objection summary for the caller's own use. Apply the escalation rules at all times.",
+                "additional_tool_ids": [
+                    "tool_4201m36p6hh2e8gthmejwtd54vk7"
+                ],
+                "conversation_config": {},
+                "edge_order": [
+                    "e_rule_paperwork",
+                    "e_rule_end"
+                ],
+                "entry_behavior": "generate_immediately",
+                "forced_tool_name": null,
+                "label": "Rule",
+                "parent_subgraph_id": null,
+                "position": {
+                    "x": 0.0,
+                    "y": 400.0
+                },
+                "type": "override_agent"
+            },
+            "start_node": {
+                "edge_order": [
+                    "e_start_router"
+                ],
+                "parent_subgraph_id": null,
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "type": "start"
+            }
+        },
+        "prevent_subagent_loops": false,
+        "subgraphs": {}
+    }
+}
