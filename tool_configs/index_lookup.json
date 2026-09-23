@@ -3,7 +3,7 @@
     "name": "index_lookup",
     "description": "Looks up the Rent Index average for the caller's area and unit type and returns the Decree 43 of 2013 Article 1 maximum increase, the maximum new rent and the clause, calculated by the server. Also checks the 90 day notice rule when both dates are given. Call only after the caller has confirmed the read back of area, unit type and current rent. Never calculate these figures yourself.",
     "api_schema": {
-        "url": "https://haq-placeholder.example.com/api/tools/index-lookup",
+        "url": "https://haq-tan.vercel.app/api/tools/index-lookup",
         "method": "POST",
         "request_headers": {
             "Content-Type": "application/json",

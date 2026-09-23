@@ -1,7 +1,7 @@
 {
   "note": "ElevenLabs knowledge base document IDs for the files in kb/. Re-upload and update these IDs whenever a file changes.",
   "documents": [
-    { "file": "kb/decree-43-2013.md", "id": "AU43Tv4JjI3BdGrx5HfJ", "name": "HAQ: Decree 43 of 2013" },
+    { "file": "kb/decree-43-2013.md", "id": "NgyCxyEYeUSbNytstTb6", "name": "HAQ: Decree 43 of 2013" },
     { "file": "kb/law-26-2007-and-law-33-2008.md", "id": "I0K9h8exNBbD37Ub0Ral", "name": "HAQ: Law 26 of 2007 as amended by Law 33 of 2008" },
     { "file": "kb/rdc-fees.md", "id": "oqddRLsNMUBtUt8tfee6", "name": "HAQ: Rental Disputes Center fees" },
     { "file": "kb/haq-scope.md", "id": "2Y8jY2Z9djSxy6lGSYXd", "name": "HAQ: scope and disclosure scripts" }

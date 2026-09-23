@@ -3,7 +3,7 @@
     "name": "request_human_handover",
     "description": "Requests a callback from a person on the HAQ team. Use when the caller asks for a human or person, says stop but wants help, mentions eviction, hardship or distress, has an active Rental Disputes Center case, asks HAQ to file something, or after two failed read backs. Returns a reference and a callback message to read to the caller.",
     "api_schema": {
-        "url": "https://haq-placeholder.example.com/api/tools/request-human-handover",
+        "url": "https://haq-tan.vercel.app/api/tools/request-human-handover",
         "method": "POST",
         "request_headers": {
             "Content-Type": "application/json",

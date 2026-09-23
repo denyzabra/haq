@@ -21,14 +21,31 @@ function buildSummary(check: RentCheck, proposedRent?: number): string {
       `Current annual rent: ${aed(check.current_rent_aed)}.`,
       `Index average (${check.data_source}): ${aed(check.index_average_aed)}.`,
       `Current rent is ${check.percent_below_average} percent below the index average.`,
-      `Maximum increase under ${check.clause}: ${check.max_increase_percent} percent, a maximum new rent of ${aed(check.max_new_rent_aed)}.`,
     );
-    if (proposedRent !== undefined) {
+    if (!check.band_boundary) {
       lines.push(
-        proposedRent > check.max_new_rent_aed
-          ? `Proposed rent of ${aed(proposedRent)} is above that maximum by ${aed(Math.round((proposedRent - check.max_new_rent_aed) * 100) / 100)}.`
-          : `Proposed rent of ${aed(proposedRent)} is within that maximum.`,
+        `Maximum increase under ${check.clause}: ${check.max_increase_percent} percent, a maximum new rent of ${aed(check.max_new_rent_aed)}.`,
       );
+      if (proposedRent !== undefined) {
+        lines.push(
+          proposedRent > check.max_new_rent_aed
+            ? `Proposed rent of ${aed(proposedRent)} is above that maximum by ${aed(Math.round((proposedRent - check.max_new_rent_aed) * 100) / 100)}.`
+            : `Proposed rent of ${aed(proposedRent)} is within that maximum.`,
+        );
+      }
+    } else {
+      lines.push(
+        `This figure sits between two bands in the official English text of ${check.clause}. The two candidate caps are ${check.lower_cap_percent} percent (maximum new rent ${aed(check.lower_max_new_rent_aed)}) and ${check.upper_cap_percent} percent (maximum new rent ${aed(check.upper_max_new_rent_aed)}). The Arabic text of the Decree prevails.`,
+      );
+      if (proposedRent !== undefined) {
+        lines.push(
+          proposedRent > check.upper_max_new_rent_aed
+            ? `Proposed rent of ${aed(proposedRent)} is above both candidate maximums.`
+            : proposedRent <= check.lower_max_new_rent_aed
+              ? `Proposed rent of ${aed(proposedRent)} is within both candidate maximums.`
+              : `Proposed rent of ${aed(proposedRent)} is between the two candidate maximums.`,
+        );
+      }
     }
   } else {
     lines.push("The index average for this area and unit type could not be verified, so no cap was calculated.");

@@ -21,20 +21,40 @@ export interface IncreaseCapInput {
   currentRentAed: number;
 }
 
-export interface IncreaseCapResult {
+export type CapPercent = 0 | 5 | 10 | 15 | 20;
+
+interface CapResultBase {
   index_average_aed: number;
   percent_below_average: number;
-  max_increase_percent: 0 | 5 | 10 | 15 | 20;
-  max_new_rent_aed: number;
   clause: string;
 }
 
+// The official English text of Article 1 uses whole number bands (up to 10,
+// 11 to 20, 21 to 30, 31 to 40, more than 40). A value strictly inside a gap
+// (for example 10.5) is not assigned to either band, so HAQ reports both
+// candidate caps instead of choosing one. The Arabic text prevails.
+export type IncreaseCapResult =
+  | (CapResultBase & {
+      band_boundary: false;
+      max_increase_percent: CapPercent;
+      max_new_rent_aed: number;
+    })
+  | (CapResultBase & {
+      band_boundary: true;
+      max_increase_percent: null;
+      max_new_rent_aed: null;
+      lower_cap_percent: CapPercent;
+      lower_max_new_rent_aed: number;
+      upper_cap_percent: CapPercent;
+      upper_max_new_rent_aed: number;
+    });
+
 // Upper bound (inclusive) of each band, in percent below the index average.
-const BANDS: ReadonlyArray<{ upTo: number; cap: IncreaseCapResult["max_increase_percent"] }> = [
-  { upTo: 10, cap: 0 },
-  { upTo: 20, cap: 5 },
-  { upTo: 30, cap: 10 },
-  { upTo: 40, cap: 15 },
+const BANDS: ReadonlyArray<{ upTo: number; cap: CapPercent; next: CapPercent }> = [
+  { upTo: 10, cap: 0, next: 5 },
+  { upTo: 20, cap: 5, next: 10 },
+  { upTo: 30, cap: 10, next: 15 },
+  { upTo: 40, cap: 15, next: 20 },
 ];
 
 function toFils(aed: number, field: string): number {
@@ -50,27 +70,36 @@ export function computeIncreaseCap({
 }: IncreaseCapInput): IncreaseCapResult {
   const indexFils = toFils(indexAverageAed, "index_average_aed");
   const rentFils = toFils(currentRentAed, "current_rent_aed");
+  const maxNewRent = (cap: CapPercent) => Math.floor((rentFils * (100 + cap)) / 100) / 100;
 
   // Compare in integer fils with cross multiplication so band edges are exact:
   // percent_below <= upTo  <=>  (index - rent) * 100 <= upTo * index
-  const belowFils = indexFils - rentFils;
-  let cap: IncreaseCapResult["max_increase_percent"] = 20;
-  for (const band of BANDS) {
-    if (belowFils * 100 <= band.upTo * indexFils) {
-      cap = band.cap;
-      break;
-    }
-  }
-
-  const maxNewRentFils = Math.floor((rentFils * (100 + cap)) / 100);
-
-  return {
+  const scaledBelow = (indexFils - rentFils) * 100;
+  const base: CapResultBase = {
     index_average_aed: indexFils / 100,
-    percent_below_average: Math.round((belowFils / indexFils) * 10000) / 100,
-    max_increase_percent: cap,
-    max_new_rent_aed: maxNewRentFils / 100,
+    percent_below_average: Math.round(((indexFils - rentFils) / indexFils) * 10000) / 100,
     clause: DECREE_43_CLAUSE,
   };
+
+  for (const band of BANDS) {
+    if (scaledBelow <= band.upTo * indexFils) {
+      return { ...base, band_boundary: false, max_increase_percent: band.cap, max_new_rent_aed: maxNewRent(band.cap) };
+    }
+    // Strictly between upTo and upTo + 1: a gap in the official bands.
+    if (scaledBelow < (band.upTo + 1) * indexFils) {
+      return {
+        ...base,
+        band_boundary: true,
+        max_increase_percent: null,
+        max_new_rent_aed: null,
+        lower_cap_percent: band.cap,
+        lower_max_new_rent_aed: maxNewRent(band.cap),
+        upper_cap_percent: band.next,
+        upper_max_new_rent_aed: maxNewRent(band.next),
+      };
+    }
+  }
+  return { ...base, band_boundary: false, max_increase_percent: 20, max_new_rent_aed: maxNewRent(20) };
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;

@@ -10,21 +10,22 @@ import {
 const cap = (currentRentAed: number, indexAverageAed = 100_000) =>
   computeIncreaseCap({ indexAverageAed, currentRentAed });
 
-describe("computeIncreaseCap band boundaries", () => {
+describe("computeIncreaseCap single band results", () => {
   it.each([
     ["above average", 120_000, -20, 0],
     ["exactly at average", 100_000, 0, 0],
     ["exactly 10 percent below", 90_000, 10, 0],
-    ["10.01 percent below", 89_990, 10.01, 5],
+    ["exactly 11 percent below", 89_000, 11, 5],
     ["exactly 20 percent below", 80_000, 20, 5],
-    ["20.01 percent below", 79_990, 20.01, 10],
+    ["exactly 21 percent below", 79_000, 21, 10],
     ["exactly 30 percent below", 70_000, 30, 10],
-    ["30.01 percent below", 69_990, 30.01, 15],
+    ["exactly 31 percent below", 69_000, 31, 15],
     ["exactly 40 percent below", 60_000, 40, 15],
-    ["40.01 percent below", 59_990, 40.01, 20],
+    ["exactly 41 percent below", 59_000, 41, 20],
     ["far below", 10_000, 90, 20],
   ])("%s", (_label, rent, percentBelow, expectedCap) => {
     const result = cap(rent);
+    expect(result.band_boundary).toBe(false);
     expect(result.percent_below_average).toBe(percentBelow);
     expect(result.max_increase_percent).toBe(expectedCap);
     expect(result.clause).toBe(DECREE_43_CLAUSE);
@@ -32,13 +33,15 @@ describe("computeIncreaseCap band boundaries", () => {
 
   it("is exact where floating point division would drift", () => {
     // 7000 / 70000 * 100 is 10.000000000000002 in floating point.
-    expect(cap(63_000, 70_000).max_increase_percent).toBe(0);
-    expect(cap(63_000, 70_000).percent_below_average).toBe(10);
+    const result = cap(63_000, 70_000);
+    expect(result.band_boundary).toBe(false);
+    expect(result.max_increase_percent).toBe(0);
+    expect(result.percent_below_average).toBe(10);
   });
 
   it("computes the maximum new rent from the cap", () => {
     expect(cap(80_000).max_new_rent_aed).toBe(84_000);
-    expect(cap(59_990).max_new_rent_aed).toBe(71_988);
+    expect(cap(59_000).max_new_rent_aed).toBe(70_800);
     expect(cap(100_000).max_new_rent_aed).toBe(100_000);
   });
 
@@ -46,6 +49,31 @@ describe("computeIncreaseCap band boundaries", () => {
     const result = computeIncreaseCap({ indexAverageAed: 55_555.55, currentRentAed: 44_444.44 });
     expect(result.max_increase_percent).toBe(5);
     expect(result.max_new_rent_aed).toBe(46_666.66);
+  });
+});
+
+describe("computeIncreaseCap gaps in the official bands", () => {
+  it.each([
+    ["10.5 percent below", 89_500, 10.5, 0, 89_500, 5, 93_975],
+    ["20.5 percent below", 79_500, 20.5, 5, 83_475, 10, 87_450],
+    ["30.5 percent below", 69_500, 30.5, 10, 76_450, 15, 79_925],
+    ["40.5 percent below", 59_500, 40.5, 15, 68_425, 20, 71_400],
+    ["just above 10 percent", 89_990, 10.01, 0, 89_990, 5, 94_489.5],
+    ["just below 11 percent", 89_010, 10.99, 0, 89_010, 5, 93_460.5],
+  ])("%s reports both candidate caps", (_label, rent, percentBelow, lower, lowerMax, upper, upperMax) => {
+    const result = cap(rent);
+    expect(result).toEqual({
+      index_average_aed: 100_000,
+      percent_below_average: percentBelow,
+      clause: DECREE_43_CLAUSE,
+      band_boundary: true,
+      max_increase_percent: null,
+      max_new_rent_aed: null,
+      lower_cap_percent: lower,
+      lower_max_new_rent_aed: lowerMax,
+      upper_cap_percent: upper,
+      upper_max_new_rent_aed: upperMax,
+    });
   });
 });
 

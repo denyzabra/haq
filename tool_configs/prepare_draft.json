@@ -3,7 +3,7 @@
     "name": "prepare_draft",
     "description": "Prepares and saves a draft objection summary for the caller's own use, from facts confirmed in the read back. It does not send, submit or file anything anywhere. Returns the summary text and a case reference.",
     "api_schema": {
-        "url": "https://haq-placeholder.example.com/api/tools/prepare-draft",
+        "url": "https://haq-tan.vercel.app/api/tools/prepare-draft",
         "method": "POST",
         "request_headers": {
             "Content-Type": "application/json",

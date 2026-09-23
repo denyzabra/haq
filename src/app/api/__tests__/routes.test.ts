@@ -93,10 +93,27 @@ describe("POST /api/tools/index-lookup", () => {
       current_rent_aed: 30000,
       index_average_aed: 40000,
       percent_below_average: 25,
+      band_boundary: false,
       max_increase_percent: 10,
       max_new_rent_aed: 33000,
       clause: "Decree 43 of 2013, Article 1",
       data_source: "demo sample, not official",
+    });
+  });
+
+  it("reports both candidate caps when the rent falls in a gap between official bands", async () => {
+    // Placeholder Deira studio average is 40,000. 35,800 is 10.5 percent below.
+    const res = await indexLookup(toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 35800 }));
+    expect(await res.json()).toMatchObject({
+      outcome: "checked",
+      percent_below_average: 10.5,
+      band_boundary: true,
+      max_increase_percent: null,
+      max_new_rent_aed: null,
+      lower_cap_percent: 0,
+      lower_max_new_rent_aed: 35800,
+      upper_cap_percent: 5,
+      upper_max_new_rent_aed: 37590,
     });
   });
 
@@ -181,6 +198,20 @@ describe("POST /api/tools/prepare-draft", () => {
     const stored = await getStore().lrange(KEYS.drafts, 0, -1);
     expect(stored).toHaveLength(1);
     expect(JSON.parse(stored[0]).case_reference).toBe(body.case_reference);
+  });
+});
+
+describe("POST /api/tools/prepare-draft on a band boundary", () => {
+  it("states both candidate caps and that the Arabic text prevails", async () => {
+    const res = await prepareDraft(
+      toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 35800, proposed_rent_aed: 36500 }),
+    );
+    const body = await res.json();
+    expect(body.summary).toContain("sits between two bands");
+    expect(body.summary).toContain("0 percent");
+    expect(body.summary).toContain("5 percent");
+    expect(body.summary).toContain("Arabic text of the Decree prevails");
+    expect(body.summary).toContain("between the two candidate maximums");
   });
 });
 

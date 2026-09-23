@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { checkNotice, computeIncreaseCap, type NoticeCheckResult } from "./decree43";
+import { checkNotice, computeIncreaseCap, type IncreaseCapResult, type NoticeCheckResult } from "./decree43";
 import { lookupIndex } from "./mock-index";
 
 // The LLM may send an empty string for a date the caller did not give; treat it as absent.
@@ -19,19 +19,14 @@ export const intakeSchema = z.object({
 export type Intake = z.infer<typeof intakeSchema>;
 
 export type RentCheck =
-  | {
+  | ({
       outcome: "checked";
       area: string;
       unit_type: string;
       current_rent_aed: number;
-      index_average_aed: number;
-      percent_below_average: number;
-      max_increase_percent: number;
-      max_new_rent_aed: number;
-      clause: string;
       data_source: string;
       notice?: NoticeCheckResult;
-    }
+    } & IncreaseCapResult)
   | {
       outcome: "cannot_verify";
       reason: string;
