@@ -1,3 +1,4 @@
+import { recordFlows } from "@/lib/flows";
 import { appendToLedger } from "@/lib/ledger";
 import { asObject, buildLedgerEntry, SIGNATURE_HEADER, webhookClient, type Json } from "@/lib/post-call";
 import { getStore } from "@/lib/store";
@@ -21,6 +22,8 @@ export async function POST(request: Request) {
     return Response.json({ received: true, ignored: event.type ?? null });
   }
 
-  const record = await appendToLedger(getStore(), buildLedgerEntry(event));
+  const entry = buildLedgerEntry(event);
+  const record = await appendToLedger(getStore(), entry);
+  await recordFlows(getStore(), entry.conversation_id, [9]);
   return Response.json({ received: true, ledger_index: record.index });
 }

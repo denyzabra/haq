@@ -1,0 +1,58 @@
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.banner {
+  background: var(--text);
+  color: #fff;
+  padding: 0.75rem 0;
+}
+
+.header {
+  padding: 1.75rem 0 1.25rem;
+}
+
+.kicker {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.1rem 0.6rem;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.title {
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+}
+
+.lead {
+  max-width: 60ch;
+  margin: 0 0 0.75rem;
+}
+
+.demoLabel {
+  display: inline-block;
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  background: var(--warn-bg);
+  border-left: 5px solid var(--warn-border);
+  border-radius: 4px;
+}
+
+.footer {
+  margin-top: 2.5rem;
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.footer p {
+  max-width: 75ch;
+}

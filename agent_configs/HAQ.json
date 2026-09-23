@@ -185,7 +185,7 @@
                             },
                             "response_body_schema": null,
                             "response_filter": null,
-                            "url": "https://haq-placeholder.example.com/api/tools/request-human-handover"
+                            "url": "https://haq-tan.vercel.app/api/tools/request-human-handover"
                         },
                         "assignments": [],
                         "description": "Requests a callback from a person on the HAQ team. Use when the caller asks for a human or person, says stop but wants help, mentions eviction, hardship or distress, has an active Rental Disputes Center case, asks HAQ to file something, or after two failed read backs. Returns a reference and a callback message to read to the caller.",
@@ -502,8 +502,8 @@
         "ban": null,
         "call_limits": {
             "agent_concurrency_limit": -1,
-            "bursting_enabled": true,
-            "daily_limit": 100000
+            "bursting_enabled": false,
+            "daily_limit": 5
         },
         "data_collection": {
             "area": {
@@ -782,7 +782,7 @@
             "conversation_config_override": {
                 "agent": {
                     "first_message": false,
-                    "language": false,
+                    "language": true,
                     "max_conversation_duration_message": false,
                     "prompt": {
                         "knowledge_base": false,
@@ -797,7 +797,7 @@
                 },
                 "conversation": {
                     "max_duration_seconds": false,
-                    "text_only": true
+                    "text_only": false
                 },
                 "tts": {
                     "model_id": false,

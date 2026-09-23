@@ -1,0 +1,110 @@
+.panel h2 {
+  margin-bottom: 0.25rem;
+}
+
+.help {
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item,
+.itemLit {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.itemLit {
+  border-color: var(--lit);
+  background: var(--lit-bg);
+}
+
+.badge,
+.badgeLit {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.badge {
+  background: #e7e4dc;
+  color: var(--muted);
+}
+
+.badgeLit {
+  background: var(--lit);
+  color: #fff;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.path {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.evidence {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.state {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.stateLit {
+  font-size: 0.85rem;
+  color: var(--lit);
+  font-weight: 700;
+}
+
+.postCallWaiting,
+.postCallDone,
+.postCallMissing {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border-left: 5px solid;
+  font-weight: 600;
+}
+
+.postCallWaiting {
+  background: #eef2f6;
+  border-color: var(--accent);
+}
+
+.postCallDone {
+  background: var(--lit-bg);
+  border-color: var(--lit);
+}
+
+.postCallMissing {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+}

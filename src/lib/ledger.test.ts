@@ -79,6 +79,8 @@ describe("appendToLedger concurrency", () => {
       rpush: inner.rpush.bind(inner),
       lrange: inner.lrange.bind(inner),
       get: inner.get.bind(inner),
+      incrWindow: inner.incrWindow.bind(inner),
+      rpushWithTtl: inner.rpushWithTtl.bind(inner),
       async appendIfHead(args) {
         if (!raced) {
           raced = true;

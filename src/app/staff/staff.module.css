@@ -1,0 +1,164 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 16px 3rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.section {
+  margin-top: 2rem;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 24rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.label {
+  font-weight: 700;
+}
+
+.input {
+  font: inherit;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--text);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.error {
+  margin: 0;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.button {
+  font: inherit;
+  font-weight: 600;
+  min-height: 48px;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.linkButton {
+  font: inherit;
+  background: none;
+  border: none;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.verify {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.verifyResult {
+  margin: 0;
+  font-weight: 600;
+}
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.cardTitle {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.tag {
+  font-size: 0.8rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 4px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.fields dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.fields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.summary {
+  white-space: pre-wrap;
+  font-family: inherit;
+  background: #f3f1ea;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  margin: 0.75rem 0 0;
+}
+
+@media (max-width: 600px) {
+  .fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fields dd {
+    margin-bottom: 0.5rem;
+  }
+}

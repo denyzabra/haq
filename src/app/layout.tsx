@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "HAQ",
-  description: "Checks a Dubai rent increase against Decree 43 of 2013. Information, not legal advice.",
+  description: "AI information line about Dubai rent increases under Decree 43 of 2013. Information, not legal advice.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

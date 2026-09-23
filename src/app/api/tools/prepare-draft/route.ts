@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Decree43InputError } from "@/lib/decree43";
+import { recordFlows } from "@/lib/flows";
 import { badRequest, newReference, parseJsonBody } from "@/lib/http";
 import { intakeSchema, runRentCheck, type RentCheck } from "@/lib/rent-check";
 import { getStore, KEYS } from "@/lib/store";
@@ -86,6 +87,8 @@ export async function POST(request: Request) {
     sent: false,
   };
   await getStore().rpush(KEYS.drafts, JSON.stringify(draft));
+  // prepare_draft exists only in the Paperwork node, so a call proves flow 6 (Rule to Paperwork) and is flow 7.
+  await recordFlows(getStore(), conversation_id, [6, 7]);
 
   return Response.json({
     case_reference: draft.case_reference,

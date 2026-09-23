@@ -5,6 +5,7 @@ import { POST as prepareDraft } from "../tools/prepare-draft/route";
 import { POST as handover } from "../tools/request-human-handover/route";
 import { POST as postCall } from "../webhooks/post-call/route";
 import { GET as verifyLedger } from "../ledger/verify/route";
+import { GET as getFlows } from "../flows/[conversationId]/route";
 import { getStore, KEYS, resetStoreForTests } from "@/lib/store";
 
 const TOOL_SECRET = "test-tool-secret";
@@ -277,5 +278,48 @@ describe("POST /api/webhooks/post-call and GET /api/ledger/verify", () => {
   it("acknowledges but ignores other event types", async () => {
     const res = await postCall(signedWebhook({ type: "post_call_audio", data: {} }));
     expect(await res.json()).toEqual({ received: true, ignored: "post_call_audio" });
+  });
+});
+
+describe("flow events", () => {
+  const CONV = "conv_01flowtest0000000001";
+  const flowsFor = async (id: string) => {
+    const res = await getFlows(new Request(`http://localhost/api/flows/${id}`), {
+      params: Promise.resolve({ conversationId: id }),
+    } as RouteContext<"/api/flows/[conversationId]">);
+    return { status: res.status, body: await res.json() };
+  };
+  const flowNumbers = async (id: string) => (await flowsFor(id)).body.flows.map((f: { flow: number }) => f.flow);
+
+  it("records flows 3 and 4 for index_lookup, 6 and 7 for prepare_draft, 8 for handover", async () => {
+    const intake = { area: "Deira", unit_type: "studio", current_rent_aed: 30000, conversation_id: CONV };
+    expect((await indexLookup(toolRequest(intake))).status).toBe(200);
+    expect(await flowNumbers(CONV)).toEqual([3, 4]);
+    expect((await prepareDraft(toolRequest(intake))).status).toBe(200);
+    expect((await handover(toolRequest({ reason: "person", summary: "Asked for a person.", conversation_id: CONV }))).status).toBe(200);
+    expect(await flowNumbers(CONV)).toEqual([3, 4, 6, 7, 8]);
+  });
+
+  it("records flow 9 when a signed post-call webhook reaches the ledger", async () => {
+    const id = "conv_01flowtest0000000009";
+    await postCall(signedWebhook(postCallEvent(id)));
+    expect(await flowNumbers(id)).toEqual([9]);
+  });
+
+  it("does not record a flow for a rejected call", async () => {
+    const id = "conv_01flowtest0000000401";
+    await indexLookup(toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 30000, conversation_id: id }, "wrong"));
+    await postCall(signedWebhook(postCallEvent(id), "other-secret"));
+    expect(await flowNumbers(id)).toEqual([]);
+  });
+
+  it("returns only flow numbers and timestamps", async () => {
+    await indexLookup(toolRequest({ area: "Deira", unit_type: "studio", current_rent_aed: 30000, conversation_id: CONV }));
+    const { body } = await flowsFor(CONV);
+    for (const f of body.flows) expect(Object.keys(f).sort()).toEqual(["at", "flow"]);
+  });
+
+  it("rejects an invalid conversation id", async () => {
+    expect((await flowsFor("../../haq:ledger")).status).toBe(400);
   });
 });

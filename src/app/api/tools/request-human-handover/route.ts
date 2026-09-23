@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { recordFlows } from "@/lib/flows";
 import { newReference, parseJsonBody } from "@/lib/http";
 import { getStore, KEYS } from "@/lib/store";
 import { isAuthorizedToolCall, unauthorized } from "@/lib/tool-auth";
@@ -26,6 +27,7 @@ export async function POST(request: Request) {
     ...parsed.data,
   };
   await getStore().rpush(KEYS.handovers, JSON.stringify(entry));
+  await recordFlows(getStore(), parsed.data.conversation_id, [8]);
 
   return Response.json({
     reference: entry.reference,

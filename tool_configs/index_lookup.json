@@ -34,6 +34,10 @@
                 "notice_received_date": {
                     "type": "string",
                     "description": "Calendar date in YYYY-MM-DD format. The date the caller received notice of the rent change. Only include if the caller gave it and confirmed it."
+                },
+                "conversation_id": {
+                    "type": "string",
+                    "dynamic_variable": "system__conversation_id"
                 }
             },
             "required": [
