@@ -108,7 +108,7 @@ ElevenLabs documents that the `transfer_to_number` system tool only works on pho
 
 Escalation triggers, in any language: "human" or "person", or a request for a person; eviction, hardship or distress; an active Rental Disputes Center case; a request to file; two failed read backs. Escalation always goes to `request_human_handover`, never to Paperwork.
 
-"Stop" is handled separately: HAQ asks once whether the caller wants a callback. If yes, it uses `request_human_handover`; if no, it says goodbye and uses `end_call`.
+"Stop" is handled separately and is not an escalation trigger: HAQ first asks once whether the caller wants a callback and calls no tool until the caller answers. If yes, it uses `request_human_handover`; if no, it says goodbye and uses `end_call`.
 
 ## Agent tests
 
