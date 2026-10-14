@@ -103,19 +103,20 @@ describe("area names", () => {
 });
 
 describe("building names", () => {
-  it.each(["AAA RESIDENCE", "AAA Residence", "aaa residence", "Triple A Residence", "triple-a residence"])(
+  it.each(["AAA RESIDENCE", "AAA Residence", "aaa residence", "Triple A Residence", "triple-a residence", "Triple A", "triple a"])(
     "%j resolves to the DLD building",
     (input) => {
       expect(resolveBuilding(AREA, input)).toBe(BUILDING);
     },
   );
 
-  it.each(["AAA Residences", "Triple A", "Bloom Towers"])("%j is not swapped for a nearby building", (input) => {
+  it.each(["AAA Residences", "Triple", "Triple A Tower", "Bloom Towers"])("%j is not swapped for a nearby building", (input) => {
     expect(resolveBuilding(AREA, input)).toBeUndefined();
   });
 
   it("only matches a building inside its own area", () => {
     expect(resolveBuilding("Deira", "AAA Residence")).toBeUndefined();
+    expect(resolveBuilding("Deira", "Triple A")).toBeUndefined();
   });
 });
 
@@ -268,9 +269,19 @@ describe("Arabic names", () => {
 });
 
 describe("ASR keyterms", () => {
-  it("include every DLD area, building and bedrooms name, official Arabic names and area and building aliases", () => {
-    const config = JSON.parse(readFileSync(new URL("../../agent_configs/HAQ.json", import.meta.url), "utf8"));
-    const keyterms = new Set<string>(config.conversation_config.asr.keywords.map((k: string) => k.toLowerCase()));
+  // Scribe realtime limits (ElevenLabs keyterm prompting guide).
+  const MAX_KEYTERMS = 50;
+  const MAX_CHARACTERS = 20;
+  const config = JSON.parse(readFileSync(new URL("../../agent_configs/HAQ.json", import.meta.url), "utf8"));
+  const keywords: string[] = config.conversation_config.asr.keywords;
+
+  it("fit the Scribe realtime limits", () => {
+    expect(keywords.length).toBeLessThanOrEqual(MAX_KEYTERMS);
+    expect(keywords.filter((k) => [...k].length > MAX_CHARACTERS)).toEqual([]);
+  });
+
+  it("include every DLD area, building and bedrooms name, official Arabic names and area and building aliases that fit", () => {
+    const keyterms = new Set<string>(keywords.map((k) => k.toLowerCase()));
     const required = INDEX_ENTRIES.flatMap((e) => [
       e.area,
       e.area_ar,
@@ -280,7 +291,7 @@ describe("ASR keyterms", () => {
       ...(BUILDING_ALIASES[e.building] ?? []),
       e.bedrooms_ar,
     ]);
-    const missing = required.filter((k) => !keyterms.has(k.toLowerCase()));
+    const missing = required.filter((k) => [...k].length <= MAX_CHARACTERS && !keyterms.has(k.toLowerCase()));
     expect(missing, "run npm run sync:keyterms").toEqual([]);
   });
 });

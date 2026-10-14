@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "sync:keyterms": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/sync-asr-keyterms.mjs",
     "import:dld": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-dld-evidence.mjs",
-    "tests:generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-agent-tests.mjs"
+    "tests:generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-agent-tests.mjs",
+    "tests:attach": "node scripts/attach-agent-tests.mjs"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.68.0",

@@ -24,6 +24,7 @@ export const AREA_ALIASES: Readonly<Record<string, readonly string[]>> = {
 export const BUILDING_ALIASES: Readonly<Record<string, readonly string[]>> = {
   "AAA RESIDENCE": [
     "Triple A Residence",
+    "Triple A",
     "تريبل ايه ريزيدنس", // UNVERIFIED Arabic alias
   ],
   "DUBAI MUNCIPALITY-SOUQ AL AYAAS": [

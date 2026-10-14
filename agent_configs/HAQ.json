@@ -258,14 +258,11 @@
                 "RERA",
                 "DLD",
                 "RDC",
-                "Rental Disputes Center",
                 "JVC",
                 "Dubai Marina",
                 "Deira",
                 "Al Barsha",
-                "Al Barsha South Fourth",
                 "البرشاء جنوب الرابعة",
-                "Jumeirah Village Circle",
                 "جي في سي",
                 "قرية جميرا الدائرية",
                 "AAA RESIDENCE",
@@ -277,10 +274,8 @@
                 "العياص",
                 "Al Ayas",
                 "Al Ayaas",
-                "DUBAI MUNCIPALITY-SOUQ AL AYAAS",
                 "Souq Al Ayaas",
                 "Souk Al Ayaas",
-                "Dubai Municipality Souq Al Ayaas",
                 "سوق العياص",
                 "Al Hamriya",
                 "الحمريه",
@@ -289,7 +284,8 @@
                 "حمرية",
                 "AL HAMRIA",
                 "الحمرية",
-                "ثلاثة غرفة و صالة"
+                "ثلاثة غرفة و صالة",
+                "Triple A"
             ],
             "provider": "scribe_realtime",
             "quality": "high",
@@ -1200,7 +1196,7 @@
             "rule": {
                 "additional_knowledge_base": [
                     {
-                        "id": "NgyCxyEYeUSbNytstTb6",
+                        "id": "atXDNr860xYiRT0xtiLQ",
                         "name": "HAQ: Decree 43 of 2013",
                         "type": "file",
                         "usage_mode": "auto"
@@ -1218,7 +1214,7 @@
                         "usage_mode": "auto"
                     },
                     {
-                        "id": "2Y8jY2Z9djSxy6lGSYXd",
+                        "id": "GflU3r7O1AmFLFpNvApT",
                         "name": "HAQ: scope and disclosure scripts",
                         "type": "file",
                         "usage_mode": "auto"

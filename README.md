@@ -32,7 +32,7 @@ Storage is Upstash Redis through the Vercel integration.
 - **Every node** has `request_human_handover` and `end_call`. `language_detection` is on for English and Arabic.
 - **LLM:** `gemini-3.5-flash-lite`, with `gemini-3.8-flash` as backup.
 - **Voice:** Eleven v3 conversational (`eleven_v3_conversational`) with expressive mode. English voice `ZIlrSGI4jZqobxRKprJz`; Arabic preset with voice `oUCSlKjkoFDoKamPHpAV` and an Arabic first message.
-- **Speech recognition:** Scribe realtime with keyterms (Decree 43, Ejari, RERA, DLD, RDC, Rental Disputes Center, JVC, Dubai Marina, Deira, Al Barsha), plus every DLD area and building name in the index and their aliases, kept in sync by `npm run sync:keyterms`.
+- **Speech recognition:** Scribe realtime with keyterms (Decree 43, Ejari, RERA, DLD, RDC, JVC, Dubai Marina, Deira, Al Barsha), plus every DLD area and building name in the index and their aliases, kept in sync by `npm run sync:keyterms`. Scribe realtime takes at most 50 keyterms of at most 20 characters each, so longer names (Rental Disputes Center, Al Barsha South Fourth, Jumeirah Village Circle and the two long Souq Al Ayaas names) are left out; the shorter forms in the list cover them.
 - **Data collection:** `area`, `building`, `unit_type`, `current_rent_aed`, `renewal_date`, `notice_received_date`, `outcome`, `callback_consent`, `opted_out`, `escalated`, `escalation_reason`.
 - **Evaluation criteria:** `disclosure_given`, `clause_cited`, `no_legal_advice_given`, `read_back_done`, `escalated_when_required`.
 - **Limits:** authentication required (no public agent ID access), 300 second maximum conversation, 5 conversations per day, and the client may override only the language.
