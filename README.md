@@ -4,9 +4,15 @@ HAQ is a voice agent that checks a Dubai rent increase against Decree 43 of 2013
 
 **AI information line, not legal advice.** HAQ gives information only. It never files anything. Filing, disputes and distress go to a person.
 
-Live demo: https://haq-tan.vercel.app
+## Stage 2 submission
 
-Built for the Ignyte x ElevenLabs Stage 1 proof of build. The design follows the submitted Idea Canvas; the architecture diagram is in [`public/haq-architecture.png`](public/haq-architecture.png).
+- **Live demo:** https://haq-tan.vercel.app
+- **Demo video:** VIDEO_LINK_HERE
+- **Architecture, one page:** [`docs/architecture.md`](docs/architecture.md) (Mermaid diagram of the system as built, flows 1 to 9 as on the demo page)
+- **Agent test results:** [`docs/test-results.md`](docs/test-results.md). Headline: **143 of 160 runs passed (89.4 percent)**, all 32 ElevenLabs Agent Testing tests at repeat count 5, up from a repeat count 1 baseline of 25 of 32 (78.1 percent) before the fixes.
+- **Demo conversations:** [`docs/demo-conversations/`](docs/demo-conversations/), one file per conversation with the full transcript, tool calls and results, and the post call analysis (evaluation criteria and data collection), exported from the ElevenLabs API by `scripts/export-demo-conversations.mjs`.
+
+Built for the Ignyte x ElevenLabs Stage 1 proof of build. The design follows the submitted Idea Canvas; the original architecture diagram is in [`public/haq-architecture.png`](public/haq-architecture.png).
 
 ## What runs
 
@@ -229,7 +235,7 @@ scripts/with-env.sh elevenlabs agents push
 scripts/with-env.sh elevenlabs agents pull --agent agent_9101m36p8c60evcatp1tqsyswhjt --update
 ```
 
-For the agent tests, see [Agent tests](#agent-tests). Always pull with `--agent`: a bare `agents pull` imports every agent in the workspace. When a `kb/` file changes, upload it again, then update the document ID in `kb/manifest.json` and in the Rule node of `agent_configs/HAQ.json`.
+For the agent tests, see [Agent tests](#agent-tests). To export conversations with their transcript and post call analysis: `scripts/with-env.sh node scripts/export-demo-conversations.mjs <conversation_id> [...]`. Always pull with `--agent`: a bare `agents pull` imports every agent in the workspace. When a `kb/` file changes, upload it again, then update the document ID in `kb/manifest.json` and in the Rule node of `agent_configs/HAQ.json`.
 
 ## Project layout
 
@@ -237,10 +243,10 @@ For the agent tests, see [Agent tests](#agent-tests). Always pull with `--agent`
 agent_configs/   ElevenLabs agent config (pushed and pulled with the CLI)
 tool_configs/    ElevenLabs webhook tool configs
 data/            DLD Rental Index figures, building level (mock-index.json)
-docs/            index evidence from the DLD website, agent test results
+docs/            architecture, index evidence from the DLD website, agent test results, demo conversations
 kb/              knowledge base sources and document IDs
 public/          architecture diagram
-scripts/         CLI helper, DLD evidence import, ASR keyterm sync, agent test generation and attach
+scripts/         CLI helper, DLD evidence import, ASR keyterm sync, agent test generation and attach, conversation export
 test_configs/    ElevenLabs Agent Testing configs (generated); test_plan.json maps each to its node
 src/app/         demo page, /staff and API routes
 src/lib/         Decree 43 logic, index lookup, ledger, store, rate limits, flows, staff auth

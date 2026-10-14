@@ -1,10 +1,10 @@
 # HAQ agent test results
 
-ElevenLabs Agent Testing, agent `agent_9101m36p8c60evcatp1tqsyswhjt`. Configs in `test_configs/`, nodes in `test_plan.json`. The smoke runs and the first full run use a repeat count of 1, so each of those results is a single sample. The latest run, after the fixes, uses a repeat count of 5: see [Repeat count 5 run](#repeat-count-5-run-14-october-2026-2138-dubai).
+ElevenLabs Agent Testing, agent `agent_9101m36p8c60evcatp1tqsyswhjt`. Configs in `test_configs/`, nodes in `test_plan.json`. The smoke runs and the first full run use a repeat count of 1, so each of those results is a single sample. The latest run, after the fixes, uses a repeat count of 5: see [Repeat count 5 run](#repeat-count-5-run-14-october-2026-2238-dubai-time).
 
 Summary: repeat 1 baseline 25/32 (78.1%); repeat 5 after fixes 143/160 (89.4%), with every category above its baseline.
 
-## Smoke run, 14 October 2026, 21:02 (Dubai)
+## Smoke run, 14 October 2026, 22:02 Dubai time
 
 Suite `suite_0401m4xs9gj0ern9q79cvzwcayaz`, agent version `agtvrsn_8101m4xntcp9e75txm4mb3aq58rw`, repeat count 1.
 
@@ -22,7 +22,7 @@ Suite `suite_0401m4xs9gj0ern9q79cvzwcayaz`, agent version `agtvrsn_8101m4xntcp9e
 
 ### Readings
 
-| | Before (21:02) | After (21:06) |
+| | Before (22:02) | After (22:06) |
 |---|---|---|
 | Ledger length (`/api/ledger/verify`) | 7 | 7 |
 | Agent conversations today (UTC) | 1 | 1 |
@@ -32,7 +32,7 @@ Suite `suite_0401m4xs9gj0ern9q79cvzwcayaz`, agent version `agtvrsn_8101m4xntcp9e
 - Test runs are not listed as conversations, so they do not count against `call_limits.daily_limit` (5).
 - Webhook tools are skipped in test mode ("Skipping tool call in test mode"). Vercel logs show no request to `/api/tools/*` or `/api/webhooks/*` during the run, so the tests wrote nothing to the ledger, the human queue or the drafts.
 
-## Smoke rerun, 14 October 2026, 21:20 (Dubai)
+## Smoke rerun, 14 October 2026, 22:20 Dubai time
 
 After `tests push` with both fixes. Suite `suite_0301m4xtahfferv8nwx5kyk6xdav`, same agent version, repeat count 1.
 
@@ -44,7 +44,7 @@ After `tests push` with both fixes. Suite `suite_0301m4xtahfferv8nwx5kyk6xdav`, 
 
 Ledger 7, conversations today 1, before and after.
 
-## Full run (32 tests), 14 October 2026, 21:21 (Dubai)
+## Full run (32 tests), 14 October 2026, 22:21 Dubai time
 
 Suite `suite_8201m4xtbn64ftn9k4dhbvhp24ph`, agent version `agtvrsn_8101m4xntcp9e75txm4mb3aq58rw`, LLM `gemini-3.5-flash-lite`, **repeat count 1**: each test ran once, so a pass or fail is a single sample and the rates below are not stable pass rates. Credits used: 975 (27 to 38 per test).
 
@@ -122,7 +122,7 @@ Pushed on 14 October 2026 as agent version `agtvrsn_3201m4xv7s6cfvxtgkjdb8bbrdda
 
 Changes before the first run (smoke runs), for completeness: webhook tool parameters addressed as `body.<name>` in all tool call tests, and the English next reply condition relaxed to allow DLD's band wording.
 
-## Repeat count 5 run, 14 October 2026, 21:38 (Dubai)
+## Repeat count 5 run, 14 October 2026, 22:38 Dubai time
 
 Suite `suite_6001m4xvb1b5ehcspp22mw1dy7yj`, agent version `agtvrsn_3201m4xv7s6cfvxtgkjdb8bbrdda` (with the changes above), LLM `gemini-3.5-flash-lite`, **repeat count 5**: 160 runs. Credits used: 4,922. Ledger length 7 and agent conversations today 1, before and after.
 
