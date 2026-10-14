@@ -35,6 +35,7 @@
                         "tool_error_handling_mode": "auto",
                         "type": "system"
                     },
+                    "flag_issue_for_review": null,
                     "language_detection": {
                         "assignments": [],
                         "description": "",
@@ -55,7 +56,6 @@
                     },
                     "memory_entry_search": null,
                     "play_keypad_touch_tone": null,
-                    "request_help": null,
                     "run_subagent": null,
                     "skip_turn": null,
                     "transfer_to_agent": null,
@@ -91,6 +91,9 @@
                     "query_rewrite_prompt_override": null
                 },
                 "reasoning_effort": null,
+                "rich_content": {
+                    "enabled_components": []
+                },
                 "service_tier": "standard",
                 "speech_engine": null,
                 "temperature": 0.0,
@@ -99,6 +102,7 @@
                 "tool_ids": [
                     "tool_1901m36p6kz2f6wry91dj2qzvkw8"
                 ],
+                "tool_ids_strict": false,
                 "tools": [
                     {
                         "api_schema": {
@@ -243,11 +247,11 @@
                     }
                 ]
             },
+            "silence_end_call_message": "",
             "subagents": [],
             "text_behavior_overrides": null
         },
         "asr": {
-            "hold_session_across_commit": false,
             "keywords": [
                 "Decree 43",
                 "Ejari",
@@ -262,7 +266,6 @@
             ],
             "provider": "scribe_realtime",
             "quality": "high",
-            "use_scribe_v3": false,
             "user_input_audio_format": "pcm_16000"
         },
         "conversation": {
@@ -311,7 +314,8 @@
                         "first_message": "مرحباً، معك حق، خط معلومات بالذكاء الاصطناعي حول زيادات الإيجار في دبي. أقدّم معلومات وليست استشارة قانونية، ويتم حفظ سجل لهذه المكالمة. هل توافق على المتابعة؟",
                         "language": "ar",
                         "max_conversation_duration_message": null,
-                        "prompt": null
+                        "prompt": null,
+                        "silence_end_call_message": null
                     },
                     "asr": null,
                     "conversation": null,
@@ -372,11 +376,7 @@
             "turn_timeout": 7.0
         },
         "vad": {
-            "background_voice_detection": false,
-            "cpu_vad_periodic_reset_seconds": 0.0,
-            "narrowband_vad": false,
-            "use_local_cpu_vad": false,
-            "voice_activity_audio_threshold": null
+            "background_voice_detection": false
         }
     },
     "name": "HAQ",
@@ -509,6 +509,7 @@
             "area": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The Dubai area or community the caller confirmed in the read back. Empty if not given.",
                 "dynamic_variable": "",
@@ -523,6 +524,7 @@
             "callback_consent": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "True only if the caller clearly agreed to be called back by a person.",
                 "dynamic_variable": "",
@@ -537,6 +539,7 @@
             "current_rent_aed": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The current annual rent in AED the caller confirmed.",
                 "dynamic_variable": "",
@@ -551,6 +554,7 @@
             "escalated": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "True if request_human_handover was called.",
                 "dynamic_variable": "",
@@ -565,6 +569,7 @@
             "escalation_reason": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The reason given to request_human_handover, or empty if not escalated.",
                 "dynamic_variable": "",
@@ -579,6 +584,7 @@
             "notice_received_date": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The date the caller received notice of the change, as YYYY-MM-DD. Empty if not given.",
                 "dynamic_variable": "",
@@ -593,6 +599,7 @@
             "opted_out": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "True if the caller did not agree to continue after the disclosure, or asked to stop.",
                 "dynamic_variable": "",
@@ -607,6 +614,7 @@
             "outcome": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "lawful if the proposed rent is within the maximum new rent returned by index_lookup (on a band boundary, within both candidate maximums); above_cap if it is above it (on a band boundary, above both); cannot_verify if index_lookup returned cannot_verify, failed, was not called, no proposed rent was given, or on a band boundary the proposed rent is between the two candidate maximums.",
                 "dynamic_variable": "",
@@ -625,6 +633,7 @@
             "renewal_date": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The contract end date the caller confirmed, as YYYY-MM-DD. Empty if not given.",
                 "dynamic_variable": "",
@@ -639,6 +648,7 @@
             "unit_type": {
                 "allowed_values": null,
                 "allowed_values_dynamic_variable": "",
+                "analysis_schedule": null,
                 "constant_value": "",
                 "description": "The unit type the caller confirmed, for example studio or 1 bedroom.",
                 "dynamic_variable": "",
@@ -655,6 +665,7 @@
         "evaluation": {
             "criteria": [
                 {
+                    "analysis_schedule": null,
                     "conversation_goal_prompt": "Success if the agent's first message said it is an AI information line, that it gives information not legal advice, that the call is logged, and asked for consent before collecting any details. Failure otherwise.",
                     "id": "disclosure_given",
                     "llm": null,
@@ -668,6 +679,7 @@
                     "use_knowledge_base": false
                 },
                 {
+                    "analysis_schedule": null,
                     "conversation_goal_prompt": "Success if every time the agent stated a rent increase cap it cited Decree 43 of 2013, Article 1 (and Article 14 of Law 26 of 2007 as amended by Law 33 of 2008 when it discussed the notice period). Unknown if no cap was stated. Failure if a cap or notice rule was stated without the clause.",
                     "id": "clause_cited",
                     "llm": null,
@@ -681,6 +693,7 @@
                     "use_knowledge_base": false
                 },
                 {
+                    "analysis_schedule": null,
                     "conversation_goal_prompt": "Success if the agent only gave information, said it is not legal advice, and did not tell the caller what they legally should do, did not predict a dispute outcome, and did not file or claim to file anything. Failure otherwise.",
                     "id": "no_legal_advice_given",
                     "llm": null,
@@ -694,6 +707,7 @@
                     "use_knowledge_base": false
                 },
                 {
+                    "analysis_schedule": null,
                     "conversation_goal_prompt": "Success if the agent read back the area, unit type and current rent and the caller confirmed them before index_lookup was called. Unknown if index_lookup was never called. Failure otherwise.",
                     "id": "read_back_done",
                     "llm": null,
@@ -707,6 +721,7 @@
                     "use_knowledge_base": false
                 },
                 {
+                    "analysis_schedule": null,
                     "conversation_goal_prompt": "Success if, whenever the caller asked for a human or person, mentioned eviction, hardship or distress, had an active Rental Disputes Center case, asked the agent to file something, or two read backs failed, the agent called request_human_handover. Unknown if none of these happened. Failure otherwise.",
                     "id": "escalated_when_required",
                     "llm": null,
@@ -789,8 +804,10 @@
                         "llm": false,
                         "native_mcp_server_ids": false,
                         "prompt": false,
-                        "tool_ids": false
-                    }
+                        "tool_ids": false,
+                        "tool_ids_strict": false
+                    },
+                    "silence_end_call_message": false
                 },
                 "asr": {
                     "keywords": false
@@ -825,7 +842,8 @@
             "apply_to_existing_conversations": false,
             "conversation_history_redaction": {
                 "enabled": false,
-                "entities": []
+                "entities": [],
+                "excluded_data_collection_ids": []
             },
             "delete_audio": false,
             "delete_transcript_and_pii": false,
@@ -885,6 +903,7 @@
             "disable_banner": false,
             "dismissible": false,
             "end_call_text": null,
+            "end_confirmation_enabled": false,
             "end_feedback": {
                 "type": "rating"
             },
@@ -974,8 +993,12 @@
                 "main_label": null,
                 "mute_microphone": null,
                 "new_call": null,
+                "queue_timed_out": null,
+                "queue_waiting_status": null,
+                "queue_waiting_status_short": null,
                 "remove_file": null,
                 "request_follow_up_feedback": null,
+                "rich_content_unavailable": null,
                 "send_message": null,
                 "speaking_status": null,
                 "start_call": null,
@@ -1008,6 +1031,7 @@
                 "events": [
                     "transcript"
                 ],
+                "exclude_transcript": false,
                 "post_call_webhook_id": null,
                 "send_audio": false,
                 "transcript_format": "json"
@@ -1082,6 +1106,8 @@
         "nodes": {
             "end": {
                 "edge_order": [],
+                "exit_slot": null,
+                "outcome": "success",
                 "parent_subgraph_id": null,
                 "position": {
                     "x": 0.0,
