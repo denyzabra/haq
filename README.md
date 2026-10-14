@@ -10,6 +10,8 @@ Built for the Ignyte x ElevenLabs Stage 1 proof of build. The design follows the
 
 ## What runs
 
+Everything in this table runs end to end in the live demo: the browser gets a token, talks to the agent (Router, Rule, Paperwork), the agent calls our tool routes on Vercel, and after the call ElevenLabs sends a signed webhook that is added to the ledger.
+
 | Zone | Part | Where |
 |---|---|---|
 | 1. Caller and channel | Demo page with a custom voice UI (`@elevenlabs/react`, WebRTC), English and Arabic start, live transcript, live flow panel | `src/app/page.tsx`, `src/app/components/` |
@@ -52,7 +54,7 @@ Storage is Upstash Redis through the Vercel integration.
 | 31 to 40 | 15 percent |
 | 41 and above | 20 percent |
 
-So 10.5 percent below is no increase, 10.6 is 5 percent, 40.5 is 15 percent and 40.9 is 20 percent. The increase is not rounded, as on DLD's calculator (for example AED 3,577.5 on a rent of AED 71,550). The rounding rule is **inferred from DLD calculator outputs** on 14 October 2026 ([`docs/index-evidence/al-hamriya-al-hamria-3br-boundary-lookups.json`](docs/index-evidence/al-hamriya-al-hamria-3br-boundary-lookups.json) and the Arabic page lookups in [`docs/index-evidence/dld-arabic-names-and-band-text.json`](docs/index-evidence/dld-arabic-names-and-band-text.json)); DLD has not published it. The tool also returns DLD's own wording of the band in English and Arabic (`dld_band_text_en`, `dld_band_text_ar`), copied from those responses.
+So 10.5 percent below is no increase, 10.6 is 5 percent, 40.5 is 15 percent and 40.9 is 20 percent. The increase is not rounded, as on DLD's calculator (for example AED 3,577.5 on a rent of AED 71,550). The rounding rule is **inferred from the 19 DLD calculator results** collected on 14 October 2026 (3 result PDFs, 11 English page lookups and 5 Arabic page lookups; [`docs/index-evidence/al-hamriya-al-hamria-3br-boundary-lookups.json`](docs/index-evidence/al-hamriya-al-hamria-3br-boundary-lookups.json) and the Arabic page lookups in [`docs/index-evidence/dld-arabic-names-and-band-text.json`](docs/index-evidence/dld-arabic-names-and-band-text.json)); DLD has not published it. The tool also returns DLD's own wording of the band in English and Arabic (`dld_band_text_en`, `dld_band_text_ar`), copied from those responses.
 
 The index average comes from DLD's range for the building: see [Index data](#index-data-dld-rental-index).
 
@@ -75,6 +77,8 @@ The demo page numbers flows 1 to 9 exactly as the diagram does, and lights a flo
 The DLD Rental Index is building level: a search needs the area, the building name and the bedrooms, and DLD returns a range ("Rental Index for Same Property Type, From X to Y") plus its own permitted increase.
 
 - `data/mock-index.json` (the file keeps its original name) holds DLD figures copied by hand from https://dubailand.gov.ae/en/eservices/rental-index/, one entry per area, building and bedrooms. Each entry stores exactly what DLD showed: the range, the retrieval date, the contract end date used for the search, the source URL, an evidence file in `docs/index-evidence/`, and DLD check rows (rent entered, DLD percent, DLD increase, DLD new rent). Nothing is added, rounded or estimated. Every response says `data_source: "DLD Rental Index, building level, retrieved 14 October 2026"`.
+- **Evidence files** in `docs/index-evidence/`: the three DLD result PDFs (`aaa-1br-60000.pdf`, `al-eyas-souq-al-ayaas-1br-52000.pdf`, `al-hamriya-al-hamria-3br-70000.pdf`), the raw boundary lookups for AL HAMRIA (`al-hamriya-al-hamria-3br-boundary-lookups.json`, 11 English page lookups) and DLD's Arabic names, band wording and Arabic page lookups (`dld-arabic-names-and-band-text.json`, 5 lookups).
+- **Coverage.** Three DLD rows: AAA RESIDENCE (Al Barsha South Fourth, 1 bedroom), DUBAI MUNCIPALITY-SOUQ AL AYAAS (Al Eyas, 1 bedroom) and AL HAMRIA (Al Hamriya, 3 bedrooms, hotel apartment). Any other building returns `cannot_verify`.
 - **UNVERIFIED assumption: the index average.** Decree 43 compares the rent with the index average, but DLD shows a range. We assume the range is the average plus or minus 10 percent, so the average is the midpoint of the range, rounded to the nearest dirham (`src/lib/index-average.ts`). DLD has not published this, but it is consistent with all 19 DLD results collected so far (3 result PDFs, 11 English page lookups and 5 Arabic page lookups) and with every stored range.
 - **DLD cross-check.** For every DLD check row, a unit test runs our Decree 43 engine on the derived average and requires DLD's own percent, increase and new rent exactly. If DLD and the engine disagree the test fails; the engine is never adjusted to fit. Another test proves every stored check row, band text and Arabic name still matches the evidence files.
 - **Matching.** Area, building and bedrooms must match the DLD name or an alias in `src/lib/index-aliases.ts` exactly, ignoring case, spaces, punctuation and symbols, with Arabic letter forms folded (see [Arabic](#arabic)). There is no fuzzy or nearest match. An unknown area, a building that is not in the index for that area, or bedrooms DLD did not list for that building returns `cannot_verify` with the reason (`unknown_area`, `unknown_building`, `unknown_bedrooms`). Arabic aliases are marked UNVERIFIED.
@@ -85,17 +89,18 @@ To add a DLD row, add an entry to `data/mock-index.json` with its evidence file 
 
 - **Official DLD strings (sourced).** Each index entry stores DLD's official Arabic area, building, bedrooms and property type names (`area_ar`, `building_ar`, `bedrooms_ar`, `property_type_ar`), and the index stores DLD's Arabic band wording. All of them are copied by script from [`docs/index-evidence/dld-arabic-names-and-band-text.json`](docs/index-evidence/dld-arabic-names-and-band-text.json) (DLD's Arabic calculator page, matched to English by DLD's own option IDs). DLD's Arabic page has no Arabic name for DUBAI MUNCIPALITY-SOUQ AL AYAAS, so its `building_ar` is null. The Rule prompt's Arabic terms ("مؤشر الإيجارات", "دائرة الأراضي والأملاك", the decree name "مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013" and "المادة (1)") were copied by script from DLD's Arabic page, the evidence file and DLD's Arabic decree copy; the article number was checked visually because that PDF's text layer garbles digits.
 - **Matching.** Official Arabic names always match. Alef forms (أ إ آ ٱ) are read as ا, ة as ه and ى as ي; tatweel and diacritics are ignored; Arabic-Indic and Persian digits are read as 0 to 9, and an Arabic thousands separator or comma between digits is ignored in amounts. Matching is still exact after that.
-- **UNVERIFIED, pending native speaker review:** the colloquial Arabic aliases in `src/lib/index-aliases.ts`; the Arabic escalation and stop words in the agent prompt ("موظف", "شخص", "إنسان", "توقف"); every Arabic sentence HAQ writes itself (the Arabic draft summary in `src/lib/draft-summary.ts`, the Arabic sentence in `kb/haq-scope.md`); the Arabic disclosure script; and HAQ's spoken explanation of the notice rule, because `kb/` holds no Arabic source for Law 26 of 2007 Article 14.
+- **UNVERIFIED, native speaker review pending:** the colloquial Arabic aliases in `src/lib/index-aliases.ts`; the Arabic escalation and stop words in the agent prompt ("موظف", "شخص", "إنسان", "توقف"); every Arabic sentence HAQ writes itself (the Arabic draft summary in `src/lib/draft-summary.ts`, the Arabic sentence in `kb/haq-scope.md`, and the Arabic caller and agent turns in the agent tests); the Arabic disclosure script and first message; and the notice rule in Arabic, which HAQ explains in its own words because `kb/` holds no Arabic source for Law 26 of 2007 Article 14.
+- Only the official DLD strings above are sourced. Nothing else in Arabic has been reviewed by a native speaker yet.
 
 ## What is mocked
 
+- **DLD Rental Index.** There is no DLD API. `index_lookup` reads the DLD figures in `data/mock-index.json`, copied from DLD's public calculator on 14 October 2026 (see [Index data](#index-data-dld-rental-index)). The figures are real; the lookup is a static snapshot of three rows.
 - **Draft store.** Drafts are saved in Redis for the caller only. Nothing is sent, submitted or filed anywhere.
 - **Human queue.** Handover requests are saved in Redis and shown on `/staff`. Nobody is notified automatically.
 
 ## What is not built
 
-- **Telephony (Twilio).** Pilot phase only. The demo runs in the browser.
-- **Agent Testing results.** The 30 test suite with a repeat count of 5 (spec step 5) has not been run yet; `docs/test-results.md` will hold the pass rates.
+- **Telephony (Twilio).** Pilot phase only. The demo runs in the browser, so there is no phone number and no live transfer (see the handover constraint below).
 
 ## Human handover in the demo (platform constraint)
 
@@ -104,6 +109,45 @@ ElevenLabs documents that the `transfer_to_number` system tool only works on pho
 Escalation triggers, in any language: "human" or "person", or a request for a person; eviction, hardship or distress; an active Rental Disputes Center case; a request to file; two failed read backs. Escalation always goes to `request_human_handover`, never to Paperwork.
 
 "Stop" is handled separately: HAQ asks once whether the caller wants a callback. If yes, it uses `request_human_handover`; if no, it says goodbye and uses `end_call`.
+
+## Agent tests
+
+32 ElevenLabs Agent Testing configs in `test_configs/`, generated by `npm run tests:generate` (`scripts/generate-agent-tests.mjs`) with their category and workflow node in `test_plan.json`:
+
+| Category | Tests | Node | What they check |
+|---|---|---|---|
+| Tool call | 10 | Rule | `index_lookup` is called after the read back with the confirmed area, building, bedrooms and rent, in English, Arabic, Arabic-Indic digits, colloquial names and mixed language; no call before confirmation; an unknown building is passed as the caller said it |
+| Next reply | 10 | Rule | The spoken result after `index_lookup`: DLD's range, the cap and maximum new rent, the clause, the DLD calculator, no index average or own percent below the average; every band edge (10, 10.5, 10.6, 20, 30, 40, 40.5, 40.9); the late notice wording; Arabic replies with DLD's Arabic names and band text |
+| Guardrail | 12 | Router, Rule, Paperwork | Consent before intake, declined consent ends the call, no legal advice, no Emirates ID, handover for distress, filing requests and "موظف", "stop" asks about a callback, Paperwork never submits; English and Arabic |
+
+Each next reply test injects an `index_lookup` result that a unit test proves is exactly what our server returns, and each tool call test's expected parameters accept every name the server resolves.
+
+```bash
+npm run tests:generate                    # rewrite test_configs/ and test_plan.json
+scripts/with-env.sh elevenlabs tests push # create or update the tests in ElevenLabs
+npm run tests:attach                      # attach them to the agent with their workflow node
+scripts/with-env.sh elevenlabs agents push --agent agent_9101m36p8c60evcatp1tqsyswhjt
+```
+
+What we observed when running them (14 October 2026):
+
+- Tests run against the published agent version. Webhook tools are not called in test mode ("Skipping tool call in test mode"), so tests do not write to the ledger, the human queue or the drafts, and no request reaches Vercel.
+- Test runs are not listed as conversations and do not count against the 5 conversations per day limit.
+- Each test run costs about 37 to 40 credits.
+- In a tool call test, a webhook tool's parameters are addressed as `body.<name>`: a plain `area` was "not found" although the agent passed it, and `body.area` passed. ElevenLabs does not document the path syntax.
+
+## Test results
+
+Full run on 14 October 2026, agent version `agtvrsn_8101m4xntcp9e75txm4mb3aq58rw`, repeat count 1 (each test ran once, so these are single samples, not stable pass rates). Every result, the failure analysis and the proposed fixes are in [`docs/test-results.md`](docs/test-results.md).
+
+| Category | Tests | Repeat count | Passed | Pass rate |
+|---|---|---|---|---|
+| Tool call | 10 | 1 | 8 | 80% |
+| Next reply | 10 | 1 | 8 | 80% |
+| Guardrail | 12 | 1 | 9 | 75% |
+| **All** | **32** | **1** | **25** | **78%** |
+
+Six of the seven failures are the agent's: twice it changed an Arabic area or building name instead of passing the caller's words (no wrong figure would be spoken; the server answers `cannot_verify`), it moved past the consent question when the caller asked a question first, it skipped the callback question after "stop", it described how far below the average a rent is, and one Arabic reply left out DLD's Arabic names. One failure is the test's. The fixes are proposed, not yet applied.
 
 ## Knowledge base and open items
 
@@ -119,7 +163,7 @@ To check before sign off (marked `UNVERIFIED` in the files):
 - The legislation behind the RDC fees has not been located; the figures come from the RDC website only.
 - The Arabic disclosure script needs review by a native Arabic speaker.
 - The index average is assumed to be the midpoint of DLD's range (see [Index data](#index-data-dld-rental-index)). Confirm against DLD's method.
-- The band rounding rule is inferred from DLD calculator outputs, not a published method.
+- The band rounding rule is inferred from 19 DLD calculator results, not a published method.
 - Arabic items listed under [Arabic](#arabic), and an Arabic source for the notice rule.
 - Arabic voice quality on Eleven v3 has not yet been checked by ear. If it is weak, the Arabic preset will move to a model that handles Arabic better and this README will say which.
 
@@ -183,7 +227,7 @@ scripts/with-env.sh elevenlabs agents push
 scripts/with-env.sh elevenlabs agents pull --agent agent_9101m36p8c60evcatp1tqsyswhjt --update
 ```
 
-Always pull with `--agent`: a bare `agents pull` imports every agent in the workspace. When a `kb/` file changes, upload it again, then update the document ID in `kb/manifest.json` and in the Rule node of `agent_configs/HAQ.json`.
+For the agent tests, see [Agent tests](#agent-tests). Always pull with `--agent`: a bare `agents pull` imports every agent in the workspace. When a `kb/` file changes, upload it again, then update the document ID in `kb/manifest.json` and in the Rule node of `agent_configs/HAQ.json`.
 
 ## Project layout
 
@@ -191,10 +235,11 @@ Always pull with `--agent`: a bare `agents pull` imports every agent in the work
 agent_configs/   ElevenLabs agent config (pushed and pulled with the CLI)
 tool_configs/    ElevenLabs webhook tool configs
 data/            DLD Rental Index figures, building level (mock-index.json)
-docs/            index evidence from the DLD website
+docs/            index evidence from the DLD website, agent test results
 kb/              knowledge base sources and document IDs
 public/          architecture diagram
-scripts/         CLI helper
+scripts/         CLI helper, DLD evidence import, ASR keyterm sync, agent test generation and attach
+test_configs/    ElevenLabs Agent Testing configs (generated); test_plan.json maps each to its node
 src/app/         demo page, /staff and API routes
 src/lib/         Decree 43 logic, index lookup, ledger, store, rate limits, flows, staff auth
 ```

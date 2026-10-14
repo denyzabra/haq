@@ -40,28 +40,28 @@
         },
         "parameters": [
             {
-                "path": "area",
+                "path": "body.area",
                 "eval": {
                     "type": "regex",
                     "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:Al[\\s.,'’()+/&_-]*Hamriya|[اأإآٱ]لحمر[يى][هة]|Hamriya|Al[\\s.,'’()+/&_-]*Hamriyah|حمر[يى][هة])[\\s.,'’()+/&_-]*$"
                 }
             },
             {
-                "path": "building",
+                "path": "body.building",
                 "eval": {
                     "type": "regex",
                     "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:AL[\\s.,'’()+/&_-]*HAMRIA|[اأإآٱ]لحمر[يى][هة])[\\s.,'’()+/&_-]*$"
                 }
             },
             {
-                "path": "bedrooms",
+                "path": "body.bedrooms",
                 "eval": {
                     "type": "regex",
                     "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:3[\\s.,'’()+/&_-]*bed[\\s.,'’()+/&_-]*rooms[\\s.,'’()+/&_-]*hall|ثل[اأإآٱ]ث[هة][\\s.,'’()+/&_-]*غرف[هة][\\s.,'’()+/&_-]*و[\\s.,'’()+/&_-]*ص[اأإآٱ]ل[هة]|3[\\s.,'’()+/&_-]*bed|3[\\s.,'’()+/&_-]*bedroom|3[\\s.,'’()+/&_-]*bedrooms|three[\\s.,'’()+/&_-]*bedroom|three[\\s.,'’()+/&_-]*bedrooms|3[\\s.,'’()+/&_-]*BR|3[\\s.,'’()+/&_-]*bedroom[\\s.,'’()+/&_-]*hall|ثل[اأإآٱ]ث[\\s.,'’()+/&_-]*غرف[\\s.,'’()+/&_-]*وص[اأإآٱ]ل[هة])[\\s.,'’()+/&_-]*$"
                 }
             },
             {
-                "path": "current_rent_aed",
+                "path": "body.current_rent_aed",
                 "eval": {
                     "type": "regex",
                     "pattern": "^70000(?:\\.0+)?$"

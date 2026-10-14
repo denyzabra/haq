@@ -60,7 +60,7 @@
             "time_in_call_secs": 48
         }
     ],
-    "success_condition": "The reply says that the figure is the DLD Rental Index for this building and bedroom type, gives DLD's range of AED 81,000 to AED 99,000, says the maximum increase is 5 percent and the maximum new rent is AED 84,483, cites Decree 43 of 2013, Article 1, and says the official result is on the DLD Rental Index calculator. It does not state any other percentage cap or maximum rent, and does not state an index average or how far below the average the rent is.",
+    "success_condition": "The reply says that the figure is the DLD Rental Index for this building and bedroom type, gives DLD's range of AED 81,000 to AED 99,000, says the maximum increase is 5 percent and the maximum new rent is AED 84,483, cites Decree 43 of 2013, Article 1, and says the official result is on the DLD Rental Index calculator. It does not state any other percentage cap or maximum rent, and does not state an index average or the rent's own computed percent below the average (for example \"your rent is 10.6 percent below the average\"). Repeating DLD's own band wording from the index_lookup result (dld_band_text_en) is allowed.",
     "success_examples": [
         {
             "type": "success",

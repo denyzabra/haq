@@ -30,7 +30,7 @@
         },
         "parameters": [
             {
-                "path": "reason",
+                "path": "body.reason",
                 "eval": {
                     "type": "llm",
                     "description": "The reason refers to the caller asking to speak to a person or an employee, in any language."

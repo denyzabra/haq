@@ -1,3 +1,164 @@
 {
-    "tests": []
+    "tests": [
+        {
+            "config": "test_configs/guard_01_consent_before_intake.json",
+            "type": "llm",
+            "id": "test_9401m4xnsg2bezg85vrz53zzfh68"
+        },
+        {
+            "config": "test_configs/guard_02_consent_declined_ends_call.json",
+            "type": "tool",
+            "id": "test_6701m4xnsgxwfyhra26hdxwf7awt"
+        },
+        {
+            "config": "test_configs/guard_03_refuses_legal_advice.json",
+            "type": "llm",
+            "id": "test_6001m4xnshwtehvac82vq2edtsy1"
+        },
+        {
+            "config": "test_configs/guard_04_no_secrets_emirates_id.json",
+            "type": "llm",
+            "id": "test_5001m4xnsjpffbtbxk9p379nmrya"
+        },
+        {
+            "config": "test_configs/guard_05_distress_en_handover.json",
+            "type": "tool",
+            "id": "test_3001m4xnskfpf9brk4dt5jkkypw8"
+        },
+        {
+            "config": "test_configs/guard_06_ar_distress_handover.json",
+            "type": "tool",
+            "id": "test_4801m4xnsmcgetfa0z4aka6qmzpf"
+        },
+        {
+            "config": "test_configs/guard_07_file_it_for_me_handover.json",
+            "type": "tool",
+            "id": "test_7901m4xnsn66fw8tw0g20hybet9x"
+        },
+        {
+            "config": "test_configs/guard_08_stop_asks_about_callback.json",
+            "type": "llm",
+            "id": "test_9601m4xnsnz7e0yb9qxeh22qe5yf"
+        },
+        {
+            "config": "test_configs/guard_09_stop_no_callback_ends_call.json",
+            "type": "tool",
+            "id": "test_7901m4xnspz4ftj85b17rvvqhfga"
+        },
+        {
+            "config": "test_configs/guard_10_paperwork_never_submits.json",
+            "type": "llm",
+            "id": "test_4101m4xnsqvsez283emtwc0cfcda"
+        },
+        {
+            "config": "test_configs/guard_11_ar_refuses_legal_advice.json",
+            "type": "llm",
+            "id": "test_0301m4xnsrmyea9va0hhm513kem3"
+        },
+        {
+            "config": "test_configs/guard_12_ar_employee_request_handover.json",
+            "type": "tool",
+            "id": "test_4001m4xnsse1f8w8zycnzjqdgnvh"
+        },
+        {
+            "config": "test_configs/reply_01_above_average_souq_al_ayaas.json",
+            "type": "llm",
+            "id": "test_9201m4xnst78etyb2avvjw7hkj95"
+        },
+        {
+            "config": "test_configs/reply_02_ar_exactly_10_al_hamria.json",
+            "type": "llm",
+            "id": "test_9101m4xnsv48exzbssky7sgyyd5z"
+        },
+        {
+            "config": "test_configs/reply_03_10_5_rounds_down_al_hamria.json",
+            "type": "llm",
+            "id": "test_0301m4xnsvz1ev0ac3fabfd6pvbs"
+        },
+        {
+            "config": "test_configs/reply_04_10_6_rounds_up_al_hamria.json",
+            "type": "llm",
+            "id": "test_8101m4xnswtfefjbz9ese25zf63b"
+        },
+        {
+            "config": "test_configs/reply_05_exactly_20_al_hamria.json",
+            "type": "llm",
+            "id": "test_3901m4xnsxkvft48138a1drw094m"
+        },
+        {
+            "config": "test_configs/reply_06_ar_exactly_30_band_text_al_hamria.json",
+            "type": "llm",
+            "id": "test_7901m4xnsydje30ajjeaar88vfja"
+        },
+        {
+            "config": "test_configs/reply_07_exactly_40_al_hamria.json",
+            "type": "llm",
+            "id": "test_7501m4xnsz8bf0fsmkj26cfvc8h0"
+        },
+        {
+            "config": "test_configs/reply_08_40_5_rounds_down_al_hamria.json",
+            "type": "llm",
+            "id": "test_5301m4xnt01xeyj8k13v06a5dvwt"
+        },
+        {
+            "config": "test_configs/reply_09_40_9_late_notice_al_hamria.json",
+            "type": "llm",
+            "id": "test_2901m4xnt0v3f9dvqpgjxhk2db5h"
+        },
+        {
+            "config": "test_configs/reply_10_ar_aaa_1br.json",
+            "type": "llm",
+            "id": "test_1701m4xnt1n2f5psewt4sz0jrqa1"
+        },
+        {
+            "config": "test_configs/tool_01_en_jvc_aaa_1br.json",
+            "type": "tool",
+            "id": "test_9301m4xnt2gweqfbqnsdpv07n0fv"
+        },
+        {
+            "config": "test_configs/tool_02_en_dates_al_hamria_3br.json",
+            "type": "tool",
+            "id": "test_8101m4xnt3aneffba865824wgg3e"
+        },
+        {
+            "config": "test_configs/tool_03_en_rent_in_words_souq_al_ayaas.json",
+            "type": "tool",
+            "id": "test_6601m4xnt43nemjvkh3kw8rm7asz"
+        },
+        {
+            "config": "test_configs/tool_04_ar_official_names_aaa_1br.json",
+            "type": "tool",
+            "id": "test_8801m4xnt4xzfv38pbgbed6rvfg0"
+        },
+        {
+            "config": "test_configs/tool_05_ar_indic_digits_al_hamria_3br.json",
+            "type": "tool",
+            "id": "test_9201m4xnt5r9eqwtcv06svsnx3d6"
+        },
+        {
+            "config": "test_configs/tool_06_ar_colloquial_names_dates_aaa_1br.json",
+            "type": "tool",
+            "id": "test_6801m4xnt6j5f5vaf5smjpmwxqag"
+        },
+        {
+            "config": "test_configs/tool_07_ar_mixed_english_souq_al_ayaas.json",
+            "type": "tool",
+            "id": "test_1501m4xnt7b6ezbvw2g7fg60eqrv"
+        },
+        {
+            "config": "test_configs/tool_08_en_rent_corrected_after_read_back.json",
+            "type": "tool",
+            "id": "test_0701m4xnt84qe72v8m2p2ny1at00"
+        },
+        {
+            "config": "test_configs/tool_09_no_lookup_before_confirmation.json",
+            "type": "tool",
+            "id": "test_0201m4xnt8yje6hrnecz8gqsnnv0"
+        },
+        {
+            "config": "test_configs/tool_10_known_area_building_not_in_index.json",
+            "type": "tool",
+            "id": "test_1901m4xnt9qjec08fkzrcfa4b6vr"
+        }
+    ]
 }

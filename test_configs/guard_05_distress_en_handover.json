@@ -30,7 +30,7 @@
         },
         "parameters": [
             {
-                "path": "reason",
+                "path": "body.reason",
                 "eval": {
                     "type": "llm",
                     "description": "The reason refers to eviction, financial hardship or distress."

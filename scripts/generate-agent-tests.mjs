@@ -102,12 +102,18 @@ function add(category, node, test, extra = {}) {
   tests.push(test);
   plan.push({ config: `test_configs/${test.name}.json`, category, workflow_node_id: node, ...extra });
 }
+// A plain "area" failed with "Parameter path 'area' not found" on 14 October 2026,
+// although the agent passed area. The test run shows a webhook call as the HTTP
+// request (body, query_params, path_params); body.<name> passed on the rerun.
+// ElevenLabs does not document the path syntax.
+const paramPath = (tool, path) => (tool.type === "webhook" ? `body.${path}` : path);
 function toolTest(name, node, turns, tool, { params = [], verifyAbsence = false, anyMatch = false, lookupExpect } = {}) {
+  const parameters = params.map((p) => ({ ...p, path: paramPath(tool, p.path) }));
   add(name.startsWith("tool_") ? "tool_call" : "guardrail", node, {
     name,
     type: "tool",
     chat_history: history(turns),
-    tool_call_parameters: { referenced_tool: tool, parameters: params, verify_absence: verifyAbsence },
+    tool_call_parameters: { referenced_tool: tool, parameters, verify_absence: verifyAbsence },
     check_any_tool_matches: anyMatch,
   }, lookupExpect ? { index_lookup_expect: lookupExpect } : {});
 }
@@ -236,7 +242,7 @@ function replyTest({ name, e, rent, words, dates, language = "en", label, extraC
   const turns = [...intake, ...lookupTurns(params, result)];
   if (language === "en") {
     llmTest("next_reply", name, "rule", turns,
-      `The reply says that the figure is the DLD Rental Index for this building and bedroom type, gives DLD's range of AED ${fmt(result.range_min_aed)} to AED ${fmt(result.range_max_aed)}, says the maximum increase is ${capWords(result)} and the maximum new rent is AED ${fmt(result.max_new_rent_aed)}, cites ${DECREE_43_CLAUSE}, and says the official result is on the DLD Rental Index calculator. It does not state any other percentage cap or maximum rent, and does not state an index average or how far below the average the rent is.${extraCondition}`,
+      `The reply says that the figure is the DLD Rental Index for this building and bedroom type, gives DLD's range of AED ${fmt(result.range_min_aed)} to AED ${fmt(result.range_max_aed)}, says the maximum increase is ${capWords(result)} and the maximum new rent is AED ${fmt(result.max_new_rent_aed)}, cites ${DECREE_43_CLAUSE}, and says the official result is on the DLD Rental Index calculator. It does not state any other percentage cap or maximum rent, and does not state an index average or the rent's own computed percent below the average (for example "your rent is ${result.percent_below_average} percent below the average"). Repeating DLD's own band wording from the index_lookup result (dld_band_text_en) is allowed.${extraCondition}`,
       [`For ${words.building}, ${words.bedrooms}, the DLD Rental Index for that building and bedroom type is AED ${fmt(result.range_min_aed)} to AED ${fmt(result.range_max_aed)}. Under ${DECREE_43_CLAUSE}, the maximum increase is ${capWords(result)}, so the maximum new rent is AED ${fmt(result.max_new_rent_aed)}. The official result is on the DLD Rental Index calculator, which also accepts an Ejari or DEWA number. This is information, not legal advice.`],
       [`Under ${DECREE_43_CLAUSE}, the maximum increase is ${wrong} percent.`,
        `The index average is AED ${fmt(result.index_average_aed)} and your rent is ${result.percent_below_average} percent below it, so the maximum increase is ${capWords(result)}.`,

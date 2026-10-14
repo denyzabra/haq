@@ -46,8 +46,9 @@ const isArabic = (s = "") => /[\u0600-\u06FF]/.test(s);
 // insensitive; JavaScript takes it as a flag instead.
 const compile = (pattern: string) =>
   pattern.startsWith("(?i)") ? new RegExp(pattern.slice(4), "iu") : new RegExp(pattern, "u");
+// Webhook tool parameters are addressed as body.<name> (see scripts/generate-agent-tests.mjs).
 const paramPattern = (test: TestConfig, path: string) =>
-  compile(test.tool_call_parameters!.parameters.find((p) => p.path === path)!.eval.pattern!);
+  compile(test.tool_call_parameters!.parameters.find((p) => p.path === `body.${path}`)!.eval.pattern!);
 const namesOf = (e: IndexEntry) => ({
   area: [e.area, e.area_ar, ...(AREA_ALIASES[e.area] ?? [])],
   building: [e.building, ...(e.building_ar ? [e.building_ar] : []), ...(BUILDING_ALIASES[e.building] ?? [])],
@@ -81,7 +82,10 @@ describe("agent test configs", () => {
     if (test.type === "tool") {
       const tool = test.tool_call_parameters!.referenced_tool;
       expect(tool.type === "system" ? systemTools.has(tool.id) : toolIds.has(tool.id), tool.id).toBe(true);
-      for (const p of test.tool_call_parameters!.parameters) if (p.eval.type === "regex") expect(() => compile(p.eval.pattern!)).not.toThrow();
+      for (const p of test.tool_call_parameters!.parameters) {
+        if (p.eval.type === "regex") expect(() => compile(p.eval.pattern!)).not.toThrow();
+        if (tool.type === "webhook") expect(p.path).toMatch(/^body\./);
+      }
     } else {
       expect(test.success_condition).toBeTruthy();
     }
