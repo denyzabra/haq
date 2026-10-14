@@ -17,11 +17,15 @@
             "properties": {
                 "area": {
                     "type": "string",
-                    "description": "Dubai area or community exactly as the caller confirmed it in the read back, for example Deira, Dubai Marina, Jumeirah Village Circle (JVC) or Al Barsha. Pass the caller's words; English or Arabic is fine."
+                    "description": "Dubai area or community as the caller confirmed it in the read back, in the caller's words, for example \"JVC\" or \"Al Barsha South Fourth\". Pass one name only, never two names together or a name in brackets. English or Arabic is fine."
                 },
-                "unit_type": {
+                "building": {
                     "type": "string",
-                    "description": "Unit type as confirmed in the read back, for example studio or 1 bedroom. English or Arabic is fine."
+                    "description": "Building name as the caller confirmed it in the read back, in the caller's words, for example \"Triple A Residence\" or \"AAA Residence\". Pass the building the caller named; never replace it with a different building. English or Arabic is fine."
+                },
+                "bedrooms": {
+                    "type": "string",
+                    "description": "Number of bedrooms as the caller confirmed it in the read back, in the caller's words, for example \"1 bedroom\" or \"1BR\". English or Arabic is fine."
                 },
                 "current_rent_aed": {
                     "type": "number",
@@ -39,6 +43,10 @@
                     "type": "number",
                     "description": "The new annual rent the landlord proposed, in UAE dirhams as a plain number, only if the caller gave it and confirmed it."
                 },
+                "language": {
+                    "type": "string",
+                    "description": "Language the caller is using: en or ar. The draft is written in that language."
+                },
                 "conversation_id": {
                     "type": "string",
                     "dynamic_variable": "system__conversation_id"
@@ -46,7 +54,8 @@
             },
             "required": [
                 "area",
-                "unit_type",
+                "building",
+                "bedrooms",
                 "current_rent_aed"
             ]
         }

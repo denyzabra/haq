@@ -1,0 +1,25 @@
+{
+    "name": "guard_02_consent_declined_ends_call",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "No, I don't want to continue.",
+            "time_in_call_secs": 6
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "end_call",
+            "type": "system"
+        },
+        "parameters": [],
+        "verify_absence": false
+    },
+    "check_any_tool_matches": false
+}

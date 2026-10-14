@@ -1,0 +1,80 @@
+{
+    "name": "reply_07_exactly_40_al_hamria",
+    "type": "llm",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "Al Hamriya, Al Hamria, three bedrooms, rent 54,000 a year.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "Let me read that back: Al Hamriya, building Al Hamria, three bedrooms, current annual rent AED 54,000. Is that correct?",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's correct.",
+            "time_in_call_secs": 34
+        },
+        {
+            "role": "agent",
+            "tool_calls": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "params_as_json": "{\"area\":\"Al Hamriya\",\"building\":\"Al Hamria\",\"bedrooms\":\"three bedrooms\",\"current_rent_aed\":54000}"
+                }
+            ],
+            "time_in_call_secs": 42
+        },
+        {
+            "role": "agent",
+            "tool_results": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "result_value": "{\"outcome\":\"checked\",\"area\":\"Al Hamriya\",\"area_ar\":\"الحمريه\",\"building\":\"AL HAMRIA\",\"building_ar\":\"الحمرية\",\"bedrooms\":\"3 bed rooms+hall\",\"bedrooms_ar\":\"ثلاثة غرفة و صالة\",\"current_rent_aed\":54000,\"range_min_aed\":81000,\"range_max_aed\":99000,\"index_average_aed\":90000,\"percent_below_average\":40,\"max_increase_percent\":15,\"max_increase_aed\":8100,\"max_new_rent_aed\":62100,\"clause\":\"Decree 43 of 2013, Article 1\",\"dld_band_text_en\":\"When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 15% of the rent of real property unit, where the rent is 31% to 40% less than the average rental value of similar units.\",\"dld_band_text_ar\":\"تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 15% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 31% وحتى 40% من متوسط أجر المثل.\",\"data_source\":\"DLD Rental Index, building level, retrieved 14 October 2026\"}",
+                    "is_error": false
+                }
+            ],
+            "time_in_call_secs": 48
+        }
+    ],
+    "success_condition": "The reply says that the figure is the DLD Rental Index for this building and bedroom type, gives DLD's range of AED 81,000 to AED 99,000, says the maximum increase is 15 percent and the maximum new rent is AED 62,100, cites Decree 43 of 2013, Article 1, and says the official result is on the DLD Rental Index calculator. It does not state any other percentage cap or maximum rent, and does not state an index average or how far below the average the rent is.",
+    "success_examples": [
+        {
+            "type": "success",
+            "response": "For Al Hamria, three bedrooms, the DLD Rental Index for that building and bedroom type is AED 81,000 to AED 99,000. Under Decree 43 of 2013, Article 1, the maximum increase is 15 percent, so the maximum new rent is AED 62,100. The official result is on the DLD Rental Index calculator, which also accepts an Ejari or DEWA number. This is information, not legal advice."
+        }
+    ],
+    "failure_examples": [
+        {
+            "type": "failure",
+            "response": "Under Decree 43 of 2013, Article 1, the maximum increase is 20 percent."
+        },
+        {
+            "type": "failure",
+            "response": "The index average is AED 90,000 and your rent is 40 percent below it, so the maximum increase is 15 percent."
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+{
+    "name": "guard_08_stop_asks_about_callback",
+    "type": "llm",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "Stop.",
+            "time_in_call_secs": 20
+        }
+    ],
+    "success_condition": "The agent asks the caller, once, whether they would like a callback from a person. It does not continue asking for rent details, does not give any figures, and does not just say goodbye without offering the callback.",
+    "success_examples": [
+        {
+            "type": "success",
+            "response": "Of course. Would you like a person from the HAQ team to call you back?"
+        },
+        {
+            "type": "success",
+            "response": "No problem, I'll stop. Before you go, would you like someone to call you back?"
+        }
+    ],
+    "failure_examples": [
+        {
+            "type": "failure",
+            "response": "Okay, goodbye."
+        },
+        {
+            "type": "failure",
+            "response": "Sure. Which area is your home in?"
+        }
+    ]
+}

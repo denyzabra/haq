@@ -1,64 +1,178 @@
-import mockIndex from "../../data/mock-index.json";
+import { z } from "zod";
+import rawIndex from "../../data/mock-index.json";
+import { foldArabic, toAsciiDigits } from "./arabic";
+import { indexAverageAed } from "./index-average";
+import { AREA_ALIASES, BEDROOM_ALIASES, BUILDING_ALIASES } from "./index-aliases";
 
-export interface IndexEntry {
-  area: string;
-  area_label: string;
-  unit_type: string;
-  unit_label: string;
-  index_average_aed: number;
+export { indexAverageAed };
+
+// DLD Rental Index figures, building level, copied by hand from the DLD website.
+// The file keeps its original name. Adding a row is a data change only: the
+// schema below rejects a malformed row and the DLD cross-check test runs our
+// Decree 43 engine against DLD's own result for every check row.
+
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be YYYY-MM-DD");
+
+// DLD shows text instead of numbers when there is no increase ("No Increase" on
+// the result PDF; "Not Applicable" or its Arabic page equivalent for the amount).
+// It is stored exactly as shown.
+export const DLD_NO_INCREASE = "No Increase";
+
+const dldCheckSchema = z.object({
+  rent_entered_aed: z.number().positive(),
+  dld_increase_percent: z.union([z.number().nonnegative(), z.literal(DLD_NO_INCREASE)]),
+  dld_increase_aed: z.union([z.number().nonnegative(), z.string().trim().min(1)]),
+  dld_new_rent_aed: z.number().positive(),
+  // Set when the row comes from a different evidence file than the entry's.
+  evidence_file: z.string().trim().min(1).optional(),
+});
+
+const entrySchema = z
+  .object({
+    area: z.string().trim().min(1),
+    // Official DLD Arabic names, copied from DLD's Arabic page by scripts/import-dld-evidence.mjs.
+    area_ar: z.string().trim().min(1),
+    building: z.string().trim().min(1),
+    // null where DLD's Arabic page shows only the English building name.
+    building_ar: z.string().trim().min(1).nullable(),
+    property_type: z.string().trim().min(1),
+    property_type_ar: z.string().trim().min(1),
+    bedrooms: z.string().trim().min(1),
+    bedrooms_ar: z.string().trim().min(1),
+    range_min_aed: z.number().positive(),
+    range_max_aed: z.number().positive(),
+    retrieved_date: isoDate,
+    contract_end_date_used: isoDate,
+    search: z.string().trim().min(1),
+    source_url: z.url(),
+    evidence_file: z.string().trim().min(1),
+    dld_checks: z.array(dldCheckSchema),
+  })
+  .refine((e) => e.range_min_aed <= e.range_max_aed, "range_min_aed must not exceed range_max_aed");
+
+export const CAP_PERCENTS = [0, 5, 10, 15, 20] as const;
+
+// DLD's own wording for each band, from its calculator responses (English page
+// and Arabic page), copied by scripts/import-dld-evidence.mjs.
+const bandTextSchema = z.object({
+  max_increase_percent: z.union(CAP_PERCENTS.map((p) => z.literal(p))),
+  en: z.string().trim().min(1),
+  en_evidence_file: z.string().trim().min(1),
+  ar: z.string().trim().min(1),
+  ar_evidence_file: z.string().trim().min(1),
+});
+
+const indexFileSchema = z.object({
+  data_source: z.string().trim().min(1),
+  entries: z.array(entrySchema).min(1),
+  dld_band_text: z
+    .array(bandTextSchema)
+    .refine(
+      (bands) => CAP_PERCENTS.every((p) => bands.filter((b) => b.max_increase_percent === p).length === 1),
+      "dld_band_text needs exactly one entry for each band",
+    ),
+});
+
+export type IndexFile = z.input<typeof indexFileSchema>;
+export type IndexEntry = z.infer<typeof entrySchema>;
+export type DldCheck = z.infer<typeof dldCheckSchema>;
+export type DldBandText = z.infer<typeof bandTextSchema>;
+
+export interface IndexAliases {
+  areas: Readonly<Record<string, readonly string[]>>;
+  buildings: Readonly<Record<string, readonly string[]>>;
+  bedrooms: Readonly<Record<string, readonly string[]>>;
 }
+
+export type IndexLookupFailure = "unknown_area" | "unknown_building" | "unknown_bedrooms";
 
 export type IndexLookup =
-  | { found: true; entry: IndexEntry; data_source: string }
-  | { found: false; reason: "unknown_area" | "unknown_unit_type" | "no_index_entry"; data_source: string };
+  | { found: true; entry: IndexEntry; index_average_aed: number; data_source: string }
+  | { found: false; reason: IndexLookupFailure; data_source: string };
 
-export const DATA_SOURCE: string = mockIndex.data_source;
-
-const AREA_ALIASES: Record<string, readonly string[]> = {
-  jvc: ["jvc", "Jumeirah Village Circle", "قرية جميرا الدائرية"],
-  dubai_marina: ["Dubai Marina", "Marina", "دبي مارينا"],
-  deira: ["Deira", "ديرة"],
-  al_barsha: ["Al Barsha", "Barsha", "البرشاء"],
-};
-
-const UNIT_ALIASES: Record<string, readonly string[]> = {
-  studio: ["studio", "استوديو"],
-  "1br": ["1 bedroom", "one bedroom", "1BR", "1 bed", "غرفة واحدة"],
-};
-
-// Case, whitespace, hyphen and underscore insensitive. NFKC folds Arabic
-// presentation forms and full width characters to their canonical letters.
+// Case, whitespace, punctuation and symbol insensitive (so "1bed room+Hall" and
+// "1 bedroom hall" agree). NFKC folds Arabic presentation forms and full width
+// characters; Arabic letter forms, tatweel and diacritics are folded as in
+// foldArabic, and Arabic-Indic and Persian digits become 0 to 9. Matching is
+// still exact on the result: there is no fuzzy or nearest match.
 export function normalizeKey(value: string): string {
-  return value.normalize("NFKC").toLowerCase().replace(/[\s_\-]+/g, "");
+  return foldArabic(toAsciiDigits(value.normalize("NFKC")))
+    .toLowerCase()
+    .replace(/[\p{White_Space}\p{P}\p{S}\p{M}]+/gu, "");
 }
 
-function buildAliasIndex(aliases: Record<string, readonly string[]>): Map<string, string> {
-  const map = new Map<string, string>();
-  for (const [key, names] of Object.entries(aliases)) {
-    for (const name of [key, ...names]) map.set(normalizeKey(name), key);
+function addName(map: Map<string, string>, name: string, target: string, kind: string): void {
+  const key = normalizeKey(name);
+  if (!key) throw new Error(`Empty ${kind} name "${name}"`);
+  const existing = map.get(key);
+  if (existing !== undefined && existing !== target) {
+    throw new Error(`${kind} name "${name}" matches both "${existing}" and "${target}"`);
   }
-  return map;
+  map.set(key, target);
 }
 
-const AREA_INDEX = buildAliasIndex(AREA_ALIASES);
-const UNIT_INDEX = buildAliasIndex(UNIT_ALIASES);
+const entryKey = (area: string, building: string, bedrooms: string) => JSON.stringify([area, building, bedrooms]);
 
-export function resolveArea(input: string): string | undefined {
-  return AREA_INDEX.get(normalizeKey(input));
+// The file is validated by the schema, so it is accepted untyped (JSON imports widen literals).
+export function buildIndex(file: unknown, aliases: IndexAliases) {
+  const { data_source, entries, dld_band_text } = indexFileSchema.parse(file);
+
+  const areaNames = new Map<string, string>();
+  const buildingNamesByArea = new Map<string, Map<string, string>>();
+  const bedroomNames = new Map<string, string>();
+  const byKey = new Map<string, IndexEntry>();
+
+  for (const entry of entries) {
+    const key = entryKey(entry.area, entry.building, entry.bedrooms);
+    if (byKey.has(key)) {
+      throw new Error(`Duplicate index entry: ${entry.area} / ${entry.building} / ${entry.bedrooms}`);
+    }
+    byKey.set(key, entry);
+
+    // DLD's English and official Arabic names always match; aliases add caller names.
+    for (const name of [entry.area, entry.area_ar, ...(aliases.areas[entry.area] ?? [])]) {
+      addName(areaNames, name, entry.area, "Area");
+    }
+
+    const buildings = buildingNamesByArea.get(entry.area) ?? new Map<string, string>();
+    buildingNamesByArea.set(entry.area, buildings);
+    for (const name of [entry.building, entry.building_ar ?? entry.building, ...(aliases.buildings[entry.building] ?? [])]) {
+      addName(buildings, name, entry.building, "Building");
+    }
+
+    for (const name of [entry.bedrooms, entry.bedrooms_ar, ...(aliases.bedrooms[entry.bedrooms] ?? [])]) {
+      addName(bedroomNames, name, entry.bedrooms, "Bedrooms");
+    }
+  }
+
+  const resolveArea = (input: string) => areaNames.get(normalizeKey(input));
+  const resolveBuilding = (area: string, input: string) => buildingNamesByArea.get(area)?.get(normalizeKey(input));
+  const resolveBedrooms = (input: string) => bedroomNames.get(normalizeKey(input));
+
+  function lookup(area: string, building: string, bedrooms: string): IndexLookup {
+    const areaName = resolveArea(area);
+    if (!areaName) return { found: false, reason: "unknown_area", data_source };
+    const buildingName = resolveBuilding(areaName, building);
+    if (!buildingName) return { found: false, reason: "unknown_building", data_source };
+    const bedroomsLabel = resolveBedrooms(bedrooms);
+    const entry = bedroomsLabel ? byKey.get(entryKey(areaName, buildingName, bedroomsLabel)) : undefined;
+    if (!entry) return { found: false, reason: "unknown_bedrooms", data_source };
+    return { found: true, entry, index_average_aed: indexAverageAed(entry), data_source };
+  }
+
+  const bandText = (percent: number): DldBandText => {
+    const band = dld_band_text.find((b) => b.max_increase_percent === percent);
+    if (!band) throw new Error(`No DLD band text for ${percent} percent`);
+    return band;
+  };
+
+  return { data_source, entries, bandTexts: dld_band_text, resolveArea, resolveBuilding, resolveBedrooms, lookup, bandText };
 }
 
-export function resolveUnitType(input: string): string | undefined {
-  return UNIT_INDEX.get(normalizeKey(input));
-}
+const index = buildIndex(rawIndex, { areas: AREA_ALIASES, buildings: BUILDING_ALIASES, bedrooms: BEDROOM_ALIASES });
 
-export function lookupIndex(area: string, unitType: string): IndexLookup {
-  const areaKey = resolveArea(area);
-  if (!areaKey) return { found: false, reason: "unknown_area", data_source: DATA_SOURCE };
-  const unitKey = resolveUnitType(unitType);
-  if (!unitKey) return { found: false, reason: "unknown_unit_type", data_source: DATA_SOURCE };
-  const entry = (mockIndex.entries as IndexEntry[]).find(
-    (e) => e.area === areaKey && e.unit_type === unitKey,
-  );
-  if (!entry) return { found: false, reason: "no_index_entry", data_source: DATA_SOURCE };
-  return { found: true, entry, data_source: DATA_SOURCE };
-}
+export const DATA_SOURCE: string = index.data_source;
+export const INDEX_ENTRIES: readonly IndexEntry[] = index.entries;
+export const DLD_BAND_TEXTS: readonly DldBandText[] = index.bandTexts;
+export const { resolveArea, resolveBuilding, resolveBedrooms, bandText } = index;
+export const lookupIndex = index.lookup;

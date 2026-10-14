@@ -1,0 +1,502 @@
+{
+  "description": "Raw responses from the DLD Rental Index calculator (Residential tab, Search Index by Area), captured from the calculator page's own network response (POST /umbraco/surface/CaptchaProxy/CalculateRentalIndex) during normal use of the public form. Used as evidence for Decree 43 band behaviour at exact band edges and between bands. PDF export did not work in the browser used, so the raw responses are kept instead.",
+  "source_url": "https://dubailand.gov.ae/en/eservices/rental-index/rental-index/",
+  "retrieved": "2026-10-14, between 13:19 and 13:28 (Africa/Kampala, UTC+3)",
+  "lookups": [
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 80550
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, no rent increase where the rent of the real property unit is up to 10% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "There is no increase in the rental value.",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "0%",
+        "AmountIncrease": "Not Applicable",
+        "RentAmountAfterIncrease": "80550 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 71550
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 5% of the rent of real property unit, where the rent is 11% to 20% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 3577.5 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "5%",
+        "AmountIncrease": "3577.5 AED Annually",
+        "RentAmountAfterIncrease": "75127.5 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 62550
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 10% of the rent of real property unit, where the rent is 21% to 30% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 6255 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "10%",
+        "AmountIncrease": "6255 AED Annually",
+        "RentAmountAfterIncrease": "68805 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 53550
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 15% of the rent of real property unit, where the rent is 31% to 40% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 8032.5 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "15%",
+        "AmountIncrease": "8032.5 AED Annually",
+        "RentAmountAfterIncrease": "61582.5 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 80190
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 5% of the rent of real property unit, where the rent is 11% to 20% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 4009.5 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "5%",
+        "AmountIncrease": "4009.5 AED Annually",
+        "RentAmountAfterIncrease": "84199.5 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 80460
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 5% of the rent of real property unit, where the rent is 11% to 20% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 4023 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "5%",
+        "AmountIncrease": "4023 AED Annually",
+        "RentAmountAfterIncrease": "84483 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 53190
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 20% of the rent of real property unit, where the rent is more than 40% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 10638 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "20%",
+        "AmountIncrease": "10638 AED Annually",
+        "RentAmountAfterIncrease": "63828 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 81000
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, no rent increase where the rent of the real property unit is up to 10% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "There is no increase in the rental value.",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "0%",
+        "AmountIncrease": "Not Applicable",
+        "RentAmountAfterIncrease": "81000 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 72000
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 5% of the rent of real property unit, where the rent is 11% to 20% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 3600 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "5%",
+        "AmountIncrease": "3600 AED Annually",
+        "RentAmountAfterIncrease": "75600 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 63000
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 10% of the rent of real property unit, where the rent is 21% to 30% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 6300 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "10%",
+        "AmountIncrease": "6300 AED Annually",
+        "RentAmountAfterIncrease": "69300 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "index_type": "Residential",
+        "contract_end_date": "31/01/2027",
+        "property_type": "Hotel Apartment",
+        "search_index_by": "Area",
+        "area": "Al Hamriya",
+        "building_name": "AL HAMRIA",
+        "bedrooms": "3 bed rooms+hall",
+        "current_annual_rent_aed": 54000
+      },
+      "response": {
+        "RentalType": "Hotel Apartment",
+        "Rentalcategory": "3 bed rooms+hall",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "Al Hamriya",
+        "BuildingName": "AL HAMRIA",
+        "CommunityName": null,
+        "RateType": "AED per year",
+        "Result": "When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 15% of the rent of real property unit, where the rent is 31% to 40% less than the average rental value of similar units.",
+        "Result1": "The rent for a 3 bed rooms+hall Hotel Apartment in Al Hamriya is in range 81000 to 99000 AED per year, (does not include water, electricity or any other fees).",
+        "Note": "The amount of the increase is ( 8100 AED per year ).",
+        "ErrorMsg": null,
+        "IndexType": "Residential",
+        "PercentageIncrease": "15%",
+        "AmountIncrease": "8100 AED Annually",
+        "RentAmountAfterIncrease": "62100 AED Annually",
+        "RentalIndexRange": "From 81000 to 99000 AED per year",
+        "AdditionalInfo": "The index values do not include water, electricity, or any other additional fees. ",
+        "Addendum": [
+          {
+            "Text": "A copy of Decree No. 43/2013, which regulates rental increases.",
+            "Link": "https://dubailand.gov.ae/media/z2dn3gtr/rental-increase-decree-43-in-dubai.pdf"
+          },
+          {
+            "Text": "A copy of the mathematical equation used in the rental index service. ",
+            "Link": "https://dubailand.gov.ae/media/q1plwff4/how-to-calculate-the-increase.pdf"
+          }
+        ],
+        "UIMessages": [
+          "Please note that the rental index for this Hotel Apartment has been calculated based on the building data"
+        ]
+      }
+    }
+  ]
+}

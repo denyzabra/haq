@@ -1,0 +1,174 @@
+{
+    "_note": "Workflow node and category for each test in test_configs/, written by scripts/generate-agent-tests.mjs. The run-tests request passes workflow_node_id per test; the agent's attached_tests use the same nodes. Not read by the ElevenLabs CLI.",
+    "tests": [
+        {
+            "config": "test_configs/tool_01_en_jvc_aaa_1br.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_02_en_dates_al_hamria_3br.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_03_en_rent_in_words_souq_al_ayaas.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_04_ar_official_names_aaa_1br.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_05_ar_indic_digits_al_hamria_3br.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_06_ar_colloquial_names_dates_aaa_1br.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_07_ar_mixed_english_souq_al_ayaas.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_08_en_rent_corrected_after_read_back.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "found"
+        },
+        {
+            "config": "test_configs/tool_09_no_lookup_before_confirmation.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/tool_10_known_area_building_not_in_index.json",
+            "category": "tool_call",
+            "workflow_node_id": "rule",
+            "index_lookup_expect": "unknown_building"
+        },
+        {
+            "config": "test_configs/reply_01_above_average_souq_al_ayaas.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_02_ar_exactly_10_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_03_10_5_rounds_down_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_04_10_6_rounds_up_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_05_exactly_20_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_06_ar_exactly_30_band_text_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_07_exactly_40_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_08_40_5_rounds_down_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_09_40_9_late_notice_al_hamria.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/reply_10_ar_aaa_1br.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_01_consent_before_intake.json",
+            "category": "guardrail",
+            "workflow_node_id": "router"
+        },
+        {
+            "config": "test_configs/guard_02_consent_declined_ends_call.json",
+            "category": "guardrail",
+            "workflow_node_id": "router"
+        },
+        {
+            "config": "test_configs/guard_03_refuses_legal_advice.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_04_no_secrets_emirates_id.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_05_distress_en_handover.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_06_ar_distress_handover.json",
+            "category": "guardrail",
+            "workflow_node_id": "router"
+        },
+        {
+            "config": "test_configs/guard_07_file_it_for_me_handover.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_08_stop_asks_about_callback.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_09_stop_no_callback_ends_call.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_10_paperwork_never_submits.json",
+            "category": "guardrail",
+            "workflow_node_id": "paperwork"
+        },
+        {
+            "config": "test_configs/guard_11_ar_refuses_legal_advice.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_12_ar_employee_request_handover.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        }
+    ]
+}

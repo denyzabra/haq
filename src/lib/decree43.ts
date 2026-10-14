@@ -23,83 +23,84 @@ export interface IncreaseCapInput {
 
 export type CapPercent = 0 | 5 | 10 | 15 | 20;
 
-interface CapResultBase {
+export interface IncreaseCapResult {
   index_average_aed: number;
   percent_below_average: number;
+  max_increase_percent: CapPercent;
+  max_increase_aed: number;
+  max_new_rent_aed: number;
   clause: string;
 }
 
-// The official English text of Article 1 uses whole number bands (up to 10,
-// 11 to 20, 21 to 30, 31 to 40, more than 40). A value strictly inside a gap
-// (for example 10.5) is not assigned to either band, so HAQ reports both
-// candidate caps instead of choosing one. The Arabic text prevails.
-export type IncreaseCapResult =
-  | (CapResultBase & {
-      band_boundary: false;
-      max_increase_percent: CapPercent;
-      max_new_rent_aed: number;
-    })
-  | (CapResultBase & {
-      band_boundary: true;
-      max_increase_percent: null;
-      max_new_rent_aed: null;
-      lower_cap_percent: CapPercent;
-      lower_max_new_rent_aed: number;
-      upper_cap_percent: CapPercent;
-      upper_max_new_rent_aed: number;
-    });
-
-// Upper bound (inclusive) of each band, in percent below the index average.
-const BANDS: ReadonlyArray<{ upTo: number; cap: CapPercent; next: CapPercent }> = [
-  { upTo: 10, cap: 0, next: 5 },
-  { upTo: 20, cap: 5, next: 10 },
-  { upTo: 30, cap: 10, next: 15 },
-  { upTo: 40, cap: 15, next: 20 },
+// HAQ follows the DLD Rental Index calculator. The rule below is inferred from
+// DLD calculator outputs on 14 October 2026, not from a published method
+// (docs/index-evidence/al-hamriya-al-hamria-3br-boundary-lookups.json and the
+// three result PDFs): the percent below the index average is rounded to the
+// nearest whole number, an exact .5 rounding down, and the whole number is
+// placed in DLD's bands. At or above the average there is no increase.
+const BANDS: ReadonlyArray<{ upTo: number; cap: CapPercent }> = [
+  { upTo: 10, cap: 0 },
+  { upTo: 20, cap: 5 },
+  { upTo: 30, cap: 10 },
+  { upTo: 40, cap: 15 },
 ];
+const ABOVE_40_CAP: CapPercent = 20;
 
+// All amounts are whole fils (AED x 100) so every step is exact integer maths.
 function toFils(aed: number, field: string): number {
   if (typeof aed !== "number" || !Number.isFinite(aed) || aed <= 0) {
     throw new Decree43InputError(`${field} must be a positive number`);
   }
-  return Math.round(aed * 100);
+  const fils = Math.round(aed * 100);
+  if (!Number.isSafeInteger(fils * 10_000)) throw new Decree43InputError(`${field} is too large`);
+  return fils;
 }
 
-export function computeIncreaseCap({
-  indexAverageAed,
-  currentRentAed,
-}: IncreaseCapInput): IncreaseCapResult {
+// Exact floor of a / b for non-negative safe integers; corrects any float rounding.
+function divFloor(a: number, b: number): number {
+  let q = Math.floor(a / b);
+  while (q * b > a) q -= 1;
+  while ((q + 1) * b <= a) q += 1;
+  return q;
+}
+
+// Percent below the average as a whole number, an exact .5 rounding down.
+function wholePercentBelow(belowFils: number, indexFils: number): number {
+  if (belowFils <= 0) return 0;
+  const scaled = belowFils * 100;
+  const whole = divFloor(scaled, indexFils);
+  const remainder = scaled - whole * indexFils;
+  return 2 * remainder <= indexFils ? whole : whole + 1;
+}
+
+// Percent below the average to two decimals, for information only (half up).
+function percentToTwoDecimals(belowFils: number, indexFils: number): number {
+  const scaled = Math.abs(belowFils) * 10_000;
+  const hundredths = divFloor(scaled, indexFils);
+  const rounded = 2 * (scaled - hundredths * indexFils) >= indexFils ? hundredths + 1 : hundredths;
+  return ((belowFils < 0 ? -1 : 1) * rounded) / 100;
+}
+
+export function computeIncreaseCap({ indexAverageAed, currentRentAed }: IncreaseCapInput): IncreaseCapResult {
   const indexFils = toFils(indexAverageAed, "index_average_aed");
   const rentFils = toFils(currentRentAed, "current_rent_aed");
-  const maxNewRent = (cap: CapPercent) => Math.floor((rentFils * (100 + cap)) / 100) / 100;
+  const belowFils = indexFils - rentFils;
 
-  // Compare in integer fils with cross multiplication so band edges are exact:
-  // percent_below <= upTo  <=>  (index - rent) * 100 <= upTo * index
-  const scaledBelow = (indexFils - rentFils) * 100;
-  const base: CapResultBase = {
+  const percent = wholePercentBelow(belowFils, indexFils);
+  const cap = BANDS.find((band) => percent <= band.upTo)?.cap ?? ABOVE_40_CAP;
+  // DLD does not round the increase (AED 3,577.5 on AED 71,550), and neither do
+  // we: it is exact for any rent in whole dirhams. A remainder below one fil, only
+  // possible when the rent itself has fils, is floored so the cap is never exceeded.
+  const increaseFils = divFloor(rentFils * cap, 100);
+
+  return {
     index_average_aed: indexFils / 100,
-    percent_below_average: Math.round(((indexFils - rentFils) / indexFils) * 10000) / 100,
+    percent_below_average: percentToTwoDecimals(belowFils, indexFils),
+    max_increase_percent: cap,
+    max_increase_aed: increaseFils / 100,
+    max_new_rent_aed: (rentFils + increaseFils) / 100,
     clause: DECREE_43_CLAUSE,
   };
-
-  for (const band of BANDS) {
-    if (scaledBelow <= band.upTo * indexFils) {
-      return { ...base, band_boundary: false, max_increase_percent: band.cap, max_new_rent_aed: maxNewRent(band.cap) };
-    }
-    // Strictly between upTo and upTo + 1: a gap in the official bands.
-    if (scaledBelow < (band.upTo + 1) * indexFils) {
-      return {
-        ...base,
-        band_boundary: true,
-        max_increase_percent: null,
-        max_new_rent_aed: null,
-        lower_cap_percent: band.cap,
-        lower_max_new_rent_aed: maxNewRent(band.cap),
-        upper_cap_percent: band.next,
-        upper_max_new_rent_aed: maxNewRent(band.next),
-      };
-    }
-  }
-  return { ...base, band_boundary: false, max_increase_percent: 20, max_new_rent_aed: maxNewRent(20) };
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;

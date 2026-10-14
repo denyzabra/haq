@@ -1,0 +1,304 @@
+{
+  "description": "Official Arabic names and Arabic band wording from the DLD Rental Index calculator, Arabic page. Names are matched to the English page by DLD's own option IDs (same ID on both pages). Band text is from DLD's raw calculator responses (POST /umbraco/surface/CaptchaProxy/CalculateRentalIndex) during normal use of the public form, one lookup per band on AL HAMRIA.",
+  "source_url_ar": "https://dubailand.gov.ae/ar/eservices/rental-index/rental-index/",
+  "source_url_en": "https://dubailand.gov.ae/en/eservices/rental-index/rental-index/",
+  "retrieved": "2026-10-14, about 13:30 to 13:40 (Africa/Kampala, UTC+3)",
+  "names": {
+    "property_types": [
+      {
+        "dld_value": "unit",
+        "en": "Apartment",
+        "ar": "شقة"
+      },
+      {
+        "dld_value": "hotelapartment",
+        "en": "Hotel Apartment",
+        "ar": "شقة فندقية"
+      },
+      {
+        "dld_value": "villa",
+        "en": "Villa",
+        "ar": "فيلا"
+      }
+    ],
+    "areas": [
+      {
+        "dld_id": "441",
+        "en": "Al Barsha South Fourth",
+        "ar": "البرشاء جنوب الرابعة"
+      },
+      {
+        "dld_id": "400",
+        "en": "Al Eyas",
+        "ar": "العياص"
+      },
+      {
+        "dld_id": "269",
+        "en": "Al Hamriya",
+        "ar": "الحمريه"
+      }
+    ],
+    "buildings": [
+      {
+        "dld_id": "637105362",
+        "area_id": "441",
+        "en": "AAA RESIDENCE",
+        "ar": "ايه ايه ايه ريزيدنيس"
+      },
+      {
+        "dld_id": "1136485326",
+        "area_id": "400",
+        "en": "DUBAI MUNCIPALITY-SOUQ AL AYAAS",
+        "ar": "DUBAI MUNCIPALITY-SOUQ AL AYAAS",
+        "note": "DLD's Arabic page shows the English name for this building; no official Arabic name"
+      },
+      {
+        "dld_id": "11844",
+        "area_id": "269",
+        "en": "AL HAMRIA",
+        "ar": "الحمرية"
+      }
+    ],
+    "bedrooms": [
+      {
+        "en": "1bed room+Hall",
+        "ar": "غرفة و صالة"
+      },
+      {
+        "en": "2 bed rooms+hall",
+        "ar": "غرفتين و صالة"
+      },
+      {
+        "en": "3 bed rooms+hall",
+        "ar": "ثلاثة غرفة و صالة"
+      }
+    ]
+  },
+  "arabic_band_lookups": [
+    {
+      "inputs": {
+        "page": "Arabic",
+        "contract_end_date": "31/01/2027",
+        "property_type": "hotelapartment",
+        "search_index_by": "3 (Area)",
+        "area_id": "269",
+        "building_id": "11844",
+        "bedrooms": "ثلاثة غرفة و صالة-3",
+        "current_annual_rent_aed": 85000
+      },
+      "response": {
+        "RentalType": "شقة فندقية",
+        "Rentalcategory": "ثلاثة غرفة و صالة",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "الحمريه",
+        "BuildingName": "الحمرية",
+        "CommunityName": null,
+        "RateType": "درهم في السنة",
+        "Result": "تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، بدون أية زيادة على القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل عن 10% من متوسط أجر المثل.",
+        "Result1": " ايجار شقة فندقية ثلاثة غرفة و صالة في الحمريه هو من 81000 الى 99000 درهم في السنة  (غير شامل الماء والكهرباء أو أي رسوم أخرى).",
+        "Note": "لا توجد أي زيادة على القيمة الايجارية.",
+        "ErrorMsg": null,
+        "IndexType": "سكني",
+        "PercentageIncrease": "0%",
+        "AmountIncrease": "لا ينطبق",
+        "RentAmountAfterIncrease": "85000 درهم سنويًا",
+        "RentalIndexRange": "من 81000 إلى 99000 درهم في السنة",
+        "AdditionalInfo": "لا تشمل القيم الواردة في المؤشر تكاليف الماء والكهرباء أو أي رسوم إضافية أخرى. ",
+        "Addendum": [
+          {
+            "Text": "نسخه من مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013. ",
+            "Link": "https://dubailand.gov.ae/media/plrb2c1z/rental-increase-decree-43-in-dubai_ar.pdf"
+          },
+          {
+            "Text": "نسخه من المعادلة الحسابية المستخدمة في خدمة مؤشر الإيجار. ",
+            "Link": "https://dubailand.gov.ae/media/dpehayws/how-to-calculate-the-increase_ar.pdf"
+          }
+        ],
+        "UIMessages": [
+          "يرجى العلم بأن مؤشر الإيجارات لهذه الشقة الفندقية قد تم احتسابه بناءً على المعلومات المتوفرة للمبنى"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "page": "Arabic",
+        "contract_end_date": "31/01/2027",
+        "property_type": "hotelapartment",
+        "search_index_by": "3 (Area)",
+        "area_id": "269",
+        "building_id": "11844",
+        "bedrooms": "ثلاثة غرفة و صالة-3",
+        "current_annual_rent_aed": 75000
+      },
+      "response": {
+        "RentalType": "شقة فندقية",
+        "Rentalcategory": "ثلاثة غرفة و صالة",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "الحمريه",
+        "BuildingName": "الحمرية",
+        "CommunityName": null,
+        "RateType": "درهم في السنة",
+        "Result": "تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 5% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 11% وحتى 20% من متوسط أجر المثل.",
+        "Result1": " ايجار شقة فندقية ثلاثة غرفة و صالة في الحمريه هو من 81000 الى 99000 درهم في السنة  (غير شامل الماء والكهرباء أو أي رسوم أخرى).",
+        "Note": "مبلغ الزيادة هو ( 3750 درهم في السنة )",
+        "ErrorMsg": null,
+        "IndexType": "سكني",
+        "PercentageIncrease": "5%",
+        "AmountIncrease": "3750 درهم سنويًا",
+        "RentAmountAfterIncrease": "78750 درهم سنويًا",
+        "RentalIndexRange": "من 81000 إلى 99000 درهم في السنة",
+        "AdditionalInfo": "لا تشمل القيم الواردة في المؤشر تكاليف الماء والكهرباء أو أي رسوم إضافية أخرى. ",
+        "Addendum": [
+          {
+            "Text": "نسخه من مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013. ",
+            "Link": "https://dubailand.gov.ae/media/plrb2c1z/rental-increase-decree-43-in-dubai_ar.pdf"
+          },
+          {
+            "Text": "نسخه من المعادلة الحسابية المستخدمة في خدمة مؤشر الإيجار. ",
+            "Link": "https://dubailand.gov.ae/media/dpehayws/how-to-calculate-the-increase_ar.pdf"
+          }
+        ],
+        "UIMessages": [
+          "يرجى العلم بأن مؤشر الإيجارات لهذه الشقة الفندقية قد تم احتسابه بناءً على المعلومات المتوفرة للمبنى"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "page": "Arabic",
+        "contract_end_date": "31/01/2027",
+        "property_type": "hotelapartment",
+        "search_index_by": "3 (Area)",
+        "area_id": "269",
+        "building_id": "11844",
+        "bedrooms": "ثلاثة غرفة و صالة-3",
+        "current_annual_rent_aed": 66000
+      },
+      "response": {
+        "RentalType": "شقة فندقية",
+        "Rentalcategory": "ثلاثة غرفة و صالة",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "الحمريه",
+        "BuildingName": "الحمرية",
+        "CommunityName": null,
+        "RateType": "درهم في السنة",
+        "Result": "تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 10% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 21% وحتى 30% من متوسط أجر المثل.",
+        "Result1": " ايجار شقة فندقية ثلاثة غرفة و صالة في الحمريه هو من 81000 الى 99000 درهم في السنة  (غير شامل الماء والكهرباء أو أي رسوم أخرى).",
+        "Note": "مبلغ الزيادة هو ( 6600 درهم في السنة )",
+        "ErrorMsg": null,
+        "IndexType": "سكني",
+        "PercentageIncrease": "10%",
+        "AmountIncrease": "6600 درهم سنويًا",
+        "RentAmountAfterIncrease": "72600 درهم سنويًا",
+        "RentalIndexRange": "من 81000 إلى 99000 درهم في السنة",
+        "AdditionalInfo": "لا تشمل القيم الواردة في المؤشر تكاليف الماء والكهرباء أو أي رسوم إضافية أخرى. ",
+        "Addendum": [
+          {
+            "Text": "نسخه من مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013. ",
+            "Link": "https://dubailand.gov.ae/media/plrb2c1z/rental-increase-decree-43-in-dubai_ar.pdf"
+          },
+          {
+            "Text": "نسخه من المعادلة الحسابية المستخدمة في خدمة مؤشر الإيجار. ",
+            "Link": "https://dubailand.gov.ae/media/dpehayws/how-to-calculate-the-increase_ar.pdf"
+          }
+        ],
+        "UIMessages": [
+          "يرجى العلم بأن مؤشر الإيجارات لهذه الشقة الفندقية قد تم احتسابه بناءً على المعلومات المتوفرة للمبنى"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "page": "Arabic",
+        "contract_end_date": "31/01/2027",
+        "property_type": "hotelapartment",
+        "search_index_by": "3 (Area)",
+        "area_id": "269",
+        "building_id": "11844",
+        "bedrooms": "ثلاثة غرفة و صالة-3",
+        "current_annual_rent_aed": 58000
+      },
+      "response": {
+        "RentalType": "شقة فندقية",
+        "Rentalcategory": "ثلاثة غرفة و صالة",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "الحمريه",
+        "BuildingName": "الحمرية",
+        "CommunityName": null,
+        "RateType": "درهم في السنة",
+        "Result": "تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 15% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 31% وحتى 40% من متوسط أجر المثل.",
+        "Result1": " ايجار شقة فندقية ثلاثة غرفة و صالة في الحمريه هو من 81000 الى 99000 درهم في السنة  (غير شامل الماء والكهرباء أو أي رسوم أخرى).",
+        "Note": "مبلغ الزيادة هو ( 8700 درهم في السنة )",
+        "ErrorMsg": null,
+        "IndexType": "سكني",
+        "PercentageIncrease": "15%",
+        "AmountIncrease": "8700 درهم سنويًا",
+        "RentAmountAfterIncrease": "66700 درهم سنويًا",
+        "RentalIndexRange": "من 81000 إلى 99000 درهم في السنة",
+        "AdditionalInfo": "لا تشمل القيم الواردة في المؤشر تكاليف الماء والكهرباء أو أي رسوم إضافية أخرى. ",
+        "Addendum": [
+          {
+            "Text": "نسخه من مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013. ",
+            "Link": "https://dubailand.gov.ae/media/plrb2c1z/rental-increase-decree-43-in-dubai_ar.pdf"
+          },
+          {
+            "Text": "نسخه من المعادلة الحسابية المستخدمة في خدمة مؤشر الإيجار. ",
+            "Link": "https://dubailand.gov.ae/media/dpehayws/how-to-calculate-the-increase_ar.pdf"
+          }
+        ],
+        "UIMessages": [
+          "يرجى العلم بأن مؤشر الإيجارات لهذه الشقة الفندقية قد تم احتسابه بناءً على المعلومات المتوفرة للمبنى"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "page": "Arabic",
+        "contract_end_date": "31/01/2027",
+        "property_type": "hotelapartment",
+        "search_index_by": "3 (Area)",
+        "area_id": "269",
+        "building_id": "11844",
+        "bedrooms": "ثلاثة غرفة و صالة-3",
+        "current_annual_rent_aed": 50000
+      },
+      "response": {
+        "RentalType": "شقة فندقية",
+        "Rentalcategory": "ثلاثة غرفة و صالة",
+        "MinValue": "81000",
+        "MaxValue": "99000",
+        "AreaName": "الحمريه",
+        "BuildingName": "الحمرية",
+        "CommunityName": null,
+        "RateType": "درهم في السنة",
+        "Result": "تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 20% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تزيد على 40% من متوسط أجر المثل.",
+        "Result1": " ايجار شقة فندقية ثلاثة غرفة و صالة في الحمريه هو من 81000 الى 99000 درهم في السنة  (غير شامل الماء والكهرباء أو أي رسوم أخرى).",
+        "Note": "مبلغ الزيادة هو ( 10000 درهم في السنة )",
+        "ErrorMsg": null,
+        "IndexType": "سكني",
+        "PercentageIncrease": "20%",
+        "AmountIncrease": "10000 درهم سنويًا",
+        "RentAmountAfterIncrease": "60000 درهم سنويًا",
+        "RentalIndexRange": "من 81000 إلى 99000 درهم في السنة",
+        "AdditionalInfo": "لا تشمل القيم الواردة في المؤشر تكاليف الماء والكهرباء أو أي رسوم إضافية أخرى. ",
+        "Addendum": [
+          {
+            "Text": "نسخه من مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013. ",
+            "Link": "https://dubailand.gov.ae/media/plrb2c1z/rental-increase-decree-43-in-dubai_ar.pdf"
+          },
+          {
+            "Text": "نسخه من المعادلة الحسابية المستخدمة في خدمة مؤشر الإيجار. ",
+            "Link": "https://dubailand.gov.ae/media/dpehayws/how-to-calculate-the-increase_ar.pdf"
+          }
+        ],
+        "UIMessages": [
+          "يرجى العلم بأن مؤشر الإيجارات لهذه الشقة الفندقية قد تم احتسابه بناءً على المعلومات المتوفرة للمبنى"
+        ]
+      }
+    }
+  ]
+}

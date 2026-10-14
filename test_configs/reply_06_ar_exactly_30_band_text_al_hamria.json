@@ -1,0 +1,80 @@
+{
+    "name": "reply_06_ar_exactly_30_band_text_al_hamria",
+    "type": "llm",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "مرحباً، معك حق، خط معلومات بالذكاء الاصطناعي حول زيادات الإيجار في دبي. أقدّم معلومات وليست استشارة قانونية، ويتم حفظ سجل لهذه المكالمة. هل توافق على المتابعة؟",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "نعم، أريد أن أتحقق من زيادة الإيجار عند التجديد.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "شكراً. أحتاج إلى المنطقة، واسم البناية، وعدد غرف النوم، والإيجار السنوي الحالي بالدرهم. وإن كنت تعرف، الإيجار الجديد الذي اقترحه المالك، وتاريخ انتهاء العقد، وتاريخ استلام الإشعار.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "الحمريه، بناية الحمرية، ثلاثة غرفة و صالة، والإيجار 63000 درهم في السنة.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "للتأكيد: الحمريه، بناية الحمرية، ثلاثة غرفة و صالة، الإيجار السنوي الحالي 63000 درهم. هل هذا صحيح؟",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "نعم، صحيح.",
+            "time_in_call_secs": 34
+        },
+        {
+            "role": "agent",
+            "tool_calls": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "params_as_json": "{\"area\":\"الحمريه\",\"building\":\"الحمرية\",\"bedrooms\":\"ثلاثة غرفة و صالة\",\"current_rent_aed\":63000}"
+                }
+            ],
+            "time_in_call_secs": 42
+        },
+        {
+            "role": "agent",
+            "tool_results": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "result_value": "{\"outcome\":\"checked\",\"area\":\"Al Hamriya\",\"area_ar\":\"الحمريه\",\"building\":\"AL HAMRIA\",\"building_ar\":\"الحمرية\",\"bedrooms\":\"3 bed rooms+hall\",\"bedrooms_ar\":\"ثلاثة غرفة و صالة\",\"current_rent_aed\":63000,\"range_min_aed\":81000,\"range_max_aed\":99000,\"index_average_aed\":90000,\"percent_below_average\":30,\"max_increase_percent\":10,\"max_increase_aed\":6300,\"max_new_rent_aed\":69300,\"clause\":\"Decree 43 of 2013, Article 1\",\"dld_band_text_en\":\"When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 10% of the rent of real property unit, where the rent is 21% to 30% less than the average rental value of similar units.\",\"dld_band_text_ar\":\"تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 10% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 21% وحتى 30% من متوسط أجر المثل.\",\"data_source\":\"DLD Rental Index, building level, retrieved 14 October 2026\"}",
+                    "is_error": false
+                }
+            ],
+            "time_in_call_secs": 48
+        }
+    ],
+    "success_condition": "The reply is in Arabic. It names the area, building and bedrooms with DLD's Arabic names (الحمريه, الحمرية, ثلاثة غرفة و صالة), gives the maximum increase of 10 percent and the maximum new rent of 69300 dirhams, cites the decree (مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013 المادة (1), or Decree 43 of 2013, Article 1), and points the caller to the official مؤشر الإيجارات calculator. It does not state any other percentage cap or maximum rent. It must quote DLD's Arabic band wording exactly: \"تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 10% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 21% وحتى 30% من متوسط أجر المثل.\", and give the range as \"من 81000 إلى 99000\".",
+    "success_examples": [
+        {
+            "type": "success",
+            "response": "الحمرية، ثلاثة غرفة و صالة، الحمريه: من 81000 إلى 99000. تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 10% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 21% وحتى 30% من متوسط أجر المثل. الحد الأقصى للزيادة 10% والحد الأقصى للإيجار الجديد 69300 درهم، وفق مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013، المادة (1). النتيجة الرسمية في مؤشر الإيجارات."
+        }
+    ],
+    "failure_examples": [
+        {
+            "type": "failure",
+            "response": "The maximum increase is 10 percent and the maximum new rent is AED 69,300."
+        },
+        {
+            "type": "failure",
+            "response": "الحد الأقصى للزيادة 15% وفق مرسوم تحديد الزيادة في بدل الإيجار رقم 43/2013."
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "name": "tool_09_no_lookup_before_confirmation",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "JVC, Triple A Residence, one bedroom, and I pay 60,000 a year.",
+            "time_in_call_secs": 20
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "tool_4201m36p6hh2e8gthmejwtd54vk7",
+            "type": "webhook"
+        },
+        "parameters": [],
+        "verify_absence": true
+    },
+    "check_any_tool_matches": false
+}

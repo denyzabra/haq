@@ -8,7 +8,7 @@ import { isAuthorizedToolCall, unauthorized } from "@/lib/tool-auth";
 
 const lookupSchema = intakeSchema.extend({ conversation_id: z.string().optional() });
 
-// ElevenLabs server tool `index_lookup`. Deterministic Decree 43 tier from the mock index.
+// ElevenLabs server tool `index_lookup`. Deterministic Decree 43 tier from the DLD Rental Index entries.
 export async function POST(request: Request) {
   if (!isAuthorizedToolCall(request)) return unauthorized();
 

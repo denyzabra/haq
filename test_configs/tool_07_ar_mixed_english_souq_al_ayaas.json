@@ -1,0 +1,74 @@
+{
+    "name": "tool_07_ar_mixed_english_souq_al_ayaas",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "مرحباً، معك حق، خط معلومات بالذكاء الاصطناعي حول زيادات الإيجار في دبي. أقدّم معلومات وليست استشارة قانونية، ويتم حفظ سجل لهذه المكالمة. هل توافق على المتابعة؟",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "نعم، أريد أن أتحقق من زيادة الإيجار عند التجديد.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "شكراً. أحتاج إلى المنطقة، واسم البناية، وعدد غرف النوم، والإيجار السنوي الحالي بالدرهم. وإن كنت تعرف، الإيجار الجديد الذي اقترحه المالك، وتاريخ انتهاء العقد، وتاريخ استلام الإشعار.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "المنطقة العياص، والبناية Souq Al Ayaas، one bedroom، والإيجار 52,000 درهم.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "للتأكيد: العياص، بناية Souq Al Ayaas، غرفة و صالة، الإيجار السنوي الحالي 52000 درهم. هل هذا صحيح؟",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "Yes، صحيح.",
+            "time_in_call_secs": 34
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "tool_4201m36p6hh2e8gthmejwtd54vk7",
+            "type": "webhook"
+        },
+        "parameters": [
+            {
+                "path": "area",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:Al[\\s.,'’()+/&_-]*Eyas|[اأإآٱ]لع[يى][اأإآٱ]ص|Al[\\s.,'’()+/&_-]*Ayas|Al[\\s.,'’()+/&_-]*Ayaas)[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "building",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:DUBAI[\\s.,'’()+/&_-]*MUNCIPALITY[\\s.,'’()+/&_-]*SOUQ[\\s.,'’()+/&_-]*AL[\\s.,'’()+/&_-]*AYAAS|Souq[\\s.,'’()+/&_-]*Al[\\s.,'’()+/&_-]*Ayaas|Souk[\\s.,'’()+/&_-]*Al[\\s.,'’()+/&_-]*Ayaas|Dubai[\\s.,'’()+/&_-]*Municipality[\\s.,'’()+/&_-]*Souq[\\s.,'’()+/&_-]*Al[\\s.,'’()+/&_-]*Ayaas|سوق[\\s.,'’()+/&_-]*[اأإآٱ]لع[يى][اأإآٱ]ص)[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "bedrooms",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:1[\\s.,'’()+/&_-]*bed[\\s.,'’()+/&_-]*room[\\s.,'’()+/&_-]*Hall|غرف[هة][\\s.,'’()+/&_-]*و[\\s.,'’()+/&_-]*ص[اأإآٱ]ل[هة]|1[\\s.,'’()+/&_-]*bed|1[\\s.,'’()+/&_-]*bedroom|one[\\s.,'’()+/&_-]*bedroom|1[\\s.,'’()+/&_-]*BR|1[\\s.,'’()+/&_-]*bedroom[\\s.,'’()+/&_-]*hall|غرف[هة][\\s.,'’()+/&_-]*وص[اأإآٱ]ل[هة]|غرف[هة][\\s.,'’()+/&_-]*نوم[\\s.,'’()+/&_-]*و[اأإآٱ]حد[هة])[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "current_rent_aed",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "^52000(?:\\.0+)?$"
+                }
+            }
+        ],
+        "verify_absence": false
+    },
+    "check_any_tool_matches": true
+}

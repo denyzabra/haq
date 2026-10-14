@@ -1,0 +1,88 @@
+{
+    "name": "tool_02_en_dates_al_hamria_3br",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "The area is Al Hamriya and the building is Al Hamria. It's a three bedroom hotel apartment, rent is 70,000 a year. My contract ends on 31 January 2027 and I got the notice on 20 November 2026.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "Let me read that back: Al Hamriya, building Al Hamria, three bedrooms, current annual rent AED 70,000, contract ends 31 January 2027, notice received 20 November 2026. Is that correct?",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "Yes.",
+            "time_in_call_secs": 34
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "tool_4201m36p6hh2e8gthmejwtd54vk7",
+            "type": "webhook"
+        },
+        "parameters": [
+            {
+                "path": "area",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:Al[\\s.,'’()+/&_-]*Hamriya|[اأإآٱ]لحمر[يى][هة]|Hamriya|Al[\\s.,'’()+/&_-]*Hamriyah|حمر[يى][هة])[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "building",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:AL[\\s.,'’()+/&_-]*HAMRIA|[اأإآٱ]لحمر[يى][هة])[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "bedrooms",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "(?i)^[\\s.,'’()+/&_-]*(?:3[\\s.,'’()+/&_-]*bed[\\s.,'’()+/&_-]*rooms[\\s.,'’()+/&_-]*hall|ثل[اأإآٱ]ث[هة][\\s.,'’()+/&_-]*غرف[هة][\\s.,'’()+/&_-]*و[\\s.,'’()+/&_-]*ص[اأإآٱ]ل[هة]|3[\\s.,'’()+/&_-]*bed|3[\\s.,'’()+/&_-]*bedroom|3[\\s.,'’()+/&_-]*bedrooms|three[\\s.,'’()+/&_-]*bedroom|three[\\s.,'’()+/&_-]*bedrooms|3[\\s.,'’()+/&_-]*BR|3[\\s.,'’()+/&_-]*bedroom[\\s.,'’()+/&_-]*hall|ثل[اأإآٱ]ث[\\s.,'’()+/&_-]*غرف[\\s.,'’()+/&_-]*وص[اأإآٱ]ل[هة])[\\s.,'’()+/&_-]*$"
+                }
+            },
+            {
+                "path": "current_rent_aed",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "^70000(?:\\.0+)?$"
+                }
+            },
+            {
+                "path": "renewal_date",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "^2027-01-31$"
+                }
+            },
+            {
+                "path": "notice_received_date",
+                "eval": {
+                    "type": "regex",
+                    "pattern": "^2026-11-20$"
+                }
+            }
+        ],
+        "verify_absence": false
+    },
+    "check_any_tool_matches": false
+}

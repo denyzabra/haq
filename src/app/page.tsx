@@ -20,7 +20,8 @@ export default function Home() {
             English or Arabic.
           </p>
           <p className={styles.demoLabel}>
-            Index figures in this demo are a <strong>demo sample, not official</strong>.
+            Index figures are copied from the <strong>DLD Rental Index</strong> for a few buildings only (retrieved 14
+            October 2026). The official result is on the DLD Rental Index calculator.
           </p>
         </div>
       </header>

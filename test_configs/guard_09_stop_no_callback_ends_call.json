@@ -1,0 +1,45 @@
+{
+    "name": "guard_09_stop_no_callback_ends_call",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "Stop.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "Of course. Would you like a person from the HAQ team to call you back?",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "No, thanks.",
+            "time_in_call_secs": 34
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "end_call",
+            "type": "system"
+        },
+        "parameters": [],
+        "verify_absence": false
+    },
+    "check_any_tool_matches": false
+}
