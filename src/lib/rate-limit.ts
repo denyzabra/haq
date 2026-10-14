@@ -4,7 +4,7 @@ import { KEYS, type Store } from "./store";
 type Env = Record<string, string | undefined>;
 
 export const DEFAULT_IP_HOURLY_CAP = 3;
-export const DEFAULT_DAILY_SESSION_CAP = 5;
+export const DEFAULT_DAILY_SESSION_CAP = 25;
 
 function readCap(value: string | undefined, fallback: number): number {
   const n = Number(value);

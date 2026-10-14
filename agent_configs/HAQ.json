@@ -532,7 +532,7 @@
         "call_limits": {
             "agent_concurrency_limit": -1,
             "bursting_enabled": false,
-            "daily_limit": 5
+            "daily_limit": 25
         },
         "data_collection": {
             "area": {
@@ -1050,7 +1050,40 @@
                     "workflow_node_id": "rule"
                 }
             ],
-            "referenced_tests_ids": []
+            "referenced_tests_ids": [
+                "test_9301m4xnt2gweqfbqnsdpv07n0fv",
+                "test_8101m4xnt3aneffba865824wgg3e",
+                "test_6601m4xnt43nemjvkh3kw8rm7asz",
+                "test_8801m4xnt4xzfv38pbgbed6rvfg0",
+                "test_9201m4xnt5r9eqwtcv06svsnx3d6",
+                "test_6801m4xnt6j5f5vaf5smjpmwxqag",
+                "test_1501m4xnt7b6ezbvw2g7fg60eqrv",
+                "test_0701m4xnt84qe72v8m2p2ny1at00",
+                "test_0201m4xnt8yje6hrnecz8gqsnnv0",
+                "test_1901m4xnt9qjec08fkzrcfa4b6vr",
+                "test_9201m4xnst78etyb2avvjw7hkj95",
+                "test_9101m4xnsv48exzbssky7sgyyd5z",
+                "test_0301m4xnsvz1ev0ac3fabfd6pvbs",
+                "test_8101m4xnswtfefjbz9ese25zf63b",
+                "test_3901m4xnsxkvft48138a1drw094m",
+                "test_7901m4xnsydje30ajjeaar88vfja",
+                "test_7501m4xnsz8bf0fsmkj26cfvc8h0",
+                "test_5301m4xnt01xeyj8k13v06a5dvwt",
+                "test_2901m4xnt0v3f9dvqpgjxhk2db5h",
+                "test_1701m4xnt1n2f5psewt4sz0jrqa1",
+                "test_9401m4xnsg2bezg85vrz53zzfh68",
+                "test_6701m4xnsgxwfyhra26hdxwf7awt",
+                "test_6001m4xnshwtehvac82vq2edtsy1",
+                "test_5001m4xnsjpffbtbxk9p379nmrya",
+                "test_3001m4xnskfpf9brk4dt5jkkypw8",
+                "test_4801m4xnsmcgetfa0z4aka6qmzpf",
+                "test_7901m4xnsn66fw8tw0g20hybet9x",
+                "test_9601m4xnsnz7e0yb9qxeh22qe5yf",
+                "test_7901m4xnspz4ftj85b17rvvqhfga",
+                "test_4101m4xnsqvsez283emtwc0cfcda",
+                "test_0301m4xnsrmyea9va0hhm513kem3",
+                "test_4001m4xnsse1f8w8zycnzjqdgnvh"
+            ]
         },
         "topic_discovery": {
             "enabled": true

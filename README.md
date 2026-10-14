@@ -37,7 +37,7 @@ Storage is Upstash Redis through the Vercel integration.
 - **Speech recognition:** Scribe realtime with keyterms (Decree 43, Ejari, RERA, DLD, RDC, JVC, Dubai Marina, Deira, Al Barsha), plus every DLD area and building name in the index and their aliases, kept in sync by `npm run sync:keyterms`. Scribe realtime takes at most 50 keyterms of at most 20 characters each, so longer names (Rental Disputes Center, Al Barsha South Fourth, Jumeirah Village Circle and the two long Souq Al Ayaas names) are left out; the shorter forms in the list cover them.
 - **Data collection:** `area`, `building`, `unit_type`, `current_rent_aed`, `renewal_date`, `notice_received_date`, `outcome`, `callback_consent`, `opted_out`, `escalated`, `escalation_reason`.
 - **Evaluation criteria:** `disclosure_given`, `clause_cited`, `no_legal_advice_given`, `read_back_done`, `escalated_when_required`.
-- **Limits:** authentication required (no public agent ID access), 300 second maximum conversation, 5 conversations per day, and the client may override only the language.
+- **Limits:** authentication required (no public agent ID access), 300 second maximum conversation, 25 conversations per day (`call_limits.daily_limit`), and the client may override only the language.
 
 ### The LLM never does the arithmetic
 
@@ -132,22 +132,24 @@ scripts/with-env.sh elevenlabs agents push --agent agent_9101m36p8c60evcatp1tqsy
 What we observed when running them (14 October 2026):
 
 - Tests run against the published agent version. Webhook tools are not called in test mode ("Skipping tool call in test mode"), so tests do not write to the ledger, the human queue or the drafts, and no request reaches Vercel.
-- Test runs are not listed as conversations and do not count against the 5 conversations per day limit.
-- Each test run costs about 37 to 40 credits.
+- Test runs are not listed as conversations and do not count against the agent's conversations per day limit.
+- Each test run costs about 27 to 40 credits (4,922 for the 160 runs at repeat count 5).
 - In a tool call test, a webhook tool's parameters are addressed as `body.<name>`: a plain `area` was "not found" although the agent passed it, and `body.area` passed. ElevenLabs does not document the path syntax.
 
 ## Test results
 
-Full run on 14 October 2026, agent version `agtvrsn_8101m4xntcp9e75txm4mb3aq58rw`, repeat count 1 (each test ran once, so these are single samples, not stable pass rates). Every result, the failure analysis and the proposed fixes are in [`docs/test-results.md`](docs/test-results.md).
+Two full runs on 14 October 2026. Every result, the failure analysis, the proposed fixes and the changes made between the runs are in [`docs/test-results.md`](docs/test-results.md).
 
-| Category | Tests | Repeat count | Passed | Pass rate |
-|---|---|---|---|---|
-| Tool call | 10 | 1 | 8 | 80% |
-| Next reply | 10 | 1 | 8 | 80% |
-| Guardrail | 12 | 1 | 9 | 75% |
-| **All** | **32** | **1** | **25** | **78%** |
+| Category | Tests | Repeat 1 baseline (agent `agtvrsn_8101m4xntcp9e75txm4mb3aq58rw`) | Repeat 5 after fixes (agent `agtvrsn_3201m4xv7s6cfvxtgkjdb8bbrdda`) |
+|---|---|---|---|
+| Tool call | 10 | 8/10 (80%) | 47/50 (94.0%) |
+| Next reply | 10 | 8/10 (80%) | 46/50 (92.0%) |
+| Guardrail | 12 | 9/12 (75%) | 50/60 (83.3%) |
+| **All** | **32** | **25/32 (78.1%)** | **143/160 (89.4%)** |
 
-Six of the seven failures are the agent's: twice it changed an Arabic area or building name instead of passing the caller's words (no wrong figure would be spoken; the server answers `cannot_verify`), it moved past the consent question when the caller asked a question first, it skipped the callback question after "stop", it described how far below the average a rent is, and one Arabic reply left out DLD's Arabic names. One failure is the test's. The fixes are proposed, not yet applied.
+After the baseline run, five prompt changes, one edge condition and one test were changed: pass the caller's own words to `index_lookup` (no translation), move past consent only after an explicit yes, ask about a callback before any tool after "stop", never say how far below the average the rent is, name DLD's Arabic area, building and bedrooms first in Arabic, and treat a request to send the draft as a handover. The baseline is one sample per test, so the comparison is indicative.
+
+Still open after the repeat 5 run (fixes proposed in `docs/test-results.md`, not applied): the Router still moves to the Rule node when the caller asks a question before answering the consent question (`guard_01`, 0/5); after "stop" and "no", the agent sometimes says goodbye without calling `end_call` (`guard_09`, 2/5, likely a side effect of the new "stop" line); some Arabic replies leave out the maximum new rent after quoting DLD's band wording (`reply_02`, 3/5); and Arabic names are occasionally still changed before `index_lookup` (`tool_05`, 3/5). In every name case the server answers `cannot_verify`, so no wrong figure is spoken.
 
 ## Knowledge base and open items
 
@@ -170,7 +172,7 @@ To check before sign off (marked `UNVERIFIED` in the files):
 ## Security and privacy
 
 - The ElevenLabs API key stays on the server; the browser only receives a single use conversation token.
-- The token route allows 3 sessions per IP per hour and 5 per day in total (configurable), rejects requests from other sites, and stores IPs only as hashes.
+- The token route allows 3 sessions per IP per hour and 25 per day in total across all callers (configurable; there is no per IP daily cap), rejects requests from other sites, and stores IPs only as hashes.
 - Tool routes require the `x-haq-tool-secret` header, compared in constant time; anything else gets 401. ElevenLabs sends it from a workspace secret, so it is not in any config file.
 - The post-call webhook rejects anything without a valid `ElevenLabs-Signature`.
 - The ledger stores the transcript summary, evaluation results, data collection results, tool calls and consent fields, not the full transcript. Each entry stores `sha256(prev_hash + canonical_json(entry))`, and appends are atomic so concurrent webhooks cannot fork the chain.
@@ -212,7 +214,7 @@ curl -X POST http://localhost:3000/api/tools/index-lookup \
 | `HAQ_TOOL_SECRET` | Shared secret in the `x-haq-tool-secret` header; must match the ElevenLabs workspace secret `haq_tool_secret` |
 | `STAFF_PASSWORD` | `/staff` sign in |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Upstash Redis (or `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`) |
-| `HAQ_IP_HOURLY_CAP`, `HAQ_DAILY_SESSION_CAP` | Optional session limits, default 3 and 5 |
+| `HAQ_IP_HOURLY_CAP`, `HAQ_DAILY_SESSION_CAP` | Optional session limits, default 3 per IP per hour and 25 per day in total |
 
 Never commit `.env` or `.env.local`.
 

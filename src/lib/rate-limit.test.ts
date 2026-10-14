@@ -12,15 +12,15 @@ import { createStore } from "./store";
 const T0 = Date.UTC(2026, 8, 23, 10, 15, 0);
 
 describe("sessionCaps", () => {
-  it("defaults to 3 per IP per hour and 5 per day", () => {
-    expect(sessionCaps({})).toEqual({ ipHourly: 3, daily: 5 });
+  it("defaults to 3 per IP per hour and 25 per day", () => {
+    expect(sessionCaps({})).toEqual({ ipHourly: 3, daily: 25 });
     expect(DEFAULT_IP_HOURLY_CAP).toBe(3);
-    expect(DEFAULT_DAILY_SESSION_CAP).toBe(5);
+    expect(DEFAULT_DAILY_SESSION_CAP).toBe(25);
   });
 
   it("reads the env vars and ignores invalid values", () => {
     expect(sessionCaps({ HAQ_IP_HOURLY_CAP: "10", HAQ_DAILY_SESSION_CAP: "40" })).toEqual({ ipHourly: 10, daily: 40 });
-    expect(sessionCaps({ HAQ_IP_HOURLY_CAP: "abc", HAQ_DAILY_SESSION_CAP: "-2" })).toEqual({ ipHourly: 3, daily: 5 });
+    expect(sessionCaps({ HAQ_IP_HOURLY_CAP: "abc", HAQ_DAILY_SESSION_CAP: "-2" })).toEqual({ ipHourly: 3, daily: 25 });
   });
 });
 
