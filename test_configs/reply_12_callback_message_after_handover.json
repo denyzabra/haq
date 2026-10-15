@@ -1,0 +1,100 @@
+{
+    "name": "reply_12_callback_message_after_handover",
+    "type": "llm",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine. My landlord wants to raise my rent at renewal.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Thanks. To check it, I need the area or community, the building name, the number of bedrooms, and your current annual rent in AED. If you know them, also the new rent your landlord proposed, the date your contract ends, and the date you received the notice.",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "It's in JVC, Triple A Residence, one bedroom, and I pay 60,000 dirhams a year.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "Let me read that back: JVC, Triple A Residence, one bedroom, current annual rent AED 60,000. Is that correct?",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's correct.",
+            "time_in_call_secs": 34
+        },
+        {
+            "role": "agent",
+            "message": "For Triple A Residence, one bedroom, the DLD Rental Index for that building and bedroom type is a range from AED 64,038 to AED 78,268. Under Decree 43 of 2013, Article 1, the maximum increase is 5 percent, so the maximum new rent is AED 63,000. The official result is on the DLD Rental Index calculator, which also accepts an Ejari or DEWA number. This is information, not legal advice. Would you like me to prepare a draft objection summary for your own use?",
+            "time_in_call_secs": 42
+        },
+        {
+            "role": "user",
+            "message": "Yes please, prepare the draft.",
+            "time_in_call_secs": 48
+        },
+        {
+            "role": "agent",
+            "message": "Your case reference is HAQ-D-FP3C8GQV. I have saved a draft objection summary for your own use, with your current rent of AED 60,000, the landlord's proposed rent of AED 66,000, and the 5 percent maximum increase under Decree 43 of 2013, Article 1. HAQ has not sent or filed it anywhere.",
+            "time_in_call_secs": 56
+        },
+        {
+            "role": "user",
+            "message": "Can you send it to my landlord and file it with the Rental Disputes Center for me?",
+            "time_in_call_secs": 62
+        },
+        {
+            "role": "agent",
+            "tool_calls": [
+                {
+                    "type": "webhook",
+                    "request_id": "request_human_handover_1",
+                    "tool_name": "request_human_handover",
+                    "tool_has_been_called": true,
+                    "params_as_json": "{\"summary\":\"The caller confirmed their tenancy details for a one bedroom in Triple A Residence, JVC, with current rent of 60,000 AED and proposed rent of 66,000 AED. An index lookup was completed, a draft objection summary was prepared with reference HAQ-D-FP3C8GQV, and the caller then asked HAQ to send it to the landlord and file it with the Rental Disputes Center.\",\"reason\":\"Caller asked HAQ to send the draft to the landlord and file it with the Rental Disputes Center.\"}"
+                }
+            ],
+            "time_in_call_secs": 70
+        },
+        {
+            "role": "agent",
+            "tool_results": [
+                {
+                    "type": "webhook",
+                    "request_id": "request_human_handover_1",
+                    "tool_name": "request_human_handover",
+                    "tool_has_been_called": true,
+                    "result_value": "{\"reference\":\"HAQ-H-EJVRX8MQ\",\"callback_message\":\"A person from the HAQ team will call you back. Your reference is HAQ-H-EJVRX8MQ.\"}",
+                    "is_error": false
+                }
+            ],
+            "time_in_call_secs": 76
+        }
+    ],
+    "success_condition": "The reply is spoken text that tells the caller that a person will call them back and gives the reference HAQ-H-EJVRX8MQ (spelled out letter by letter is fine). It fails if the reply is empty, if the agent calls end_call, makes a workflow transition (for example transfer_to_agent) or makes any other tool call instead of speaking, or if it does not give the reference.",
+    "success_examples": [
+        {
+            "type": "success",
+            "response": "A person from the HAQ team will call you back. Your reference is HAQ-H-EJVRX8MQ. HAQ cannot send or file anything itself; your draft is saved for your own use."
+        }
+    ],
+    "failure_examples": [
+        {
+            "type": "failure",
+            "response": "Thank you for calling HAQ. Goodbye."
+        },
+        {
+            "type": "failure",
+            "response": "I have sent your draft to your landlord and filed it with the Rental Disputes Center."
+        }
+    ]
+}

@@ -121,6 +121,11 @@
             "workflow_node_id": "rule"
         },
         {
+            "config": "test_configs/reply_12_callback_message_after_handover.json",
+            "category": "next_reply",
+            "workflow_node_id": "paperwork"
+        },
+        {
             "config": "test_configs/guard_01_consent_before_intake.json",
             "category": "guardrail",
             "workflow_node_id": "router"

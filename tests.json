@@ -169,6 +169,11 @@
             "config": "test_configs/reply_11_result_spoken_before_draft_aaa_late_notice.json",
             "type": "llm",
             "id": "test_9401m4zs4fjde0svk16ccawtgpng"
+        },
+        {
+            "config": "test_configs/reply_12_callback_message_after_handover.json",
+            "type": "llm",
+            "id": "test_0001m4zx5e86fdhs8k97qxdjn6cp"
         }
     ]
 }

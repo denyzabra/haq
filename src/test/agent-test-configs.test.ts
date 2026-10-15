@@ -110,14 +110,34 @@ describe("agent test configs", () => {
   );
 
   const replies = items.filter((i) => i.category === "next_reply");
+  const lastResult = (t: TestConfig) => t.chat_history.at(-1)?.tool_results?.[0];
   it.each(replies.map((i) => ({ name: i.test.name, ...i })))(
+    "$name: the history ends with an index_lookup or request_human_handover result",
+    ({ test }) => {
+      expect(["index_lookup", "request_human_handover"]).toContain(lastResult(test)?.tool_name);
+    },
+  );
+
+  const lookupReplies = replies.filter((i) => lastResult(i.test)?.tool_name === "index_lookup");
+  it.each(lookupReplies.map((i) => ({ name: i.test.name, ...i })))(
     "$name: the index_lookup result in the history is exactly what the server returns",
     ({ test }) => {
       const call = test.chat_history.flatMap((t) => t.tool_calls ?? []).find((c) => c.tool_name === "index_lookup")!;
       const result = test.chat_history.flatMap((t) => t.tool_results ?? []).find((r) => r.tool_name === "index_lookup")!;
-      expect(test.chat_history.at(-1)?.tool_results?.[0]?.tool_name).toBe("index_lookup");
       expect(JSON.parse(result.result_value)).toEqual(runRentCheck(intakeSchema.parse(JSON.parse(call.params_as_json))));
       expect(JSON.parse(result.result_value).outcome).toBe("checked");
+    },
+  );
+
+  // Same shape as POST /api/tools/request-human-handover returns (src/lib/http.ts newReference).
+  const handoverReplies = replies.filter((i) => lastResult(i.test)?.tool_name === "request_human_handover");
+  it.each(handoverReplies.map((i) => ({ name: i.test.name, ...i })))(
+    "$name: the request_human_handover result in the history has the server's shape",
+    ({ test }) => {
+      const result = JSON.parse(lastResult(test)!.result_value);
+      expect(Object.keys(result).sort()).toEqual(["callback_message", "reference"]);
+      expect(result.reference).toMatch(/^HAQ-H-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{8}$/);
+      expect(result.callback_message).toBe(`A person from the HAQ team will call you back. Your reference is ${result.reference}.`);
     },
   );
 

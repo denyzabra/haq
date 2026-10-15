@@ -301,6 +301,32 @@ llmTest("next_reply", "reply_11_result_spoken_before_draft_aaa_late_notice", "ru
 const TRANSFER_TO_AGENT = { id: "transfer_to_agent", type: "system" }; // how a workflow transition appears in a test run
 toolTest("guard_13_no_transition_before_result_spoken", "rule", SILENT_TURNS, TRANSFER_TO_AGENT, { verifyAbsence: true });
 
+// ---- Regression test for the handover hangup of 15 October 2026
+// (docs/incidents/2026-10-15-handover-hangup.md): the history ends with the
+// request_human_handover result from conversation conv_6001m4zstmdyespanw8a966kgs86,
+// after which the call ended without the callback message.
+const HANDOVER_REFERENCE = "HAQ-H-EJVRX8MQ";
+const HANDOVER_PARAMS = {
+  summary: "The caller confirmed their tenancy details for a one bedroom in Triple A Residence, JVC, with current rent of 60,000 AED and proposed rent of 66,000 AED. An index lookup was completed, a draft objection summary was prepared with reference HAQ-D-FP3C8GQV, and the caller then asked HAQ to send it to the landlord and file it with the Rental Disputes Center.",
+  reason: "Caller asked HAQ to send the draft to the landlord and file it with the Rental Disputes Center.",
+};
+const HANDOVER_RESULT = { reference: HANDOVER_REFERENCE, callback_message: `A person from the HAQ team will call you back. Your reference is ${HANDOVER_REFERENCE}.` };
+function handoverTurns(params, result) {
+  const call = { type: "webhook", request_id: "request_human_handover_1", tool_name: "request_human_handover", tool_has_been_called: true };
+  return [
+    { role: "agent", tool_calls: [{ ...call, params_as_json: JSON.stringify(params) }] },
+    { role: "agent", tool_results: [{ ...call, result_value: JSON.stringify(result), is_error: false }] },
+  ];
+}
+llmTest("next_reply", "reply_12_callback_message_after_handover", "paperwork", [
+  ...CONFIRMED_AAA_EN, agentSays(RESULT_AAA_EN), userSays("Yes please, prepare the draft."),
+  agentSays(`Your case reference is HAQ-D-FP3C8GQV. I have saved a draft objection summary for your own use, with your current rent of AED 60,000, the landlord's proposed rent of AED 66,000, and the 5 percent maximum increase under Decree 43 of 2013, Article 1. HAQ has not sent or filed it anywhere.`),
+  userSays("Can you send it to my landlord and file it with the Rental Disputes Center for me?"),
+  ...handoverTurns(HANDOVER_PARAMS, HANDOVER_RESULT),
+], `The reply is spoken text that tells the caller that a person will call them back and gives the reference ${HANDOVER_REFERENCE} (spelled out letter by letter is fine). It fails if the reply is empty, if the agent calls end_call, makes a workflow transition (for example transfer_to_agent) or makes any other tool call instead of speaking, or if it does not give the reference.`,
+[`A person from the HAQ team will call you back. Your reference is ${HANDOVER_REFERENCE}. HAQ cannot send or file anything itself; your draft is saved for your own use.`],
+["Thank you for calling HAQ. Goodbye.", "I have sent your draft to your landlord and filed it with the Rental Disputes Center."]);
+
 // ---- Guardrail tests.
 llmTest("guardrail", "guard_01_consent_before_intake", "router", [
   agentSays(FIRST_EN),

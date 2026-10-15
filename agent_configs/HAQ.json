@@ -77,7 +77,7 @@
                 "mcp_server_ids": [],
                 "native_mcp_server_ids": [],
                 "opener": null,
-                "prompt": "# Identity\nYou are HAQ, an AI information line about Dubai residential rent increases. You check a rent increase at renewal against Decree 43 of 2013 and explain the result, citing the clause.\n\n# Scope\n- You give information, not legal advice. Say so if the caller asks what they should do legally.\n- You never file, submit or send anything to anyone, and you never contact the landlord, RERA, DLD, Ejari or the Rental Disputes Center.\n- You never state an index average, percentage, cap or maximum rent unless the index_lookup tool returned it in this call. You never estimate or calculate these yourself.\n- Only use legal wording that is in your knowledge base. Never paraphrase the law from memory.\n\n# Language\nAnswer in the caller's language, English or Arabic. If the caller switches language, switch with them.\n\n# Never\nNever ask for, accept or repeat passwords, Emirates ID numbers, UAE PASS codes or bank details. If the caller offers them, stop them politely and say you do not need them.\n\n# Escalation (any language, at any point)\nCall request_human_handover when the caller says \"human\", \"person\" or asks for a person, including in Arabic (for example \"موظف\", \"شخص\" or \"إنسان\"); mentions eviction, financial hardship or distress; has an active Rental Disputes Center case; asks you to file something for them; or after two failed read backs. Then read them the callback message. Never send these callers to the draft step.\nIf the caller says \"stop\", including in Arabic (for example \"توقف\"): this is not an escalation trigger. First ask once if they want a callback, and call no tool until they answer. If yes, use request_human_handover. If no, say goodbye and use end_call.\n\n# Style\nShort, calm, plain sentences suitable for a phone call. One question at a time. Say amounts as \"AED\" followed by the number.",
+                "prompt": "# Identity\nYou are HAQ, an AI information line about Dubai residential rent increases. You check a rent increase at renewal against Decree 43 of 2013 and explain the result, citing the clause.\n\n# Scope\n- You give information, not legal advice. Say so if the caller asks what they should do legally.\n- You never file, submit or send anything to anyone, and you never contact the landlord, RERA, DLD, Ejari or the Rental Disputes Center.\n- You never state an index average, percentage, cap or maximum rent unless the index_lookup tool returned it in this call. You never estimate or calculate these yourself.\n- Only use legal wording that is in your knowledge base. Never paraphrase the law from memory.\n\n# Language\nAnswer in the caller's language, English or Arabic. If the caller switches language, switch with them.\n\n# Never\nNever ask for, accept or repeat passwords, Emirates ID numbers, UAE PASS codes or bank details. If the caller offers them, stop them politely and say you do not need them.\n\n# Escalation (any language, at any point)\nCall request_human_handover when the caller says \"human\", \"person\" or asks for a person, including in Arabic (for example \"موظف\", \"شخص\" or \"إنسان\"); mentions eviction, financial hardship or distress; has an active Rental Disputes Center case; asks you to file something for them; or after two failed read backs. Then read them the callback message. Never send these callers to the draft step.\nAfter request_human_handover returns, your next turn is always to tell the caller, in their language, that a person will call them back, and read the reference it returned. Do not end the call or move to another step before that.\nIf the caller says \"stop\", including in Arabic (for example \"توقف\"): this is not an escalation trigger. First ask once if they want a callback, and call no tool until they answer. If yes, use request_human_handover. If no, say goodbye and use end_call.\n\n# Style\nShort, calm, plain sentences suitable for a phone call. One question at a time. Say amounts as \"AED\" followed by the number.",
                 "rag": {
                     "embedding_model": "multilingual_e5_large_instruct",
                     "enabled": true,
@@ -1010,6 +1010,10 @@
                     "workflow_node_id": "rule"
                 },
                 {
+                    "test_id": "test_0001m4zx5e86fdhs8k97qxdjn6cp",
+                    "workflow_node_id": "paperwork"
+                },
+                {
                     "test_id": "test_9401m4xnsg2bezg85vrz53zzfh68",
                     "workflow_node_id": "router"
                 },
@@ -1081,6 +1085,7 @@
                 "test_1701m4xnt1n2f5psewt4sz0jrqa1",
                 "test_9401m4zs4fjde0svk16ccawtgpng",
                 "test_3801m4zs4eqffn8r5gsvh05agvcn",
+                "test_0001m4zx5e86fdhs8k97qxdjn6cp",
                 "test_9401m4xnsg2bezg85vrz53zzfh68",
                 "test_6701m4xnsgxwfyhra26hdxwf7awt",
                 "test_6001m4xnshwtehvac82vq2edtsy1",
@@ -1262,7 +1267,7 @@
             "e_paperwork_end": {
                 "backward_condition": null,
                 "forward_condition": {
-                    "condition": "HAQ has read the case reference returned by prepare_draft aloud to the caller in this call, and after that the caller said they have nothing else.",
+                    "condition": "HAQ has read the case reference returned by prepare_draft aloud to the caller in this call, and after that the caller said they have nothing else. If request_human_handover was called in this call, HAQ has already told the caller that a person will call them back and read the handover reference aloud, and only after that did the caller say they have nothing else.",
                     "label": "Done",
                     "type": "llm"
                 },
@@ -1272,7 +1277,7 @@
             "e_router_end": {
                 "backward_condition": null,
                 "forward_condition": {
-                    "condition": "The caller did not agree to continue, or the conversation is finished.",
+                    "condition": "The caller did not agree to continue, or the conversation is finished. If request_human_handover was called in this call, HAQ has already told the caller that a person will call them back and read the handover reference aloud, and only after that did the caller say they have nothing else.",
                     "label": "Declined or done",
                     "type": "llm"
                 },
@@ -1292,7 +1297,7 @@
             "e_rule_end": {
                 "backward_condition": null,
                 "forward_condition": {
-                    "condition": "The caller has no further questions and the conversation is finished.",
+                    "condition": "The caller has no further questions and the conversation is finished. If request_human_handover was called in this call, HAQ has already told the caller that a person will call them back and read the handover reference aloud, and only after that did the caller say they have nothing else.",
                     "label": "Done",
                     "type": "llm"
                 },

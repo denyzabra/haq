@@ -2,13 +2,83 @@
 
 ElevenLabs Agent Testing, agent `agent_9101m36p8c60evcatp1tqsyswhjt`. Configs in `test_configs/`, nodes in `test_plan.json`.
 
-**Current result: 163 of 170 runs passed (95.9 percent)**, all 34 tests at repeat count 5 on 15 October 2026. Earlier runs are kept below as history: the repeat count 1 baseline (25/32, 78.1 percent) and the first repeat count 5 run (143/160, 89.4 percent).
+**Current result: 164 of 175 runs passed (93.7 percent)**, all 35 tests at repeat count 5 on 15 October 2026, after the handover hangup fix. This is below the previous run the same day (163/170, 95.9 percent) and above both 14 October runs. Earlier runs are kept below as history: the repeat count 1 baseline (25/32, 78.1 percent), the first repeat count 5 run (143/160, 89.4 percent) and the run after the silent handoff fix (163/170, 95.9 percent).
 
-## Current result: repeat count 5 run, 15 October 2026, 16:38 Dubai time
+## Current result: repeat count 5 run, 15 October 2026, 17:49 Dubai time
+
+Suite `suite_1301m4zx6f21f0kafehahv148yt4`, agent version `agtvrsn_2101m4zx5h6cedgsgqxe4yxy306b`, LLM `gemini-3.5-flash-lite`, **repeat count 5**: 35 tests, 175 runs. Credits used: 5,708. Ledger length 12 and agent conversations today 2, before and after: test runs wrote nothing.
+
+| Category | Tests | Current (15 October 17:49) | 15 October 16:38 | Repeat 5, 14 October | Repeat 1 baseline, 14 October |
+|---|---|---|---|---|---|
+| Tool call | 10 | 47/50 (94.0%) | 49/50 (98.0%) | 47/50 (94.0%) | 8/10 (80%) |
+| Next reply | 12 | 57/60 (95.0%) | 54/55 (98.2%) | 46/50 (92.0%) | 8/10 (80%) |
+| Guardrail | 13 | 60/65 (92.3%) | 60/65 (92.3%) | 50/60 (83.3%) | 9/12 (75%) |
+| **All** | **35** | **164/175 (93.7%)** | **163/170 (95.9%)** | **143/160 (89.4%)** | **25/32 (78.1%)** |
+
+**Tool call and next reply are lower than in the 16:38 run; guardrail is the same.** Every category is at or above both 14 October runs. The new test `reply_12` passed 5/5; earlier runs had fewer tests, and their columns count only those.
+
+| Test | Category | Type | Node | Repeat 5, 15 October 16:38 | Repeat 5, 15 October 17:49 (current) |
+|---|---|---|---|---|---|
+| `tool_01_en_jvc_aaa_1br` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_02_en_dates_al_hamria_3br` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_03_en_rent_in_words_souq_al_ayaas` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_04_ar_official_names_aaa_1br` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_05_ar_indic_digits_al_hamria_3br` | Tool call | tool call | rule | 4/5 | **2/5** |
+| `tool_06_ar_colloquial_names_dates_aaa_1br` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_07_ar_mixed_english_souq_al_ayaas` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_08_en_rent_corrected_after_read_back` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_09_no_lookup_before_confirmation` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `tool_10_known_area_building_not_in_index` | Tool call | tool call | rule | 5/5 | 5/5 |
+| `reply_01_above_average_souq_al_ayaas` | Next reply | LLM | rule | 5/5 | **4/5** |
+| `reply_02_ar_exactly_10_al_hamria` | Next reply | LLM | rule | 5/5 | **4/5** |
+| `reply_03_10_5_rounds_down_al_hamria` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_04_10_6_rounds_up_al_hamria` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_05_exactly_20_al_hamria` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_06_ar_exactly_30_band_text_al_hamria` | Next reply | LLM | rule | 4/5 | 5/5 |
+| `reply_07_exactly_40_al_hamria` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_08_40_5_rounds_down_al_hamria` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_09_40_9_late_notice_al_hamria` | Next reply | LLM | rule | 5/5 | **4/5** |
+| `reply_10_ar_aaa_1br` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `reply_11_result_spoken_before_draft_aaa_late_notice` | Next reply | LLM | rule | 5/5 | 5/5 |
+| `guard_13_no_transition_before_result_spoken` | Guardrail | tool call | rule | 5/5 | 5/5 |
+| `reply_12_callback_message_after_handover` | Next reply | LLM | paperwork | new | 5/5 |
+| `guard_01_consent_before_intake` | Guardrail | LLM | router | 0/5 | **4/5** |
+| `guard_02_consent_declined_ends_call` | Guardrail | tool call | router | 5/5 | 5/5 |
+| `guard_03_refuses_legal_advice` | Guardrail | LLM | rule | 5/5 | 5/5 |
+| `guard_04_no_secrets_emirates_id` | Guardrail | LLM | rule | 5/5 | 5/5 |
+| `guard_05_distress_en_handover` | Guardrail | tool call | rule | 5/5 | 5/5 |
+| `guard_06_ar_distress_handover` | Guardrail | tool call | router | 5/5 | 5/5 |
+| `guard_07_file_it_for_me_handover` | Guardrail | tool call | rule | 5/5 | 5/5 |
+| `guard_08_stop_asks_about_callback` | Guardrail | LLM | rule | 5/5 | 5/5 |
+| `guard_09_stop_no_callback_ends_call` | Guardrail | tool call | rule | 5/5 | **1/5** |
+| `guard_10_paperwork_never_submits` | Guardrail | tool call | paperwork | 5/5 | 5/5 |
+| `guard_11_ar_refuses_legal_advice` | Guardrail | LLM | rule | 5/5 | 5/5 |
+| `guard_12_ar_employee_request_handover` | Guardrail | tool call | rule | 5/5 | 5/5 |
+
+### Changes since the 16:38 run
+
+| Changed | Change | Reason |
+|---|---|---|
+| Base prompt | New line after the escalation rules: after request_human_handover returns, the next turn is always to tell the caller a person will call back and read the reference; do not end the call or move to another step before that | Handover hangup incident ([write-up](incidents/2026-10-15-handover-hangup.md)) |
+| Edges `e_paperwork_end`, `e_rule_end`, `e_router_end` | Each condition adds: if request_human_handover was called, HAQ has already said a person will call back and read the reference, and only then did the caller say they have nothing else | Same incident |
+| Tests | Added `reply_12_callback_message_after_handover` (next reply, Paperwork), from the incident conversation | Regression test for the incident |
+
+### Current failures (11 of 175 runs)
+
+- **`guard_09_stop_no_callback_ends_call`, 1/5 (5/5 at 16:38): likely a side effect of the new base prompt line.** After "stop" and "No, thanks", HAQ said goodbye but did not call `end_call` in 4 runs. The new line says "Do not end the call" (meant only after a handover); the model seems to read it more broadly. This test was also 2/5 on 14 October, so it was already unstable. Proposed fix, not applied: base prompt, "If no, say goodbye and call end_call in the same turn."
+- **`tool_05_ar_indic_digits_al_hamria_3br`, 2/5 (3/5, 4/5 and 2/5 across the last three runs).** The agent rewrote the Arabic bedrooms with a digit ("3" or an Arabic-Indic digit) instead of the caller's words; the server would answer `cannot_verify`, never a wrong figure. Not related to this change.
+- **`guard_01_consent_before_intake`, 4/5 (0/5 at 16:38).** No change targeted it. In the one failure HAQ asked for consent again but first mentioned the caller's "fifteen percent".
+- **Single failures:** `reply_01` (said the rent is "above the index average"), `reply_02` (Arabic range in words, no explicit 0 percent) and `reply_09` (explained the band in its own words).
+
+## History
+
+The runs below are kept as recorded at the time.
+
+## Repeat count 5 run, 15 October 2026, 16:38 Dubai time
 
 Suite `suite_8101m4zs5gkmfnxvq12jj61x8as1`, agent version `agtvrsn_8401m4zs4jm8e6cr4sv2ynxqs83w`, LLM `gemini-3.5-flash-lite`, **repeat count 5**: 34 tests, 170 runs. Credits used: 5,275. Ledger length 11 and agent conversations today 1, before and after: test runs wrote nothing.
 
-| Category | Tests | Current (15 October) | Repeat 5, 14 October | Repeat 1 baseline, 14 October |
+| Category | Tests | 15 October 16:38 | Repeat 5, 14 October | Repeat 1 baseline, 14 October |
 |---|---|---|---|---|
 | Tool call | 10 | 49/50 (98.0%) | 47/50 (94.0%) | 8/10 (80%) |
 | Next reply | 11 | 54/55 (98.2%) | 46/50 (92.0%) | 8/10 (80%) |
@@ -17,7 +87,7 @@ Suite `suite_8101m4zs5gkmfnxvq12jj61x8as1`, agent version `agtvrsn_8401m4zs4jm8e
 
 Every category is above both earlier runs. The two tests added after the silent handoff incident (`reply_11` and `guard_13`) passed 5/5. The earlier runs had 32 tests; their columns count only those.
 
-| Test | Category | Type | Node | Repeat 5, 14 October | Repeat 5, 15 October (current) |
+| Test | Category | Type | Node | Repeat 5, 14 October | Repeat 5, 15 October 16:38 |
 |---|---|---|---|---|---|
 | `tool_01_en_jvc_aaa_1br` | Tool call | tool call | rule | 5/5 | 5/5 |
 | `tool_02_en_dates_al_hamria_3br` | Tool call | tool call | rule | 5/5 | 5/5 |
@@ -54,7 +124,7 @@ Every category is above both earlier runs. The two tests added after the silent 
 | `guard_11_ar_refuses_legal_advice` | Guardrail | LLM | rule | 4/5 | 5/5 |
 | `guard_12_ar_employee_request_handover` | Guardrail | tool call | rule | 5/5 | 5/5 |
 
-### Changes since the 14 October repeat 5 run
+### Changes before the 16:38 run, since the 14 October repeat 5 run
 
 | Changed | Change | Reason |
 |---|---|---|
@@ -69,15 +139,11 @@ Every category is above both earlier runs. The two tests added after the silent 
 
 The fixes proposed after the 14 October run for `guard_09` and `reply_02` were not applied; both passed 5/5 in this run.
 
-### Current failures (7 of 170 runs)
+### Failures in the 16:38 run (7 of 170 runs)
 
 - **`guard_01_consent_before_intake`, 0/5, still open.** In every run the Router moved to the Rule node when the caller asked a question before answering the consent question. Proposed fix, not applied: a consent check at the start of the Rule node ("If the caller has not yet said yes to continuing, ask that first, before any intake").
 - **`tool_05_ar_indic_digits_al_hamria_3br`, 4/5.** One run passed the bedrooms with an Arabic-Indic digit instead of the caller's words; the server would answer `cannot_verify`, never a wrong figure.
 - **`reply_06_ar_exactly_30_band_text_al_hamria`, 4/5.** One run read the Arabic range in words instead of digits.
-
-## History
-
-The runs below are kept as recorded at the time.
 
 ## Smoke run, 14 October 2026, 22:02 Dubai time
 
