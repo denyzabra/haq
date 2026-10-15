@@ -1,5 +1,23 @@
+import { DEMO_EXAMPLE, demoBuildings } from "@/lib/demo-buildings";
 import VoiceDemo from "./components/VoiceDemo";
 import styles from "./page.module.css";
+
+// The name a caller says, DLD's official name when it differs, and DLD's Arabic name.
+function Name({ spoken, dld, ar }: { spoken: string; dld: string; ar: string | null }) {
+  return (
+    <>
+      <span className={styles.spoken}>{spoken}</span>
+      {dld !== spoken && <span className={styles.dld}>DLD: {dld}</span>}
+      {ar ? (
+        <span className={styles.arabic} lang="ar" dir="rtl">
+          {ar}
+        </span>
+      ) : (
+        <span className={styles.dld}>No Arabic name from DLD</span>
+      )}
+    </>
+  );
+}
 
 export default function Home() {
   return (
@@ -23,6 +41,44 @@ export default function Home() {
             Index figures are copied from the <strong>DLD Rental Index</strong> for a few buildings only (retrieved 14
             October 2026). The official result is on the DLD Rental Index calculator.
           </p>
+
+          <section className={styles.tryBox} aria-labelledby="try-buildings-heading">
+            <h2 id="try-buildings-heading" className={styles.tryHeading}>
+              Try it with these buildings
+            </h2>
+            <div className={styles.tableWrap}>
+              <table className={styles.tryTable}>
+                <thead>
+                  <tr>
+                    <th scope="col">Area</th>
+                    <th scope="col">Building</th>
+                    <th scope="col">Bedrooms</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {demoBuildings().map((b) => (
+                    <tr key={`${b.buildingDld} ${b.bedroomsDld}`}>
+                      <td data-label="Area">
+                        <Name spoken={b.area} dld={b.areaDld} ar={b.areaAr} />
+                      </td>
+                      <td data-label="Building">
+                        <Name spoken={b.building} dld={b.buildingDld} ar={b.buildingAr} />
+                      </td>
+                      <td data-label="Bedrooms">
+                        <Name spoken={b.bedrooms} dld={b.bedroomsDld} ar={b.bedroomsAr} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className={styles.tryExample}>
+              Example: <q>{DEMO_EXAMPLE}</q>
+            </p>
+            <p className={styles.tryNote}>
+              Any other building: HAQ says it cannot verify and points you to the DLD calculator. That is by design.
+            </p>
+          </section>
         </div>
       </header>
 
