@@ -273,6 +273,34 @@ replyTest({ name: "reply_09_40_9_late_notice_al_hamria", e: HAMRIA, rent: 53190,
   extraFailure: "Because the notice was late, the increase is invalid and unlawful." });
 replyTest({ name: "reply_10_ar_aaa_1br", e: AAA, rent: 60000, words: { area: AAA.area_ar, building: AAA.building_ar, bedrooms: AAA.bedrooms_ar }, language: "ar", label: "AAA, DLD row 1" });
 
+// ---- Regression tests for the silent handoff of 15 October 2026
+// (docs/incidents/2026-10-15-silent-handoff.md). The history is conversation
+// conv_8401m4zr14vvfy0sbjwgaqw6m0rs up to the index_lookup result, after which
+// the agent moved to Paperwork without speaking and the call ended in silence.
+const SILENT_DATES = ["2026-12-31", "2026-10-10"];
+const SILENT_PARAMS = { renewal_date: SILENT_DATES[0], area: "JVC", current_rent_aed: 60000, bedrooms: "1 bedroom", building: "Triple A Residence", notice_received_date: SILENT_DATES[1] };
+const SILENT_RESULT = lookupResult(AAA, 60000, SILENT_DATES);
+const SILENT_TURNS = [
+  agentSays(FIRST_EN),
+  userSays("Yes, that's fine."),
+  agentSays("Great! To help you check your rent increase, could you please tell me the area or community, the building name, the number of bedrooms, and your current annual rent in dirhams?"),
+  userSays("I live in JVC in Triple A Residence. It's a one-bedroom flat. My rent is 60,000 dirham a year. My landlord wants 66,000. The contract ends on 31st December, 2026. And he told me on 10th October, 2026."),
+  agentSays("Just to confirm, you live in JVC, in Triple A Residence, with one bedroom, and your current annual rent is sixty thousand dirhams. Your landlord is proposing sixty-six thousand dirhams, your contract ends on the thirty-first of December, two thousand twenty-six, and you received notice on the tenth of October, two thousand twenty-six. Is that correct?"),
+  userSays("Yes, that's correct."),
+  ...lookupTurns(SILENT_PARAMS, SILENT_RESULT),
+];
+expected.push({ name: "reply_11_result_spoken_before_draft_aaa_late_notice", label: "silent handoff regression, late notice", area: AAA.area, building: AAA.building, bedrooms: AAA.bedrooms,
+  current_rent_aed: 60000, percent_below: SILENT_RESULT.percent_below_average, max_increase_percent: SILENT_RESULT.max_increase_percent,
+  max_increase_aed: SILENT_RESULT.max_increase_aed, max_new_rent_aed: SILENT_RESULT.max_new_rent_aed, language: "en" });
+llmTest("next_reply", "reply_11_result_spoken_before_draft_aaa_late_notice", "rule", SILENT_TURNS,
+  `The reply is spoken text that gives the index_lookup result: DLD's range of AED ${fmt(SILENT_RESULT.range_min_aed)} to AED ${fmt(SILENT_RESULT.range_max_aed)}, a maximum increase of ${capWords(SILENT_RESULT)} and a maximum new rent of AED ${fmt(SILENT_RESULT.max_new_rent_aed)}, citing ${DECREE_43_CLAUSE}. It fails if the reply is empty, if the agent makes a workflow transition (for example transfer_to_agent) or any other tool call instead of speaking the result, or if it calls prepare_draft or prepares a draft before the result is spoken.`,
+  [`For Triple A Residence, one bedroom, the DLD Rental Index for that building and bedroom type is AED ${fmt(SILENT_RESULT.range_min_aed)} to AED ${fmt(SILENT_RESULT.range_max_aed)}. Under ${DECREE_43_CLAUSE}, the maximum increase is ${capWords(SILENT_RESULT)}, so the maximum new rent is AED ${fmt(SILENT_RESULT.max_new_rent_aed)}. The proposed AED 66,000 is above that maximum. The official result is on the DLD Rental Index calculator. This is information, not legal advice. Would you like me to prepare a draft objection summary for your own use?`],
+  ["I've prepared your draft objection summary. Your case reference is HAQ-D-2Y3HGP4N.",
+   "Let me move you to the draft step."]);
+
+const TRANSFER_TO_AGENT = { id: "transfer_to_agent", type: "system" }; // how a workflow transition appears in a test run
+toolTest("guard_13_no_transition_before_result_spoken", "rule", SILENT_TURNS, TRANSFER_TO_AGENT, { verifyAbsence: true });
+
 // ---- Guardrail tests.
 llmTest("guardrail", "guard_01_consent_before_intake", "router", [
   agentSays(FIRST_EN),

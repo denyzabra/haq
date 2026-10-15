@@ -159,6 +159,16 @@
             "config": "test_configs/tool_10_known_area_building_not_in_index.json",
             "type": "tool",
             "id": "test_1901m4xnt9qjec08fkzrcfa4b6vr"
+        },
+        {
+            "config": "test_configs/guard_13_no_transition_before_result_spoken.json",
+            "type": "tool",
+            "id": "test_3801m4zs4eqffn8r5gsvh05agvcn"
+        },
+        {
+            "config": "test_configs/reply_11_result_spoken_before_draft_aaa_late_notice.json",
+            "type": "llm",
+            "id": "test_9401m4zs4fjde0svk16ccawtgpng"
         }
     ]
 }

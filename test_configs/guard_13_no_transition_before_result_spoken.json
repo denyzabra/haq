@@ -1,0 +1,72 @@
+{
+    "name": "guard_13_no_transition_before_result_spoken",
+    "type": "tool",
+    "chat_history": [
+        {
+            "role": "agent",
+            "message": "Hello, this is HAQ, an AI information line about Dubai rent increases. I give information, not legal advice, and this call is logged. Is it okay to continue?",
+            "time_in_call_secs": 0
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's fine.",
+            "time_in_call_secs": 6
+        },
+        {
+            "role": "agent",
+            "message": "Great! To help you check your rent increase, could you please tell me the area or community, the building name, the number of bedrooms, and your current annual rent in dirhams?",
+            "time_in_call_secs": 14
+        },
+        {
+            "role": "user",
+            "message": "I live in JVC in Triple A Residence. It's a one-bedroom flat. My rent is 60,000 dirham a year. My landlord wants 66,000. The contract ends on 31st December, 2026. And he told me on 10th October, 2026.",
+            "time_in_call_secs": 20
+        },
+        {
+            "role": "agent",
+            "message": "Just to confirm, you live in JVC, in Triple A Residence, with one bedroom, and your current annual rent is sixty thousand dirhams. Your landlord is proposing sixty-six thousand dirhams, your contract ends on the thirty-first of December, two thousand twenty-six, and you received notice on the tenth of October, two thousand twenty-six. Is that correct?",
+            "time_in_call_secs": 28
+        },
+        {
+            "role": "user",
+            "message": "Yes, that's correct.",
+            "time_in_call_secs": 34
+        },
+        {
+            "role": "agent",
+            "tool_calls": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "params_as_json": "{\"renewal_date\":\"2026-12-31\",\"area\":\"JVC\",\"current_rent_aed\":60000,\"bedrooms\":\"1 bedroom\",\"building\":\"Triple A Residence\",\"notice_received_date\":\"2026-10-10\"}"
+                }
+            ],
+            "time_in_call_secs": 42
+        },
+        {
+            "role": "agent",
+            "tool_results": [
+                {
+                    "type": "webhook",
+                    "request_id": "index_lookup_1",
+                    "tool_name": "index_lookup",
+                    "tool_has_been_called": true,
+                    "result_value": "{\"outcome\":\"checked\",\"area\":\"Al Barsha South Fourth\",\"area_ar\":\"البرشاء جنوب الرابعة\",\"building\":\"AAA RESIDENCE\",\"building_ar\":\"ايه ايه ايه ريزيدنيس\",\"bedrooms\":\"1bed room+Hall\",\"bedrooms_ar\":\"غرفة و صالة\",\"current_rent_aed\":60000,\"range_min_aed\":64038,\"range_max_aed\":78268,\"index_average_aed\":71153,\"percent_below_average\":15.67,\"max_increase_percent\":5,\"max_increase_aed\":3000,\"max_new_rent_aed\":63000,\"clause\":\"Decree 43 of 2013, Article 1\",\"dld_band_text_en\":\"When renewing real property lease contracts, the maximum percentage of rent increase for real property in the Emirate of Dubai, 5% of the rent of real property unit, where the rent is 11% to 20% less than the average rental value of similar units.\",\"dld_band_text_ar\":\"تتحدد نسبة الزيادة القصوى في بدل إيجار العقارات في إمارة دبي عند تجديد عقود الايجار العقارات، 5% من القيمة الايجارية للوحدة العقارية إذا كان بدل إيجارها يقل بنسبة تتراوح بين 11% وحتى 20% من متوسط أجر المثل.\",\"data_source\":\"DLD Rental Index, building level, retrieved 14 October 2026\",\"notice\":{\"days_before_expiry\":82,\"minimum_notice_days\":90,\"notice_late\":true,\"clause\":\"Law 26 of 2007 as amended by Law 33 of 2008, Article 14\"}}",
+                    "is_error": false
+                }
+            ],
+            "time_in_call_secs": 48
+        }
+    ],
+    "tool_call_parameters": {
+        "referenced_tool": {
+            "id": "transfer_to_agent",
+            "type": "system"
+        },
+        "parameters": [],
+        "verify_absence": true
+    },
+    "check_any_tool_matches": false
+}

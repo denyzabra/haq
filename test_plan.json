@@ -111,6 +111,16 @@
             "workflow_node_id": "rule"
         },
         {
+            "config": "test_configs/reply_11_result_spoken_before_draft_aaa_late_notice.json",
+            "category": "next_reply",
+            "workflow_node_id": "rule"
+        },
+        {
+            "config": "test_configs/guard_13_no_transition_before_result_spoken.json",
+            "category": "guardrail",
+            "workflow_node_id": "rule"
+        },
+        {
             "config": "test_configs/guard_01_consent_before_intake.json",
             "category": "guardrail",
             "workflow_node_id": "router"
