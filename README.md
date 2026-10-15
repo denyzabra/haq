@@ -176,6 +176,10 @@ To check before sign off (marked `UNVERIFIED` in the files):
 - Arabic items listed under [Arabic](#arabic), and an Arabic source for the notice rule.
 - Arabic voice quality on Eleven v3 has not yet been checked by ear. If it is weak, the Arabic preset will move to a model that handles Arabic better and this README will say which.
 
+Known gaps:
+
+- Handover entries record language and callback consent as "Not given" on `/staff`, because HAQ hands over as soon as the caller asks to file, before asking about a callback. Planned fix: ask for callback consent first and pass language and consent to `request_human_handover`.
+
 ## Security and privacy
 
 - The ElevenLabs API key stays on the server; the browser only receives a single use conversation token.
