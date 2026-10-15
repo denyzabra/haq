@@ -33,6 +33,10 @@ export const BUILDING_ALIASES: Readonly<Record<string, readonly string[]>> = {
     "Dubai Municipality Souq Al Ayaas",
     "سوق العياص", // UNVERIFIED Arabic alias
   ],
+  // Transliterations of the building's own name: DLD's Arabic name for AL HAMRIA is
+  // the same word as the area's. Building aliases only match inside their own area
+  // (Al Hamriya), where AL HAMRIA is the only building in the index.
+  "AL HAMRIA": ["Al Hamriya", "Al Hamriyah"],
 };
 
 // Keyed by DLD's bedrooms label. Add "Studio" style labels only where DLD lists

@@ -220,6 +220,16 @@ describe("Arabic names", () => {
     }
   });
 
+  it.each(["Al Hamriya", "Al Hamriyah"])("%j is AL HAMRIA inside Al Hamriya and no building anywhere else", (name) => {
+    const hamria = INDEX_ENTRIES.find((e) => e.building === "AL HAMRIA")!;
+    expect(resolveBuilding("Al Hamriya", name)).toBe("AL HAMRIA");
+    expect(lookupIndex(hamria.area_ar, name, "3 bedrooms")).toMatchObject({ found: true, entry: hamria });
+    for (const area of new Set(INDEX_ENTRIES.map((e) => e.area).filter((a) => a !== "Al Hamriya"))) {
+      expect(resolveBuilding(area, name), area).toBeUndefined();
+    }
+    expect(resolveBuilding("Deira", name)).toBeUndefined();
+  });
+
   it("resolves every alias in the alias table to its DLD name", () => {
     const area = (name: string) => INDEX_ENTRIES.find((e) => e.building === name)!.area;
     for (const [name, aliases] of Object.entries(AREA_ALIASES)) for (const a of aliases) expect(resolveArea(a), a).toBe(name);

@@ -1,5 +1,5 @@
 import { AREA_ALIASES, BEDROOM_ALIASES, BUILDING_ALIASES } from "./index-aliases";
-import { INDEX_ENTRIES, type IndexEntry } from "./mock-index";
+import { INDEX_ENTRIES, normalizeKey, type IndexEntry } from "./mock-index";
 
 // Rows for the "Try it with these buildings" box on the demo page, built from
 // data/mock-index.json and the alias table, so the page always lists exactly the
@@ -28,12 +28,19 @@ const spokenName = (aliases: readonly string[] | undefined, official: string) =>
 const spokenBedrooms = (aliases: readonly string[] | undefined, official: string) =>
   aliases?.filter((a) => /^\d+ bedrooms?$/i.test(a)).at(-1) ?? official;
 
+// A building alias that is also the area's name (AL HAMRIA in Al Hamriya) is not
+// shown as the building's name, so the box never looks like an area was entered twice.
+const buildingAliases = (e: IndexEntry) => {
+  const areaNames = new Set([e.area, ...(AREA_ALIASES[e.area] ?? [])].map(normalizeKey));
+  return BUILDING_ALIASES[e.building]?.filter((a) => !areaNames.has(normalizeKey(a)));
+};
+
 export function demoBuildings(entries: readonly IndexEntry[] = INDEX_ENTRIES): DemoBuilding[] {
   return entries.map((e) => ({
     area: spokenName(AREA_ALIASES[e.area], e.area),
     areaDld: e.area,
     areaAr: e.area_ar,
-    building: spokenName(BUILDING_ALIASES[e.building], e.building),
+    building: spokenName(buildingAliases(e), e.building),
     buildingDld: e.building,
     buildingAr: e.building_ar,
     bedrooms: spokenBedrooms(BEDROOM_ALIASES[e.bedrooms], e.bedrooms),

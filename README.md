@@ -9,7 +9,7 @@ HAQ is a voice agent that checks a Dubai rent increase against Decree 43 of 2013
 - **Live demo:** https://haq-tan.vercel.app
 - **Demo video:** VIDEO_LINK_HERE
 - **Architecture, one page:** [`docs/architecture.md`](docs/architecture.md) (Mermaid diagram of the system as built, flows 1 to 9 as on the demo page)
-- **Agent test results:** [`docs/test-results.md`](docs/test-results.md). Headline: **160 of 175 runs passed (91.4 percent)**, all 35 ElevenLabs Agent Testing tests at repeat count 5 in the latest run. That is below the two earlier runs on 15 October (164 of 175 and 163 of 170) and above the first repeat count 5 run (143 of 160, 89.4 percent) and the repeat count 1 baseline (25 of 32, 78.1 percent).
+- **Agent test results:** [`docs/test-results.md`](docs/test-results.md). Headline: **167 of 175 runs passed (95.4 percent)**, all 35 ElevenLabs Agent Testing tests at repeat count 5 on the frozen agent, up from a repeat count 1 baseline of 25 of 32 (78.1 percent). Totals vary by a few points between repeat 5 runs (91.4 to 95.9 percent across four runs on 15 October).
 - **Incidents found while recording, fixed and tested:** [`docs/incidents/2026-10-15-silent-handoff.md`](docs/incidents/2026-10-15-silent-handoff.md) (HAQ moved to the draft step without speaking the result; two regression tests now cover it), and [`docs/incidents/2026-10-15-handover-hangup.md`](docs/incidents/2026-10-15-handover-hangup.md) (after a handover the call ended before HAQ gave the callback message; one regression test now covers it).
 - **Demo conversations:** [`docs/demo-conversations/`](docs/demo-conversations/), one file per conversation with the full transcript, tool calls and results, and the post call analysis (evaluation criteria and data collection), exported from the ElevenLabs API by `scripts/export-demo-conversations.mjs`.
 
@@ -145,18 +145,18 @@ What we observed when running them (14 October 2026):
 
 ## Test results
 
-Current result, 15 October 2026, 18:02 Dubai time: **160 of 175 runs passed (91.4 percent)**, 35 tests at repeat count 5, agent version `agtvrsn_9301m4zxtyc1fy095r7v2ktf4f8r`. Every result, the failure analysis and every change between runs are in [`docs/test-results.md`](docs/test-results.md); earlier runs are kept there as history.
+Final result, 15 October 2026, 18:10 Dubai time: **167 of 175 runs passed (95.4 percent)**, 35 tests at repeat count 5, agent version `agtvrsn_1801m4zyagerfhr9mn0p4hyge5h1`. The agent is frozen at this version for the Stage 2 submission. Every result, the failure analysis and every change between runs are in [`docs/test-results.md`](docs/test-results.md); earlier runs are kept there as history.
 
-| Category | Tests | Current (15 Oct, 18:02) | 15 Oct, 17:49 | Repeat 5 (14 Oct) | Repeat 1 baseline (14 Oct) |
-|---|---|---|---|---|---|
-| Tool call | 10 | 49/50 (98.0%) | 47/50 (94.0%) | 47/50 (94.0%) | 8/10 (80%) |
-| Next reply | 12 | 55/60 (91.7%) | 57/60 (95.0%) | 46/50 (92.0%) | 8/10 (80%) |
-| Guardrail | 13 | 56/65 (86.2%) | 60/65 (92.3%) | 50/60 (83.3%) | 9/12 (75%) |
-| **All** | **35** | **160/175 (91.4%)** | **164/175 (93.7%)** | **143/160 (89.4%)** | **25/32 (78.1%)** |
+| Category | Tests | Final (15 Oct, 18:10) | Repeat 5 (14 Oct) | Repeat 1 baseline (14 Oct) |
+|---|---|---|---|---|
+| Tool call | 10 | 48/50 (96.0%) | 47/50 (94.0%) | 8/10 (80%) |
+| Next reply | 12 | 59/60 (98.3%) | 46/50 (92.0%) | 8/10 (80%) |
+| Guardrail | 13 | 60/65 (92.3%) | 50/60 (83.3%) | 9/12 (75%) |
+| **All** | **35** | **167/175 (95.4%)** | **143/160 (89.4%)** | **25/32 (78.1%)** |
 
-Next reply is just below the 14 October repeat 5 run and guardrail is lower than in the 17:49 run; tool call is up. Earlier runs had fewer tests. Between runs: after the baseline, five prompt changes, one edge condition and one test (pass the caller's own words to `index_lookup`, move past consent only after an explicit yes, ask about a callback before any tool after "stop", never say how far below the average the rent is, name DLD's Arabic names first, treat a request to send the draft as a handover). Then the fixes for the [silent handoff](docs/incidents/2026-10-15-silent-handoff.md) and the [handover hangup](docs/incidents/2026-10-15-handover-hangup.md) incidents, each with regression tests that pass 5/5, and a server change so that `index_lookup` reads a bedroom count (which brought `tool_05` to 5/5).
+Totals vary by a few points between repeat 5 runs: four runs on 15 October scored 95.9, 93.7, 91.4 and 95.4 percent, and single tests moved by up to 4 of 5 between runs with no change aimed at them. Earlier runs had fewer tests. Between runs: after the baseline, five prompt changes, one edge condition and one test (pass the caller's own words to `index_lookup`, move past consent only after an explicit yes, ask about a callback before any tool after "stop", never say how far below the average the rent is, name DLD's Arabic names first, treat a request to send the draft as a handover). Then the fixes for the [silent handoff](docs/incidents/2026-10-15-silent-handoff.md) and the [handover hangup](docs/incidents/2026-10-15-handover-hangup.md) incidents, each with regression tests that pass 5/5; a server change so that `index_lookup` reads a bedroom count; and Arabic amounts said as digits, which ended a wrong Arabic figure seen once in `reply_06`.
 
-Still open: after "stop" and "no", HAQ says goodbye but does not call `end_call` (`guard_09`, 0/5 in the latest run; the session stays open until the caller presses Stop). Arabic replies sometimes read amounts in words instead of digits, and in one run this gave a wrong range figure (`reply_06`). When the caller asks a question before answering the consent question, the Router usually moves on without asking again (`guard_01`, 1/5). HAQ sometimes says a rent is "above the index average" (`reply_01`, 2/5).
+Known gaps in the final run: `guard_09` (0/5) and `tool_05` (3/5), see [Known gaps](#knowledge-base-and-open-items).
 
 ## Knowledge base and open items
 
@@ -178,6 +178,8 @@ To check before sign off (marked `UNVERIFIED` in the files):
 
 Known gaps:
 
+- After "stop" and "no", HAQ says goodbye but does not call `end_call`, so the session stays open until the caller presses Stop (`guard_09`, 0/5 in the final run). Planned fix: end the call through the workflow (an edge to End when the caller declined a callback after "stop") instead of relying on the LLM to call `end_call`.
+- In Arabic calls the agent sometimes translates the building name before `index_lookup` instead of passing the caller's words (`tool_05`, 3/5 in the final run, both failures "Al Hamriya" or "Al Hamriyah"). After the run, "Al Hamriya" and "Al Hamriyah" were added as building aliases of AL HAMRIA, valid only inside the area Al Hamriya (DLD's Arabic name for the building is the same word), so those calls now get the right result; the updated test pattern is not pushed or rerun yet. Planned fix: push the test change and rerun.
 - Handover entries record language and callback consent as "Not given" on `/staff`, because HAQ hands over as soon as the caller asks to file, before asking about a callback. Planned fix: ask for callback consent first and pass language and consent to `request_human_handover`.
 
 ## Security and privacy
