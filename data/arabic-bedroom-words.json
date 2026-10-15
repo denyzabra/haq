@@ -1,0 +1,25 @@
+{
+  "note": "Arabic number and room words that index_lookup uses to read a bedroom count, and the Arabic examples for its tests. Copied by script from the request of 15 October 2026 (never typed by hand). UNVERIFIED: pending native speaker review.",
+  "numbers": {
+    "1": [
+      "واحدة"
+    ],
+    "2": [
+      "اثنين"
+    ],
+    "3": [
+      "ثلاث",
+      "ثلاثة"
+    ]
+  },
+  "rooms": [
+    "غرفة",
+    "غرف"
+  ],
+  "two_rooms": "غرفتين",
+  "examples": [
+    "3 غرفة و صالة",
+    "٣ غرف وصالة",
+    "ثلاث غرف وصالة"
+  ]
+}

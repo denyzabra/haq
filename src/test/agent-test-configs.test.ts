@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { AREA_ALIASES, BEDROOM_ALIASES, BUILDING_ALIASES } from "@/lib/index-aliases";
-import { INDEX_ENTRIES, type IndexEntry } from "@/lib/mock-index";
+import { INDEX_ENTRIES, lookupIndex, type IndexEntry } from "@/lib/mock-index";
 import { intakeSchema, runRentCheck } from "@/lib/rent-check";
 
 // Checks the ElevenLabs Agent Testing configs written by scripts/generate-agent-tests.mjs.
@@ -140,6 +140,20 @@ describe("agent test configs", () => {
       expect(result.callback_message).toBe(`A person from the HAQ team will call you back. Your reference is ${result.reference}.`);
     },
   );
+
+  it("tool_05 accepts the digit forms of the bedroom count that the server resolves", () => {
+    const test = configs.get("test_configs/tool_05_ar_indic_digits_al_hamria_3br.json")!;
+    const bedrooms = paramPattern(test, "bedrooms");
+    const hamria = INDEX_ENTRIES.find((e) => e.building === "AL HAMRIA")!;
+    const examples = read("data/arabic-bedroom-words.json").examples.filter((x: string) => /[0-9\u0660-\u0669]/.test(x));
+    const persian = `${String.fromCharCode(0x06f3)} bedrooms`;
+    for (const value of [...examples, persian, "3BR", "3 bedrooms"]) {
+      expect(bedrooms.test(value), value).toBe(true);
+      const result = lookupIndex(hamria.area, hamria.building, value);
+      expect(result.found && result.entry.bedrooms, value).toBe(hamria.bedrooms);
+    }
+    expect(bedrooms.test("2 bedrooms")).toBe(false);
+  });
 
   it("references the index_lookup tool in every tool call test", () => {
     for (const i of items.filter((x) => x.category === "tool_call")) {

@@ -4,6 +4,14 @@ ElevenLabs Agent Testing, agent `agent_9101m36p8c60evcatp1tqsyswhjt`. Configs in
 
 **Current result: 164 of 175 runs passed (93.7 percent)**, all 35 tests at repeat count 5 on 15 October 2026, after the handover hangup fix. This is below the previous run the same day (163/170, 95.9 percent) and above both 14 October runs. Earlier runs are kept below as history: the repeat count 1 baseline (25/32, 78.1 percent), the first repeat count 5 run (143/160, 89.4 percent) and the run after the silent handoff fix (163/170, 95.9 percent).
 
+## Changes after the 17:49 run (not yet tested)
+
+| Changed | Change | Reason |
+|---|---|---|
+| Base prompt, "stop" rule | "If no, say goodbye and use end_call." becomes "If no, say goodbye and call end_call in the same turn." | `guard_09` fell to 1/5 at 17:49: HAQ said goodbye without calling `end_call` |
+| Server, `index_lookup` | When the bedrooms value is not a known name, read its count (digits in ASCII, Arabic-Indic or Persian script, or English and Arabic number words, next to a room or bedroom word) and take the building's DLD category with that count, only if exactly one exists; otherwise `unknown_bedrooms` as before (`src/lib/bedroom-count.ts`, unit tests in `src/lib/bedroom-count.test.ts`) | `tool_05` kept failing (3/5, 4/5, 2/5) because the agent rewrote the Arabic bedrooms with a digit, which the server did not resolve, so a live call would get `cannot_verify` |
+| Test `tool_05_ar_indic_digits_al_hamria_3br` | The expected bedrooms pattern also accepts the digit forms the server now resolves: the count in ASCII, Arabic-Indic or Persian digits next to a room or bedroom word | The test should accept every value that gets the caller a correct result; a unit test checks that each digit form it accepts resolves to AL HAMRIA's 3 bedroom category on the server |
+
 ## Current result: repeat count 5 run, 15 October 2026, 17:49 Dubai time
 
 Suite `suite_1301m4zx6f21f0kafehahv148yt4`, agent version `agtvrsn_2101m4zx5h6cedgsgqxe4yxy306b`, LLM `gemini-3.5-flash-lite`, **repeat count 5**: 35 tests, 175 runs. Credits used: 5,708. Ledger length 12 and agent conversations today 2, before and after: test runs wrote nothing.

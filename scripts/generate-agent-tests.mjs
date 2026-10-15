@@ -57,6 +57,20 @@ const areaNames = (e) => [e.area, e.area_ar, ...(AREA_ALIASES[e.area] ?? [])];
 const buildingNames = (e) => [e.building, ...(e.building_ar ? [e.building_ar] : []), ...(BUILDING_ALIASES[e.building] ?? [])];
 const bedroomNames = (e) => [e.bedrooms, e.bedrooms_ar, ...(BEDROOM_ALIASES[e.bedrooms] ?? [])];
 
+// index_lookup also reads a bedroom count (src/lib/bedroom-count.ts): the count in
+// ASCII, Arabic-Indic or Persian digits next to a room or bedroom word, mapped to
+// the building's DLD category with that count. This regex accepts those digit forms
+// as well as the names. Arabic room words come from data/arabic-bedroom-words.json.
+const arabicBedroomWords = read("data/arabic-bedroom-words.json");
+const ROOM_WORDS = ["bed", "beds", "bedroom", "bedrooms", "br", "room", "rooms", ...arabicBedroomWords.rooms];
+const countDigit = (n) => `[${n}${String.fromCharCode(0x0660 + n)}${String.fromCharCode(0x06f0 + n)}]`;
+const NO_DIGITS = "[^0-9\\u0660-\\u0669\\u06F0-\\u06F9]*";
+const bedroomsWithCountRegex = (e) => {
+  const count = Number(/\d+/.exec(e.bedrooms)[0]);
+  const countForm = `${countDigit(count)}${SEP}(?:${ROOM_WORDS.map(nameRegex).join("|")})${NO_DIGITS}`;
+  return `(?i)^${SEP}(?:${[...new Set(bedroomNames(e))].map(nameRegex).join("|")}|${countForm})${SEP}$`;
+};
+
 const rx = (path, pattern) => ({ path, eval: { type: "regex", pattern } });
 const llm = (path, description) => ({ path, eval: { type: "llm", description } });
 function lookupParams(e, rent, dates, building) {
@@ -158,7 +172,11 @@ toolTest("tool_05_ar_indic_digits_al_hamria_3br", "rule", [
   userSays(`في ${HAMRIA.area_ar}، البناية اسمها ${HAMRIA.building_ar}، ${HAMRIA.property_type_ar} ${HAMRIA.bedrooms_ar}، والإيجار ${RENT_70K_AR} درهم سنوياً.`),
   agentSays(`للتأكيد: ${HAMRIA.area_ar}، بناية ${HAMRIA.building_ar}، ${HAMRIA.bedrooms_ar}، الإيجار السنوي الحالي ${RENT_70K_AR} درهم. هل هذا صحيح؟`),
   userSays("نعم."),
-], INDEX_LOOKUP, { params: lookupParams(HAMRIA, 70000), anyMatch: true, lookupExpect: "found" });
+], INDEX_LOOKUP, {
+  params: lookupParams(HAMRIA, 70000).map((p) => (p.path === "bedrooms" ? rx("bedrooms", bedroomsWithCountRegex(HAMRIA)) : p)),
+  anyMatch: true,
+  lookupExpect: "found",
+});
 
 const AAA_AREA_COLLOQUIAL = arabicAlias(AREA_ALIASES[AAA.area]);
 const AAA_BUILDING_COLLOQUIAL = arabicAlias(BUILDING_ALIASES[AAA.building]);

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import rawIndex from "../../data/mock-index.json";
 import { foldArabic, toAsciiDigits } from "./arabic";
+import { bedroomCount } from "./bedroom-count";
 import { indexAverageAed } from "./index-average";
 import { AREA_ALIASES, BEDROOM_ALIASES, BUILDING_ALIASES } from "./index-aliases";
 
@@ -149,13 +150,26 @@ export function buildIndex(file: unknown, aliases: IndexAliases) {
   const resolveBuilding = (area: string, input: string) => buildingNamesByArea.get(area)?.get(normalizeKey(input));
   const resolveBedrooms = (input: string) => bedroomNames.get(normalizeKey(input));
 
+  // When the bedrooms value is not a known name, read its count ("3BR", Arabic
+  // digits or number words) and take the building's DLD category with that
+  // count. Only a category DLD lists for this building counts, and only if
+  // exactly one has that count: no nearest or fuzzy match.
+  function entryByCount(area: string, building: string, bedrooms: string): IndexEntry | undefined {
+    const count = bedroomCount(bedrooms);
+    if (count === undefined) return undefined;
+    const matches = entries.filter((e) => e.area === area && e.building === building && bedroomCount(e.bedrooms) === count);
+    return matches.length === 1 ? matches[0] : undefined;
+  }
+
   function lookup(area: string, building: string, bedrooms: string): IndexLookup {
     const areaName = resolveArea(area);
     if (!areaName) return { found: false, reason: "unknown_area", data_source };
     const buildingName = resolveBuilding(areaName, building);
     if (!buildingName) return { found: false, reason: "unknown_building", data_source };
     const bedroomsLabel = resolveBedrooms(bedrooms);
-    const entry = bedroomsLabel ? byKey.get(entryKey(areaName, buildingName, bedroomsLabel)) : undefined;
+    const entry =
+      (bedroomsLabel ? byKey.get(entryKey(areaName, buildingName, bedroomsLabel)) : undefined) ??
+      entryByCount(areaName, buildingName, bedrooms);
     if (!entry) return { found: false, reason: "unknown_bedrooms", data_source };
     return { found: true, entry, index_average_aed: indexAverageAed(entry), data_source };
   }
