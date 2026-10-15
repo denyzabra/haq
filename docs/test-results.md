@@ -4,6 +4,13 @@ ElevenLabs Agent Testing, agent `agent_9101m36p8c60evcatp1tqsyswhjt`. Configs in
 
 **Current result: 160 of 175 runs passed (91.4 percent)**, all 35 tests at repeat count 5 on 15 October 2026 at 18:02 Dubai time. This is below the two earlier runs that day (164/175 at 17:49, 163/170 at 16:38) and above the first repeat count 5 run (143/160, 89.4 percent) and the repeat count 1 baseline (25/32, 78.1 percent). The agent is not frozen: `guard_09` is 0/5 and next reply is just below the 14 October repeat count 5 run. Earlier runs are kept below as history.
 
+## Changes after the 18:02 run (not yet tested)
+
+| Changed | Change | Reason |
+|---|---|---|
+| Base prompt, handover line | Removed the last sentence, "Do not end the call or move to another step before that." The line now reads: "After request_human_handover returns, your next turn is always to tell the caller, in their language, that a person will call them back, and read the reference it returned." The three End edge conditions keep their handover clause. | `guard_09` fell from 5/5 to 1/5 and then 0/5 after that sentence was added: HAQ said goodbye without calling `end_call` |
+| Rule prompt, Arabic section | "Read numbers back in Arabic." becomes "Say every amount as plain digits." | Arabic replies read amounts in words; in one `reply_06` run this gave a wrong range figure, and it caused `reply_02` to leave out the maximum new rent |
+
 ## Current result: repeat count 5 run, 15 October 2026, 18:02 Dubai time
 
 Suite `suite_4701m4zxykwee0wvcxnzb9zpyh5p`, agent version `agtvrsn_9301m4zxtyc1fy095r7v2ktf4f8r`, LLM `gemini-3.5-flash-lite`, **repeat count 5**: 35 tests, 175 runs. Credits used: 5,560. Ledger length 12 and agent conversations today 2, before and after: test runs wrote nothing. Before the run, the server health check passed: `index_lookup` with AL HAMRIA's Arabic area and building names, an Arabic "3 rooms and a hall" with a digit, and AED 75,000 returned 5 percent and a maximum new rent of AED 78,750 (that value returned `unknown_bedrooms` before the server change).

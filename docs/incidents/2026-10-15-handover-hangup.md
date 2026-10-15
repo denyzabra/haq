@@ -34,4 +34,6 @@ The base prompt said "Then read them the callback message", but nothing stopped 
 
 Pushed as agent version `agtvrsn_2101m4zx5h6cedgsgqxe4yxy306b`. In the repeat count 5 run of all 35 tests on 15 October 2026 (suite `suite_1301m4zx6f21f0kafehahv148yt4`), `reply_12` passed 5/5. Side effect: `guard_09_stop_no_callback_ends_call` fell to 1/5 (HAQ said goodbye without calling `end_call`), likely because the model reads the new "Do not end the call" line too broadly; a one line fix is proposed in [`docs/test-results.md`](../test-results.md).
 
+**Later change, same day.** The base prompt sentence "Do not end the call or move to another step before that." was removed again, because `guard_09` (after "stop" and "no", HAQ must call `end_call`) fell to 0/5 while it was in place. The rest of the line and the three End edge conditions stay; `reply_12` checks that the callback message is still given. See [`docs/test-results.md`](../test-results.md).
+
 Not part of this fix: callback consent and language are still not passed to `request_human_handover` (a known gap in the README).
